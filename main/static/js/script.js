@@ -59,9 +59,8 @@ document.addEventListener('DOMContentLoaded', function () {
                 return;
             }
 
-            // Aquí normalmente enviarías los datos al servidor
-            console.log('Registro con:', name, email, password);
-            alert('Registro simulado exitoso!');
+            this.submit();
+            console.log(submit)
 
             // Cerrar el modal después del envío
             const loginModal = bootstrap.Modal.getInstance(document.getElementById('loginModal'));
@@ -119,3 +118,19 @@ submitButton.disabled = !termsCheck.checked;
 termsCheck.addEventListener('change', function () {
     submitButton.disabled = !this.checked; // Activar o desactivar el botón
 });
+const password = document.getElementById('registerPassword');
+    const confirmPassword = document.getElementById('confirmPassword');
+
+    function validatePasswords() {
+        if (password.value === confirmPassword.value) {
+            password.style.borderColor = 'green';
+            confirmPassword.style.borderColor = 'green';
+        } else {
+            password.style.borderColor = 'red';
+            confirmPassword.style.borderColor = 'red';
+        }
+    }
+
+    // Escuchar cambios en ambos campos de contraseña
+    password.addEventListener('input', validatePasswords);
+    confirmPassword.addEventListener('input', validatePasswords);
