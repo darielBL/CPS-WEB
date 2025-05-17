@@ -1,0 +1,229 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Página de Inicio{% endblock %}
+
+{% block content %}
+      <!-- Modal de Login/Registro -->
+    <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="loginModalLabel">Acceso al Sistema</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <ul class="nav nav-tabs" id="authTab" role="tablist">
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link active" id="login-tab" data-bs-toggle="tab" data-bs-target="#login"
+                                type="button" role="tab" aria-controls="login" aria-selected="true">Iniciar
+                                Sesión</button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" id="register-tab" data-bs-toggle="tab" data-bs-target="#register"
+                                type="button" role="tab" aria-controls="register"
+                                aria-selected="false">Registrarse</button>
+                        </li>
+                    </ul>
+                    <div class="tab-content pt-3" id="authTabContent">
+                        <div class="tab-pane fade show active" id="login" role="tabpanel" aria-labelledby="login-tab">
+                            <form>
+                                <div class="mb-3">
+                                    <label for="loginUser" class="form-label">Usuario o Correo</label>
+                                    <input type="text" class="form-control" id="loginUser" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="loginPassword" class="form-label">Contraseña</label>
+                                    <input type="password" class="form-control" id="loginPassword" required>
+                                </div>
+                                <div class="mb-3 form-check">
+                                    <input type="checkbox" class="form-check-input" id="rememberMe">
+                                    <label class="form-check-label" for="rememberMe">Recordarme</label>
+                                </div>
+                                <button type="submit" class="btn btn-primary w-100">Iniciar Sesión</button>
+                            </form>
+                        </div>
+                        <div class="tab-pane fade" id="register" role="tabpanel" aria-labelledby="register-tab">
+                            <form>
+                                <div class="mb-3">
+                                    <label for="registerName" class="form-label">Nombre</label>
+                                    <input type="text" class="form-control" id="registerName" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="registerName" class="form-label">Apellido</label>
+                                    <input type="text" class="form-control" id="registersurename" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="registerName" class="form-label">Usuario</label>
+                                    <input type="text" class="form-control" id="registeruser" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="registerEmail" class="form-label">Correo Electrónico</label>
+                                    <input type="email" class="form-control" id="registerEmail" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="registerPassword" class="form-label">Contraseña</label>
+                                    <input type="password" class="form-control" id="registerPassword" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="confirmPassword" class="form-label">Confirmar Contraseña</label>
+                                    <input type="password" class="form-control" id="confirmPassword" required>
+                                </div>
+                            
+                                <div class="mb-3 form-check">
+                                    <input type="checkbox" class="form-check-input" id="termsCheck" required>
+                                    <label class="form-check-label" for="termsCheck">Acepto los términos y
+                                        condiciones</label>
+                                </div>
+                                <button type="submit" id="submit-reg" class="btn btn-success w-100">Registrarse</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Hero Section -->
+    <section id="hero" class="hero-section fit-scrn">
+        <div class="container h-100">
+            <div class="row h-100 align-items-center">
+                <div class="col-lg-6 hero-info">
+                    <h1 class="display-4 fw-bold">Bienvenido a Mi Empresa</h1>
+                    <p class="lead">Ofrecemos soluciones innovadoras para transformar tu negocio y alcanzar nuevos
+                        horizontes.</p>
+                    <div class="d-grid gap-2 d-md-flex justify-content-md-start p-4">
+                        <a href="#about" class="btn btn-primary btn-lg px-4 me-md-2">Conoce más</a>
+                        <a href="#footer" class="btn btn-outline-secondary btn-lg px-4">Agenda cita</a>
+                    </div>
+                </div>
+
+                <!-- <div class="col-lg-6 d-none d-lg-block">
+                    <img src="res/hero.jpg" alt="Hero Image" class="img-fluid rounded shadow" >
+                </div> -->
+            </div>
+        </div>
+    </section>
+
+    <!-- About Us Section -->
+    <section id="about" class="py-5 fit-scrn">
+        <div class="container">
+            <div class="row">
+                <div class="col-12 text-center mb-4">
+                    <h2 class="section-title">Sobre Nosotros</h2>
+                    <div class="divider mx-auto"></div>
+                </div>
+            </div>
+            <div class="row align-items-center">
+                <div class="col-md-6 mb-4 mb-md-0">
+                    <img src="https://via.placeholder.com/600x400" alt="Sobre Nosotros"
+                        class="img-fluid rounded shadow">
+                </div>
+                <div class="col-md-6">
+                    <h3>Nuestra Historia</h3>
+                    <p>Fundada en 2010, Mi Empresa ha estado a la vanguardia de la innovación tecnológica durante más de
+                        una década. Comenzamos como un pequeño equipo con grandes ideas, y hoy somos líderes en nuestro
+                        sector.</p>
+                    <h3>Nuestra Misión</h3>
+                    <p>Nuestra misión es proporcionar soluciones tecnológicas de alta calidad que ayuden a nuestros
+                        clientes a alcanzar sus objetivos de negocio de manera eficiente y efectiva.</p>
+                    <div class="row mt-4">
+                        <div class="col-6">
+                            <div class="d-flex align-items-center mb-3">
+                                <i class="fas fa-check-circle text-primary me-2 fs-4"></i>
+                                <span>Calidad garantizada</span>
+                            </div>
+                            <div class="d-flex align-items-center mb-3">
+                                <i class="fas fa-users text-primary me-2 fs-4"></i>
+                                <span>Equipo profesional</span>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="d-flex align-items-center mb-3">
+                                <i class="fas fa-headset text-primary me-2 fs-4"></i>
+                                <span>Soporte 24/7</span>
+                            </div>
+                            <div class="d-flex align-items-center mb-3">
+                                <i class="fas fa-rocket text-primary me-2 fs-4"></i>
+                                <span>Innovación constante</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- News Section -->
+    <section id="news" class="py-5 bg-light fit-scrn">
+        <div class="container">
+            <div class="row">
+                <div class="col-12 text-center mb-4">
+                    <h2 class="section-title">Últimas Noticias</h2>
+                    <div class="divider mx-auto"></div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4 mb-4">
+                    <div class="card h-100 shadow-sm">
+                        <img src="{% static 'res/news1.jpg' %}" class="card-img-top" alt="Noticia 1">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between mb-2">
+                                <span class="badge bg-primary">Tecnología</span>
+                                <small class="text-muted">15 Mayo, 2025</small>
+                            </div>
+                            <h5 class="card-title">Lanzamiento de Nuevo Producto</h5>
+                            <p class="card-text">Estamos emocionados de anunciar el lanzamiento de nuestro nuevo
+                                producto revolucionario que cambiará la forma en que interactúas con la tecnología.</p>
+                        </div>
+                        <div class="card-footer bg-transparent border-top-0">
+                            <a href="#" class="btn btn-sm btn-outline-primary">Leer más</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="card h-100 shadow-sm">
+                        <img src="{% static 'res/news2.jpg' %}" class="card-img-top" alt="Noticia 2">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between mb-2">
+                                <span class="badge bg-success">Empresa</span>
+                                <small class="text-muted">10 Mayo, 2025</small>
+                            </div>
+                            <h5 class="card-title">Expansión Internacional</h5>
+                            <p class="card-text">Nos complace anunciar que estamos expandiendo nuestras operaciones a
+                                nuevos mercados internacionales, llevando nuestras soluciones a más clientes en todo el
+                                mundo.</p>
+                        </div>
+                        <div class="card-footer bg-transparent border-top-0">
+                            <a href="#" class="btn btn-sm btn-outline-primary">Leer más</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="card h-100 shadow-sm">
+                        <img src="{% static 'res/news3.jpg' %}" class="card-img-top" alt="Noticia 3">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between mb-2">
+                                <span class="badge bg-warning text-dark">Eventos</span>
+                                <small class="text-muted">5 Mayo, 2025</small>
+                            </div>
+                            <h5 class="card-title">Conferencia Anual 2025</h5>
+                            <p class="card-text">Únete a nosotros en nuestra conferencia anual donde compartiremos las
+                                últimas tendencias del sector y presentaremos nuestras nuevas soluciones tecnológicas.
+                            </p>
+                        </div>
+                        <div class="card-footer bg-transparent border-top-0">
+                            <a href="#" class="btn btn-sm btn-outline-primary">Leer más</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row mt-3">
+                <div class="col-12 text-center">
+                    <a href="#" class="btn btn-outline-primary">Ver todas las noticias</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+{% endblock %}

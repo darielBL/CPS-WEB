@@ -1,0 +1,313 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Página de Inicio{% endblock %}
+{% block styles %}
+<link rel="stylesheet" href="{% static 'css/directorio-styles.css' %}">
+{% endblock %}
+
+{% block content %}
+
+ <!-- Contenido Principal - Directorio de Usuarios -->
+    <section class="directory-section py-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-12 text-center mb-4">
+                    <h2 class="section-title">Directorio de Usuarios</h2>
+                    <div class="divider mx-auto"></div>
+                    <p class="lead">Explora y conecta con los miembros de nuestra comunidad</p>
+                </div>
+            </div>
+
+            <!-- Barra de búsqueda y filtros -->
+            <div class="row mb-4">
+                <div class="col-md-8 mb-3 mb-md-0">
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="Buscar usuarios..." id="searchInput">
+                        <button class="btn btn-primary" type="button">
+                            <i class="fas fa-search"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <select class="form-select" id="filterSelect">
+                        <option selected value="">Todos los departamentos</option>
+                        <option value="marketing">Marketing</option>
+                        <option value="desarrollo">Desarrollo</option>
+                        <option value="diseño">Diseño</option>
+                        <option value="ventas">Ventas</option>
+                        <option value="soporte">Soporte</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Cuadrícula de usuarios -->
+            <div class="row" id="usersGrid">
+                <!-- Usuario 1 -->
+                <div class="col-sm-6 col-md-4 col-lg-3 mb-4">
+                    <div class="card user-card h-100">
+                        <div class="card-body text-center">
+                            <div class="user-avatar mb-3">
+                                <img src="{% static 'res/avatar.png' %} " alt="Juan Pérez" class="rounded-circle">
+                            </div>
+                            <h5 class="card-title mb-1">Juan Pérez</h5>
+                            <p class="text-muted small mb-2">Desarrollador Web</p>
+                            <div class="user-description mb-3">
+                                <p class="card-text">Especialista en desarrollo frontend con experiencia en React y
+                                    Angular.</p>
+                            </div>
+                            <div class="user-contact mb-3">
+                                <a href="#" class="btn btn-sm btn-outline-primary rounded-circle me-1"
+                                    title="Enviar mensaje">
+                                    <i class="fas fa-envelope"></i>
+                                </a>
+                                <a href="#" class="btn btn-sm btn-outline-info rounded-circle me-1" title="LinkedIn">
+                                    <i class="fab fa-linkedin-in"></i>
+                                </a>
+                                <a href="#" class="btn btn-sm btn-outline-dark rounded-circle" title="GitHub">
+                                    <i class="fab fa-github"></i>
+                                </a>
+                            </div>
+                            <a href="perfil-usuario.html" class="btn btn-primary btn-sm w-100">Ver Perfil</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Usuario 2 -->
+                <div class="col-sm-6 col-md-4 col-lg-3 mb-4">
+                    <div class="card user-card h-100">
+                        <div class="card-body text-center">
+                            <div class="user-avatar mb-3">
+                                <img src="{% static 'res/avatar.png' %} " alt="María López" class="rounded-circle">
+                            </div>
+                            <h5 class="card-title mb-1">María López</h5>
+                            <p class="text-muted small mb-2">Diseñadora UX/UI</p>
+                            <div class="user-description mb-3">
+                                <p class="card-text">Creativa diseñadora con enfoque en experiencias de usuario
+                                    intuitivas y atractivas.</p>
+                            </div>
+                            <div class="user-contact mb-3">
+                                <a href="#" class="btn btn-sm btn-outline-primary rounded-circle me-1"
+                                    title="Enviar mensaje">
+                                    <i class="fas fa-envelope"></i>
+                                </a>
+                                <a href="#" class="btn btn-sm btn-outline-info rounded-circle me-1" title="LinkedIn">
+                                    <i class="fab fa-linkedin-in"></i>
+                                </a>
+                                <a href="#" class="btn btn-sm btn-outline-danger rounded-circle" title="Behance">
+                                    <i class="fab fa-behance"></i>
+                                </a>
+                            </div>
+                            <a href="perfil-usuario.html" class="btn btn-primary btn-sm w-100">Ver Perfil</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Usuario 3 -->
+                <div class="col-sm-6 col-md-4 col-lg-3 mb-4">
+                    <div class="card user-card h-100">
+                        <div class="card-body text-center">
+                            <div class="user-avatar mb-3">
+                                <img src="{% static 'res/avatar.png' %} " alt="Carlos Rodríguez"
+                                    class="rounded-circle">
+                            </div>
+                            <h5 class="card-title mb-1">Carlos Rodríguez</h5>
+                            <p class="text-muted small mb-2">Marketing Digital</p>
+                            <div class="user-description mb-3">
+                                <p class="card-text">Experto en estrategias de marketing digital y análisis de datos
+                                    para campañas efectivas.</p>
+                            </div>
+                            <div class="user-contact mb-3">
+                                <a href="#" class="btn btn-sm btn-outline-primary rounded-circle me-1"
+                                    title="Enviar mensaje">
+                                    <i class="fas fa-envelope"></i>
+                                </a>
+                                <a href="#" class="btn btn-sm btn-outline-info rounded-circle me-1" title="LinkedIn">
+                                    <i class="fab fa-linkedin-in"></i>
+                                </a>
+                                <a href="#" class="btn btn-sm btn-outline-primary rounded-circle" title="Twitter">
+                                    <i class="fab fa-twitter"></i>
+                                </a>
+                            </div>
+                            <a href="perfil-usuario.html" class="btn btn-primary btn-sm w-100">Ver Perfil</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Usuario 4 -->
+                <div class="col-sm-6 col-md-4 col-lg-3 mb-4">
+                    <div class="card user-card h-100">
+                        <div class="card-body text-center">
+                            <div class="user-avatar mb-3">
+                                <img src="{% static 'res/avatar.png' %} " alt="Ana Martínez" class="rounded-circle">
+                            </div>
+                            <h5 class="card-title mb-1">Ana Martínez</h5>
+                            <p class="text-muted small mb-2">Gerente de Proyectos</p>
+                            <div class="user-description mb-3">
+                                <p class="card-text">Líder de equipos con amplia experiencia en gestión de proyectos
+                                    ágiles y metodologías Scrum.</p>
+                            </div>
+                            <div class="user-contact mb-3">
+                                <a href="#" class="btn btn-sm btn-outline-primary rounded-circle me-1"
+                                    title="Enviar mensaje">
+                                    <i class="fas fa-envelope"></i>
+                                </a>
+                                <a href="#" class="btn btn-sm btn-outline-info rounded-circle me-1" title="LinkedIn">
+                                    <i class="fab fa-linkedin-in"></i>
+                                </a>
+                                <a href="#" class="btn btn-sm btn-outline-success rounded-circle" title="WhatsApp">
+                                    <i class="fab fa-whatsapp"></i>
+                                </a>
+                            </div>
+                            <a href="perfil-usuario.html" class="btn btn-primary btn-sm w-100">Ver Perfil</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Usuario 5 -->
+                <div class="col-sm-6 col-md-4 col-lg-3 mb-4">
+                    <div class="card user-card h-100">
+                        <div class="card-body text-center">
+                            <div class="user-avatar mb-3">
+                                <img src="{% static 'res/avatar.png' %} " alt="Roberto Sánchez" class="rounded-circle">
+                            </div>
+                            <h5 class="card-title mb-1">Roberto Sánchez</h5>
+                            <p class="text-muted small mb-2">Desarrollador Backend</p>
+                            <div class="user-description mb-3">
+                                <p class="card-text">Especialista en desarrollo de APIs y bases de datos con experiencia
+                                    en Node.js y Python.</p>
+                            </div>
+                            <div class="user-contact mb-3">
+                                <a href="#" class="btn btn-sm btn-outline-primary rounded-circle me-1"
+                                    title="Enviar mensaje">
+                                    <i class="fas fa-envelope"></i>
+                                </a>
+                                <a href="#" class="btn btn-sm btn-outline-info rounded-circle me-1" title="LinkedIn">
+                                    <i class="fab fa-linkedin-in"></i>
+                                </a>
+                                <a href="#" class="btn btn-sm btn-outline-dark rounded-circle" title="GitHub">
+                                    <i class="fab fa-github"></i>
+                                </a>
+                            </div>
+                            <a href="perfil-usuario.html" class="btn btn-primary btn-sm w-100">Ver Perfil</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Usuario 6 -->
+                <div class="col-sm-6 col-md-4 col-lg-3 mb-4">
+                    <div class="card user-card h-100">
+                        <div class="card-body text-center">
+                            <div class="user-avatar mb-3">
+                                <img src="{% static 'res/avatar.png' %} " alt="Laura Gómez" class="rounded-circle">
+                            </div>
+                            <h5 class="card-title mb-1">Laura Gómez</h5>
+                            <p class="text-muted small mb-2">Especialista SEO</p>
+                            <div class="user-description mb-3">
+                                <p class="card-text">Experta en optimización para motores de búsqueda y estrategias de
+                                    contenido digital.</p>
+                            </div>
+                            <div class="user-contact mb-3">
+                                <a href="#" class="btn btn-sm btn-outline-primary rounded-circle me-1"
+                                    title="Enviar mensaje">
+                                    <i class="fas fa-envelope"></i>
+                                </a>
+                                <a href="#" class="btn btn-sm btn-outline-info rounded-circle me-1" title="LinkedIn">
+                                    <i class="fab fa-linkedin-in"></i>
+                                </a>
+                                <a href="#" class="btn btn-sm btn-outline-danger rounded-circle" title="Pinterest">
+                                    <i class="fab fa-pinterest"></i>
+                                </a>
+                            </div>
+                            <a href="perfil-usuario.html" class="btn btn-primary btn-sm w-100">Ver Perfil</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Usuario 7 -->
+                <div class="col-sm-6 col-md-4 col-lg-3 mb-4">
+                    <div class="card user-card h-100">
+                        <div class="card-body text-center">
+                            <div class="user-avatar mb-3">
+                                <img src="{% static 'res/avatar.png' %} " alt="Miguel Torres" class="rounded-circle">
+                            </div>
+                            <h5 class="card-title mb-1">Miguel Torres</h5>
+                            <p class="text-muted small mb-2">Analista de Datos</p>
+                            <div class="user-description mb-3">
+                                <p class="card-text">Especialista en análisis de datos y business intelligence con
+                                    experiencia en Python y R.</p>
+                            </div>
+                            <div class="user-contact mb-3">
+                                <a href="#" class="btn btn-sm btn-outline-primary rounded-circle me-1"
+                                    title="Enviar mensaje">
+                                    <i class="fas fa-envelope"></i>
+                                </a>
+                                <a href="#" class="btn btn-sm btn-outline-info rounded-circle me-1" title="LinkedIn">
+                                    <i class="fab fa-linkedin-in"></i>
+                                </a>
+                                <a href="#" class="btn btn-sm btn-outline-dark rounded-circle" title="GitHub">
+                                    <i class="fab fa-github"></i>
+                                </a>
+                            </div>
+                            <a href="perfil-usuario.html" class="btn btn-primary btn-sm w-100">Ver Perfil</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Usuario 8 -->
+                <div class="col-sm-6 col-md-4 col-lg-3 mb-4">
+                    <div class="card user-card h-100">
+                        <div class="card-body text-center">
+                            <div class="user-avatar mb-3">
+                                <img src="{% static 'res/avatar.png' %} " alt="Sofía Navarro" class="rounded-circle">
+                            </div>
+                            <h5 class="card-title mb-1">Sofía Navarro</h5>
+                            <p class="text-muted small mb-2">Diseñadora Gráfica</p>
+                            <div class="user-description mb-3">
+                                <p class="card-text">Creativa diseñadora con experiencia en identidad visual, branding y
+                                    diseño editorial.</p>
+                            </div>
+                            <div class="user-contact mb-3">
+                                <a href="#" class="btn btn-sm btn-outline-primary rounded-circle me-1"
+                                    title="Enviar mensaje">
+                                    <i class="fas fa-envelope"></i>
+                                </a>
+                                <a href="#" class="btn btn-sm btn-outline-info rounded-circle me-1" title="LinkedIn">
+                                    <i class="fab fa-linkedin-in"></i>
+                                </a>
+                                <a href="#" class="btn btn-sm btn-outline-danger rounded-circle" title="Dribbble">
+                                    <i class="fab fa-dribbble"></i>
+                                </a>
+                            </div>
+                            <a href="perfil-usuario.html" class="btn btn-primary btn-sm w-100">Ver Perfil</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Paginación -->
+            <div class="row mt-4">
+                <div class="col-12">
+                    <nav aria-label="Navegación de páginas">
+                        <ul class="pagination justify-content-center">
+                            <li class="page-item disabled">
+                                <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Anterior</a>
+                            </li>
+                            <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                            <li class="page-item"><a class="page-link" href="#">2</a></li>
+                            <li class="page-item"><a class="page-link" href="#">3</a></li>
+                            <li class="page-item">
+                                <a class="page-link" href="#">Siguiente</a>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+{% endblock %}
+{% block extra_js %}
+<script src="{% static 'js/directorio-script.js' %}"></script>
+{% endblock %}

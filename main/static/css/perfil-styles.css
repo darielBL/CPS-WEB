@@ -1,0 +1,79 @@
+
+
+/* Estilos para la sección de perfil */
+.profile-section {
+    background-color: #f8f9fa;
+    min-height: calc(100vh - 56px - 300px); /* Altura mínima para que ocupe el espacio disponible */
+    display: flex;
+    align-items: center;
+}
+.profile-card-cont {
+    width: 80%;
+
+}
+/* Estilos para la tarjeta de perfil */
+.profile-card {
+    margin-top: 20px;
+    border-radius: 15px;
+    border: none;
+    padding: 20px;
+}
+
+/* Estilos para el contenedor del avatar */
+.avatar-wrapper {
+    padding: 10px 0;
+    /* position: relative; */
+    height: 300px;
+    display: flex;
+    justify-content: center;
+   
+}
+
+.avatar-container {
+    height: 150px;
+    margin: 0 0 !;
+    justify-content: center;
+}
+
+.avatar-img {
+    /* position: absolute; */
+    width: 400px;
+    height: 400px;
+    margin-top: -90px !important;
+    margin-bottom: 50px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 5px solid #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.avatar-edit {
+    position: relative;
+    left: 10px;
+    bottom: 5px;
+}
+
+.avatar-edit-btn {
+    background-color: #0d6efd;
+    color: white;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease;
+}
+
+.avatar-edit-btn:hover {
+    background-color: #0b5ed7;
+    transform: scale(1.1);
+}
+
+/* Estilos para los campos del formulario */
+.form-control:focus {
+    border-color: #0d6efd;
+    box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+}

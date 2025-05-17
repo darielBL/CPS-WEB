@@ -1,0 +1,90 @@
+
+
+/* Estilos para la sección de directorio */
+.directory-section {
+    background-color: #f8f9fa;
+    padding: 60px 0;
+    min-height: calc(100vh - 56px - 300px);
+}
+
+/* Estilos para las tarjetas de usuario */
+.user-card {
+    border-radius: 10px;
+    border: none;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.05);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.user-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+}
+
+/* Estilos para el avatar del usuario */
+.user-avatar img {
+    margin-top: -30px;
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    border: 3px solid #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Limitar altura de la descripción para mantener tarjetas uniformes */
+.user-description {
+    height: 70px;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;  
+    line-clamp: inherit;
+    -webkit-box-orient: vertical;
+}
+
+/* Estilos para los botones de contacto */
+.user-contact a {
+    width: 32px;
+    height: 32px;
+    padding: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+}
+
+.user-contact a:hover {
+    transform: scale(1.1);
+}
+
+/* Estilos para la barra de búsqueda */
+.input-group .form-control:focus {
+    border-color: #0d6efd;
+    box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+}
+
+/* Estilos para la paginación */
+.pagination .page-link {
+    color: #0d6efd;
+}
+
+.pagination .page-item.active .page-link {
+    background-color: #0d6efd;
+    border-color: #0d6efd;
+}
+
+
+/* Estilos responsivos */
+@media (max-width: 767.98px) {
+    .directory-section {
+        padding: 40px 0;
+    }
+    
+    .divider {
+        margin-left: auto;
+        margin-right: auto;
+    }
+    
+    .user-description {
+        height: auto;
+        max-height: 60px;
+    }
+}

@@ -1,0 +1,89 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Página de Inicio{% endblock %}
+{% block styles %}
+<link rel="stylesheet" href="{% static 'css/perfil-styles.css'%}">
+{% endblock %}
+{% block content %}
+<!-- Contenido Principal - Perfil de Usuario -->
+<section class="profile-section py-5">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-12 text-center mb-4">
+                <h2 class="section-title">Mi Perfil</h2>
+                <div class="divider mx-auto"></div>
+            </div>
+            <div class="col-md-8 col-lg-6 profile-card-cont">
+                <div class="card profile-card shadow">
+                    <div class="card-body">
+                        <!-- Avatar con opción de editar -->
+                        <div class="avatar-wrapper">
+                            <div class="avatar-container">
+                                <img src="{% static '/res/avatar.png'%}" alt="Foto de perfil" class="avatar-img" id="avatarImg">
+                                <!-- <div class="avatar-edit">
+                                        <label for="avatarUpload" class="avatar-edit-btn">
+                                            <i class="fas fa-camera"></i>
+                                        </label>
+                                        <input type="file" id="avatarUpload" accept="image/*" class="d-none">
+                                    </div> -->
+                            </div>
+                        </div>
+
+                        <!-- Formulario de perfil -->
+                        <form id="profileForm" class="mt-4">
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="firstName" class="form-label">Nombre</label>
+                                    <input type="text" class="form-control" id="firstName" placeholder="Tu nombre"
+                                        value="Dariel ">
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="lastName" class="form-label">Apellidos</label>
+                                    <input type="text" class="form-control" id="lastName" placeholder="Tus apellidos"
+                                        value="Barcelo Lazo">
+                                </div>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="location" class="form-label">Especialidad</label>
+                                <input type="text" class="form-control" id="specialization"
+                                    placeholder="Tu Especialidad" value="">
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="email" class="form-label">Correo Electrónico</label>
+                                <input type="email" class="form-control" id="email" placeholder="tu@email.com"
+                                    value="juan.perez@email.com" readonly>
+                                <small class="text-muted">El correo electrónico no se puede cambiar</small>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="phone" class="form-label">Teléfono</label>
+                                <input type="tel" class="form-control" id="phone" placeholder="Tu número de teléfono"
+                                    value="+34 612 345 678">
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="description" class="form-label">Descripción</label>
+                                <textarea class="form-control" id="description" rows="4"
+                                    placeholder="Cuéntanos sobre ti...">Soy un profesional apasionado por la tecnología y el desarrollo web. Me encanta aprender nuevas habilidades y enfrentar desafíos creativos.</textarea>
+                            </div>
+
+                            <div class="d-grid gap-2 d-md-flex justify-content-md-end mt-4">
+                                <button type="button" class="btn btn-outline-secondary me-md-2">Cancelar</button>
+                                <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+{% endblock %}
+{% block extra_js %}
+<script src="{% static 'js/perfil-script.js'%}"></script>
+{% endblock %}
