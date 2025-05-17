@@ -1,19 +1,15 @@
-from django.http import HttpResponse
+from django.shortcuts import render, redirect
 from django.template import loader
 from . import models
 from django.contrib.auth.models import User
+from django.contrib.auth.decorators import login_required
 
 def view_ppal(request):
-  template = loader.get_template('index.html')
-  return HttpResponse(template.render())
+  return render(request, 'index.html')
 
 def view_directorio(request):
   profetionals = models.UserProfile.objects.filter(is_professional=True, id=2).values()
-  template = loader.get_template('directorio.html')
-  context = {
-    'profetionals': profetionals,
-  }
-  return HttpResponse(template.render(context, request))
+  return render(request, 'directorio.htl', {'profetionals': profetionals})
 
 def register(request):
   template = loader.get_template('index.html')
@@ -28,12 +24,11 @@ def register(request):
     user = User(first_name = first_name, last_name = last_name, username = username, email = email, password = password)
     user.save()
     
-    return HttpResponse(template.render())
+    return render(request, 'index.html', { 'sucess': 'Usuario creado exitosamente.'})
 
-  return HttpResponse(template.render())
+  return render(request, 'index.html')
     
 def login_view(request):
-  template = loader.get_template('index.html')
 
   if request.method == 'POST':
       username = request.POST['username']
@@ -43,15 +38,15 @@ def login_view(request):
           login(request, user)
           return redirect('main') 
       else:
-          messages.error(request, 'Credenciales inválidas')
-  
-  return HttpResponse(template.render(request))
+          return render(request, 'index.html', { 'message': 'Credenciales inválidas'})
 
+  return render(request, 'index.html')
+
+@login_required
 def logout_view(request):
   logout(request)
-  template = loader.get_template('index.html')
-  return HttpResponse(template.render())
+  return render(request, 'index.html')
 
+@login_required
 def view_userpage(request):
-  template = loader.get_template('user.html')
-  return HttpResponse(template.render(request))
+  return render(request, 'user.html')
