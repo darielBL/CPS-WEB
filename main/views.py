@@ -136,16 +136,16 @@ def appointment_delete(request, id):
 
 # VISTAS REFERENTES A RECURSOS
 
-def resources_index(request):
+def resource_index(request):
   resources = models.Resource.objects.all().values
   return render (request, 'index.html', {'resources': resources})
 
-def resources_get(request, id):
+def resource_get(request, id):
   resource = get_object_or_404(models.Resource, id=id)
   return render (request, 'index.html', {'resource': resource})
 
 @login_required
-def resources_load(request):
+def resource_load(request):
   if request.method == 'POST':
     title = request.POST["title"]
     description = request.POST["description"]
@@ -182,7 +182,7 @@ def resources_load(request):
 
 
 @login_required
-def resources_update(request, id):
+def resource_update(request, id):
   if request.method == 'POST':
     title = request.POST["title"]
     description = request.POST["description"]
