@@ -151,3 +151,143 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 });
+// Para citas
+  document.addEventListener('DOMContentLoaded', function() {
+            // Referencias a elementos del DOM para el modal de citas
+            const appointmentForm = document.getElementById('appointmentForm');
+            const submitAppointmentBtn = document.getElementById('submitAppointment');
+            const appointmentPurpose = document.getElementById('appointmentPurpose');
+            const otherPurposeContainer = document.getElementById('otherPurposeContainer');
+            const otherPurpose = document.getElementById('otherPurpose');
+            const appointmentDateInput = document.getElementById('appointmentDate');
+            
+            // Establecer la fecha mínima como hoy
+            if (appointmentDateInput) {
+                const today = new Date();
+                const yyyy = today.getFullYear();
+                const mm = String(today.getMonth() + 1).padStart(2, '0');
+                const dd = String(today.getDate()).padStart(2, '0');
+                appointmentDateInput.min = `${yyyy}-${mm}-${dd}`;
+            }
+            
+            // Mostrar/ocultar campo de "otro propósito"
+            if (appointmentPurpose) {
+                appointmentPurpose.addEventListener('change', function() {
+                    if (this.value === 'otro') {
+                        otherPurposeContainer.style.display = 'block';
+                        otherPurpose.setAttribute('required', 'required');
+                    } else {
+                        otherPurposeContainer.style.display = 'none';
+                        otherPurpose.removeAttribute('required');
+                    }
+                });
+            }
+            
+            // Manejar envío del formulario de cita
+            if (submitAppointmentBtn) {
+                submitAppointmentBtn.addEventListener('click', function() {
+                    // Validar el formulario
+                    if (!appointmentForm.checkValidity()) {
+                        // Crear un evento de envío para activar las validaciones nativas del navegador
+                        const event = new Event('submit', {
+                            bubbles: true,
+                            cancelable: true
+                        });
+                        appointmentForm.dispatchEvent(event);
+                        return;
+                    }
+                    
+                    // Si el formulario es válido, recopilar los datos
+                    const appointmentData = {
+                        date: appointmentDateInput.value,
+                        start_time: document.getElementById('appointmentTime').value,
+                        purpose: appointmentPurpose.value === 'otro' ? otherPurpose.value : appointmentPurpose.value,
+                        notes: document.getElementById('appointmentNotes').value,
+                        status: 'pending',
+                        client: 'Usuario Demo', // En un caso real, esto vendría del usuario autenticado
+                        created_at: new Date().toISOString(),
+                        updated_at: new Date().toISOString()
+                    };
+                    
+                    // En un caso real, aquí enviaríamos los datos al servidor
+                    console.log('Datos de la cita:', appointmentData);
+                    
+                    // Cerrar el modal de cita
+                    const appointmentModal = bootstrap.Modal.getInstance(document.getElementById('appointmentModal'));
+                    appointmentModal.hide();
+                    
+                    // Mostrar los datos en el modal de confirmación
+                    document.getElementById('confirmDate').textContent = formatDate(appointmentData.date);
+                    document.getElementById('confirmTime').textContent = formatTime(appointmentData.start_time);
+                    
+                    // Mostrar el modal de confirmación
+                    setTimeout(() => {
+                        const confirmModal = new bootstrap.Modal(document.getElementById('appointmentConfirmModal'));
+                        confirmModal.show();
+                        
+                        // Resetear el formulario
+                        appointmentForm.reset();
+                        otherPurposeContainer.style.display = 'none';
+                    }, 500);
+                    
+                    // Mostrar notificación
+                    showNotification('Cita agendada correctamente');
+                });
+            }
+            
+            // Función para formatear la fecha
+            function formatDate(dateString) {
+                const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+                return new Date(dateString).toLocaleDateString('es-ES', options);
+            }
+            
+            // Función para formatear la hora
+            function formatTime(timeString) {
+                const [hours, minutes] = timeString.split(':');
+                return `${hours}:${minutes}`;
+            }
+            
+            // Función para mostrar notificaciones
+            function showNotification(message) {
+                // Crear elemento de notificación
+                const notification = document.createElement('div');
+                notification.className = 'notification';
+                notification.innerHTML = `
+                    <div class="alert alert-success alert-dismissible fade show" role="alert">
+                        <i class="fas fa-check-circle me-2"></i> ${message}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                `;
+                
+                // Añadir al DOM
+                document.body.appendChild(notification);
+                
+                // Posicionar la notificación
+                notification.style.position = 'fixed';
+                notification.style.top = '70px';
+                notification.style.right = '20px';
+                notification.style.zIndex = '9999';
+                notification.style.maxWidth = '300px';
+                
+                // Eliminar después de 3 segundos
+                setTimeout(() => {
+                    notification.querySelector('.alert').classList.remove('show');
+                    setTimeout(() => {
+                        document.body.removeChild(notification);
+                    }, 500);
+                }, 3000);
+            }
+            
+            // Animación para las tarjetas de recursos
+            const resourceCards = document.querySelectorAll('.resource-card');
+            resourceCards.forEach((card, index) => {
+                card.style.opacity = 0;
+                card.style.transform = 'translateY(20px)';
+                
+                setTimeout(() => {
+                    card.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+                    card.style.opacity = 1;
+                    card.style.transform = 'translateY(0)';
+                }, 100 + (index * 100));
+            });
+        });

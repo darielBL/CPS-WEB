@@ -1,0 +1,730 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+  Página de Inicio
+{% endblock %}
+{% block styles %}
+  <link rel="stylesheet" href="{% static 'css/recursos-styles.css' %}" />
+{% endblock %}
+
+{% block content %}
+  <!-- Contenido Principal - Recursos Digitales -->
+  <div class="resources-section py-5">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-12 text-center mb-4">
+          <h2 class="section-title">Recursos Digitales</h2>
+          <div class="divider mx-auto"></div>
+          <p class="lead">Explora nuestra biblioteca de recursos digitales</p>
+        </div>
+      </div>
+
+      <div class="row">
+        <!-- Sidebar de Filtros -->
+        <div class="col-lg-3 mb-4">
+          <div class="card filter-sidebar">
+            <div class="card-header bg-primary text-white">
+              <h5 class="mb-0"><i class="fas fa-filter me-2"></i> Filtros Avanzados</h5>
+            </div>
+            <div class="card-body">
+              <form id="filterForm">
+                <!-- Búsqueda por título -->
+                <div class="mb-3">
+                  <label for="titleSearch" class="form-label">Título</label>
+                  <input type="text" class="form-control" id="titleSearch" placeholder="Buscar por título..." />
+                </div>
+
+                <!-- Búsqueda por autor -->
+                <div class="mb-3">
+                  <label for="authorSearch" class="form-label">Autor</label>
+                  <input type="text" class="form-control" id="authorSearch" placeholder="Buscar por autor..." />
+                </div>
+
+                <!-- Tipo de recurso -->
+                <div class="mb-3">
+                  <label class="form-label">Tipo de Recurso</label>
+                  <div class="form-check">
+                    <input class="form-check-input" type="checkbox" value="publicacion" id="typePublicacion" checked />
+                    <label class="form-check-label" for="typePublicacion">Publicaciones</label>
+                  </div>
+                  <div class="form-check">
+                    <input class="form-check-input" type="checkbox" value="revista" id="typeRevista" checked />
+                    <label class="form-check-label" for="typeRevista">Revistas</label>
+                  </div>
+                  <div class="form-check">
+                    <input class="form-check-input" type="checkbox" value="libro" id="typeLibro" checked />
+                    <label class="form-check-label" for="typeLibro">Libros</label>
+                  </div>
+                  <div class="form-check">
+                    <input class="form-check-input" type="checkbox" value="articulo" id="typeArticulo" checked />
+                    <label class="form-check-label" for="typeArticulo">Artículos</label>
+                  </div>
+                  <div class="form-check">
+                    <input class="form-check-input" type="checkbox" value="otro" id="typeOtro" checked />
+                    <label class="form-check-label" for="typeOtro">Otros</label>
+                  </div>
+                </div>
+
+                <!-- Fecha de publicación -->
+                <div class="mb-3">
+                  <label class="form-label">Fecha de Publicación</label>
+                  <div class="row g-2">
+                    <div class="col-6">
+                      <input type="date" class="form-control" id="pubDateFrom" placeholder="Desde" />
+                    </div>
+                    <div class="col-6">
+                      <input type="date" class="form-control" id="pubDateTo" placeholder="Hasta" />
+                    </div>
+                  </div>
+                </div>
+
+                <!-- ISBN -->
+                <div class="mb-3">
+                  <label for="isbnSearch" class="form-label">ISBN</label>
+                  <input type="text" class="form-control" id="isbnSearch" placeholder="Buscar por ISBN..." />
+                </div>
+
+                <!-- Editorial -->
+                <div class="mb-3">
+                  <label for="publisherSearch" class="form-label">Editorial</label>
+                  <select class="form-select" id="publisherSearch">
+                    <option value="">Todas las editoriales</option>
+                    <option value="Editorial Planeta">Editorial Planeta</option>
+                    <option value="Penguin Random House">Penguin Random House</option>
+                    <option value="Anagrama">Anagrama</option>
+                    <option value="Alfaguara">Alfaguara</option>
+                    <option value="Ediciones B">Ediciones B</option>
+                  </select>
+                </div>
+
+                <!-- Idioma -->
+                <div class="mb-3">
+                  <label for="languageSearch" class="form-label">Idioma</label>
+                  <select class="form-select" id="languageSearch">
+                    <option value="">Todos los idiomas</option>
+                    <option value="Español">Español</option>
+                    <option value="Inglés">Inglés</option>
+                    <option value="Francés">Francés</option>
+                    <option value="Alemán">Alemán</option>
+                    <option value="Italiano">Italiano</option>
+                  </select>
+                </div>
+
+                <!-- Subido por -->
+                <div class="mb-3">
+                  <label for="uploaderSearch" class="form-label">Subido por</label>
+                  <input type="text" class="form-control" id="uploaderSearch" placeholder="Buscar por usuario..." />
+                </div>
+
+                <!-- Fecha de subida -->
+                <div class="mb-3">
+                  <label class="form-label">Fecha de Subida</label>
+                  <div class="row g-2">
+                    <div class="col-6">
+                      <input type="date" class="form-control" id="uploadDateFrom" placeholder="Desde" />
+                    </div>
+                    <div class="col-6">
+                      <input type="date" class="form-control" id="uploadDateTo" placeholder="Hasta" />
+                    </div>
+                  </div>
+                </div>
+
+                <div class="d-grid gap-2">
+                  <button type="submit" class="btn btn-primary"><i class="fas fa-search me-2"></i> Aplicar Filtros</button>
+                  <button type="reset" class="btn btn-outline-secondary"><i class="fas fa-undo me-2"></i> Limpiar Filtros</button>
+                </div>
+              </form>
+            </div>
+
+            <!-- Estadísticas -->
+        <div class="card mt-4">
+          <div class="card-header bg-primary text-white">
+            <h5 class="mb-0"><i class="fas fa-chart-bar me-2"></i> Estadísticas</h5>
+          </div>
+          <div class="card-body">
+            <ul class="list-group list-group-flush">
+              <li class="list-group-item d-flex justify-content-between align-items-center">
+                Total de recursos
+                <span class="badge bg-primary rounded-pill">245</span>
+              </li>
+              <li class="list-group-item d-flex justify-content-between align-items-center">
+                Publicaciones
+                <span class="badge bg-primary rounded-pill">42</span>
+              </li>
+              <li class="list-group-item d-flex justify-content-between align-items-center">
+                Revistas
+                <span class="badge bg-primary rounded-pill">58</span>
+              </li>
+              <li class="list-group-item d-flex justify-content-between align-items-center">
+                Libros
+                <span class="badge bg-primary rounded-pill">87</span>
+              </li>
+              <li class="list-group-item d-flex justify-content-between align-items-center">
+                Artículos
+                <span class="badge bg-primary rounded-pill">53</span>
+              </li>
+              <li class="list-group-item d-flex justify-content-between align-items-center">
+                Otros
+                <span class="badge bg-primary rounded-pill">5</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+          </div>
+        </div>
+
+        
+
+        <!-- Listado de Recursos -->
+        <div class="col-lg-9">
+          <!-- Barra de herramientas -->
+          <div class="card mb-4">
+            <div class="card-body">
+              <div class="row align-items-center">
+                <div class="col-md-6 mb-3 mb-md-0">
+                  <div class="input-group">
+                    <input type="text" class="form-control" placeholder="Búsqueda rápida..." id="quickSearch" />
+                    <button class="btn btn-primary" type="button"><i class="fas fa-search"></i></button>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="d-flex justify-content-md-end">
+                    <div class="btn-group me-2">
+                      <button type="button" class="btn btn-outline-primary active" id="gridViewBtn"><i class="fas fa-th-large"></i></button>
+                      <button type="button" class="btn btn-outline-primary" id="listViewBtn"><i class="fas fa-list"></i></button>
+                    </div>
+                    <select class="form-select w-auto" id="sortSelect">
+                      <option value="newest">Más recientes</option>
+                      <option value="oldest">Más antiguos</option>
+                      <option value="az">A-Z</option>
+                      <option value="za">Z-A</option>
+                      <option value="popular">Más populares</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Resultados de la búsqueda -->
+          <div class="mb-3">
+            <span class="text-muted">Mostrando 1-12 de 245 recursos</span>
+          </div>
+
+          <!-- Grid de recursos -->
+          <div class="row" id="resourcesGrid">
+            <!-- Recurso 1 - Libro -->
+            <div class="col-md-6 col-lg-4 mb-4">
+              <div class="card resource-card h-100">
+                <div class="resource-type-badge libro">Libro</div>
+                <div class="card-body">
+                  <h5 class="card-title">Inteligencia Artificial: Una Aproximación Moderna</h5>
+                  <p class="card-text resource-description">Una introducción completa a la teoría y práctica de la inteligencia artificial, desde los fundamentos hasta las aplicaciones más avanzadas.</p>
+                  <div class="resource-meta">
+                    <div class="resource-meta-item">
+                      <i class="fas fa-user me-1"></i> Stuart Russell, Peter Norvig
+                    </div>
+                    <div class="resource-meta-item">
+                      <i class="fas fa-calendar me-1"></i> 2020
+                    </div>
+                    <div class="resource-meta-item">
+                      <i class="fas fa-building me-1"></i> Pearson
+                    </div>
+                    <div class="resource-meta-item">
+                      <i class="fas fa-language me-1"></i> Español
+                    </div>
+                    <div class="resource-meta-item">
+                      <i class="fas fa-barcode me-1"></i> 978-0134610993
+                    </div>
+                  </div>
+                </div>
+                <div class="card-footer bg-transparent">
+                  <div class="d-flex justify-content-between align-items-center">
+                    <div class="resource-stats">
+                      <span title="Descargas"><i class="fas fa-download me-1"></i> 1,245</span>
+                      <span title="Vistas"><i class="fas fa-eye ms-2 me-1"></i> 3,782</span>
+                    </div>
+                    <div class="btn-group">
+                      <button type="button" class="btn btn-sm btn-outline-primary" data-bs-toggle="modal" data-bs-target="#resourceModal"><i class="fas fa-info-circle"></i></button>
+                      <a href="#" class="btn btn-sm btn-outline-success"><i class="fas fa-eye"></i></a>
+                      <a href="#" class="btn btn-sm btn-primary"><i class="fas fa-download"></i></a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Recurso 2 - Revista -->
+            <div class="col-md-6 col-lg-4 mb-4">
+              <div class="card resource-card h-100">
+                <div class="resource-type-badge revista">Revista</div>
+                <div class="card-body">
+                  <h5 class="card-title">Nature: Avances en Medicina Genómica</h5>
+                  <p class="card-text resource-description">Edición especial sobre los últimos avances en medicina genómica y sus aplicaciones en el tratamiento de enfermedades hereditarias.</p>
+                  <div class="resource-meta">
+                    <div class="resource-meta-item">
+                      <i class="fas fa-user me-1"></i> Nature Publishing Group
+                    </div>
+                    <div class="resource-meta-item">
+                      <i class="fas fa-calendar me-1"></i> 2023
+                    </div>
+                    <div class="resource-meta-item">
+                      <i class="fas fa-building me-1"></i> Nature
+                    </div>
+                    <div class="resource-meta-item">
+                      <i class="fas fa-language me-1"></i> Inglés
+                    </div>
+                    <div class="resource-meta-item">
+                      <i class="fas fa-barcode me-1"></i> 0028-0836
+                    </div>
+                  </div>
+                </div>
+                <div class="card-footer bg-transparent">
+                  <div class="d-flex justify-content-between align-items-center">
+                    <div class="resource-stats">
+                      <span title="Descargas"><i class="fas fa-download me-1"></i> 876</span>
+                      <span title="Vistas"><i class="fas fa-eye ms-2 me-1"></i> 2,145</span>
+                    </div>
+                    <div class="btn-group">
+                      <button type="button" class="btn btn-sm btn-outline-primary" data-bs-toggle="modal" data-bs-target="#resourceModal"><i class="fas fa-info-circle"></i></button>
+                      <a href="#" class="btn btn-sm btn-outline-success"><i class="fas fa-eye"></i></a>
+                      <a href="#" class="btn btn-sm btn-primary"><i class="fas fa-download"></i></a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Recurso 3 - Artículo -->
+            <div class="col-md-6 col-lg-4 mb-4">
+              <div class="card resource-card h-100">
+                <div class="resource-type-badge articulo">Artículo</div>
+                <div class="card-body">
+                  <h5 class="card-title">El Impacto de la Inteligencia Artificial en el Mercado Laboral</h5>
+                  <p class="card-text resource-description">Análisis detallado sobre cómo la IA está transformando el mercado laboral y qué habilidades serán más demandadas en el futuro.</p>
+                  <div class="resource-meta">
+                    <div class="resource-meta-item">
+                      <i class="fas fa-user me-1"></i> María González, Juan López
+                    </div>
+                    <div class="resource-meta-item">
+                      <i class="fas fa-calendar me-1"></i> 2024
+                    </div>
+                    <div class="resource-meta-item">
+                      <i class="fas fa-building me-1"></i> Harvard Business Review
+                    </div>
+                    <div class="resource-meta-item">
+                      <i class="fas fa-language me-1"></i> Español
+                    </div>
+                    <div class="resource-meta-item">
+                      <i class="fas fa-barcode me-1"></i> 10.1234/hbr.2024.123
+                    </div>
+                  </div>
+                </div>
+                <div class="card-footer bg-transparent">
+                  <div class="d-flex justify-content-between align-items-center">
+                    <div class="resource-stats">
+                      <span title="Descargas"><i class="fas fa-download me-1"></i> 543</span>
+                      <span title="Vistas"><i class="fas fa-eye ms-2 me-1"></i> 1,892</span>
+                    </div>
+                    <div class="btn-group">
+                      <button type="button" class="btn btn-sm btn-outline-primary" data-bs-toggle="modal" data-bs-target="#resourceModal"><i class="fas fa-info-circle"></i></button>
+                      <a href="#" class="btn btn-sm btn-outline-success"><i class="fas fa-eye"></i></a>
+                      <a href="#" class="btn btn-sm btn-primary"><i class="fas fa-download"></i></a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Recurso 4 - Publicación -->
+            <div class="col-md-6 col-lg-4 mb-4">
+              <div class="card resource-card h-100">
+                <div class="resource-type-badge publicacion">Publicación</div>
+                <div class="card-body">
+                  <h5 class="card-title">Informe Anual sobre Tendencias Tecnológicas 2025</h5>
+                  <p class="card-text resource-description">Análisis completo de las tendencias tecnológicas emergentes y su impacto en diferentes sectores industriales para el próximo año.</p>
+                  <div class="resource-meta">
+                    <div class="resource-meta-item">
+                      <i class="fas fa-user me-1"></i> Deloitte Insights
+                    </div>
+                    <div class="resource-meta-item">
+                      <i class="fas fa-calendar me-1"></i> 2025
+                    </div>
+                    <div class="resource-meta-item">
+                      <i class="fas fa-building me-1"></i> Deloitte
+                    </div>
+                    <div class="resource-meta-item">
+                      <i class="fas fa-language me-1"></i> Español
+                    </div>
+                    <div class="resource-meta-item">
+                      <i class="fas fa-barcode me-1"></i> 978-1234567890
+                    </div>
+                  </div>
+                </div>
+                <div class="card-footer bg-transparent">
+                  <div class="d-flex justify-content-between align-items-center">
+                    <div class="resource-stats">
+                      <span title="Descargas"><i class="fas fa-download me-1"></i> 1,023</span>
+                      <span title="Vistas"><i class="fas fa-eye ms-2 me-1"></i> 2,567</span>
+                    </div>
+                    <div class="btn-group">
+                      <button type="button" class="btn btn-sm btn-outline-primary" data-bs-toggle="modal" data-bs-target="#resourceModal"><i class="fas fa-info-circle"></i></button>
+                      <a href="#" class="btn btn-sm btn-outline-success"><i class="fas fa-eye"></i></a>
+                      <a href="#" class="btn btn-sm btn-primary"><i class="fas fa-download"></i></a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Recurso 5 - Libro -->
+            <div class="col-md-6 col-lg-4 mb-4">
+              <div class="card resource-card h-100">
+                <div class="resource-type-badge libro">Libro</div>
+                <div class="card-body">
+                  <h5 class="card-title">Desarrollo Web Full Stack: De Principiante a Experto</h5>
+                  <p class="card-text resource-description">Guía completa para convertirse en desarrollador web full stack, cubriendo HTML, CSS, JavaScript, React, Node.js y más.</p>
+                  <div class="resource-meta">
+                    <div class="resource-meta-item">
+                      <i class="fas fa-user me-1"></i> Carlos Martínez
+                    </div>
+                    <div class="resource-meta-item">
+                      <i class="fas fa-calendar me-1"></i> 2023
+                    </div>
+                    <div class="resource-meta-item">
+                      <i class="fas fa-building me-1"></i> Anaya Multimedia
+                    </div>
+                    <div class="resource-meta-item">
+                      <i class="fas fa-language me-1"></i> Español
+                    </div>
+                    <div class="resource-meta-item">
+                      <i class="fas fa-barcode me-1"></i> 978-8441543218
+                    </div>
+                  </div>
+                </div>
+                <div class="card-footer bg-transparent">
+                  <div class="d-flex justify-content-between align-items-center">
+                    <div class="resource-stats">
+                      <span title="Descargas"><i class="fas fa-download me-1"></i> 1,876</span>
+                      <span title="Vistas"><i class="fas fa-eye ms-2 me-1"></i> 4,321</span>
+                    </div>
+                    <div class="btn-group">
+                      <button type="button" class="btn btn-sm btn-outline-primary" data-bs-toggle="modal" data-bs-target="#resourceModal"><i class="fas fa-info-circle"></i></button>
+                      <a href="#" class="btn btn-sm btn-outline-success"><i class="fas fa-eye"></i></a>
+                      <a href="#" class="btn btn-sm btn-primary"><i class="fas fa-download"></i></a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Recurso 6 - Otro -->
+            <div class="col-md-6 col-lg-4 mb-4">
+              <div class="card resource-card h-100">
+                <div class="resource-type-badge otro">Otro</div>
+                <div class="card-body">
+                  <h5 class="card-title">Plantillas de Diseño UX/UI para Aplicaciones Móviles</h5>
+                  <p class="card-text resource-description">Colección de plantillas y componentes para el diseño de interfaces de usuario en aplicaciones móviles iOS y Android.</p>
+                  <div class="resource-meta">
+                    <div class="resource-meta-item">
+                      <i class="fas fa-user me-1"></i> Design Studio XYZ
+                    </div>
+                    <div class="resource-meta-item">
+                      <i class="fas fa-calendar me-1"></i> 2024
+                    </div>
+                    <div class="resource-meta-item">
+                      <i class="fas fa-building me-1"></i> UX Resources
+                    </div>
+                    <div class="resource-meta-item">
+                      <i class="fas fa-language me-1"></i> Inglés
+                    </div>
+                    <div class="resource-meta-item">
+                      <i class="fas fa-barcode me-1"></i> N/A
+                    </div>
+                  </div>
+                </div>
+                <div class="card-footer bg-transparent">
+                  <div class="d-flex justify-content-between align-items-center">
+                    <div class="resource-stats">
+                      <span title="Descargas"><i class="fas fa-download me-1"></i> 2,345</span>
+                      <span title="Vistas"><i class="fas fa-eye ms-2 me-1"></i> 5,678</span>
+                    </div>
+                    <div class="btn-group">
+                      <button type="button" class="btn btn-sm btn-outline-primary" data-bs-toggle="modal" data-bs-target="#resourceModal"><i class="fas fa-info-circle"></i></button>
+                      <a href="#" class="btn btn-sm btn-outline-success"><i class="fas fa-eye"></i></a>
+                      <a href="#" class="btn btn-sm btn-primary"><i class="fas fa-download"></i></a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Más recursos... -->
+            <!-- Recurso 7 - Revista -->
+            <div class="col-md-6 col-lg-4 mb-4">
+              <div class="card resource-card h-100">
+                <div class="resource-type-badge revista">Revista</div>
+                <div class="card-body">
+                  <h5 class="card-title">Scientific American: Especial Cambio Climático</h5>
+                  <p class="card-text resource-description">Edición especial dedicada a los últimos estudios sobre el cambio climático y las estrategias de mitigación más prometedoras.</p>
+                  <div class="resource-meta">
+                    <div class="resource-meta-item">
+                      <i class="fas fa-user me-1"></i> Scientific American
+                    </div>
+                    <div class="resource-meta-item">
+                      <i class="fas fa-calendar me-1"></i> 2024
+                    </div>
+                    <div class="resource-meta-item">
+                      <i class="fas fa-building me-1"></i> Springer Nature
+                    </div>
+                    <div class="resource-meta-item">
+                      <i class="fas fa-language me-1"></i> Inglés
+                    </div>
+                    <div class="resource-meta-item">
+                      <i class="fas fa-barcode me-1"></i> 0036-8733
+                    </div>
+                  </div>
+                </div>
+                <div class="card-footer bg-transparent">
+                  <div class="d-flex justify-content-between align-items-center">
+                    <div class="resource-stats">
+                      <span title="Descargas"><i class="fas fa-download me-1"></i> 765</span>
+                      <span title="Vistas"><i class="fas fa-eye ms-2 me-1"></i> 1,987</span>
+                    </div>
+                    <div class="btn-group">
+                      <button type="button" class="btn btn-sm btn-outline-primary" data-bs-toggle="modal" data-bs-target="#resourceModal"><i class="fas fa-info-circle"></i></button>
+                      <a href="#" class="btn btn-sm btn-outline-success"><i class="fas fa-eye"></i></a>
+                      <a href="#" class="btn btn-sm btn-primary"><i class="fas fa-download"></i></a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Recurso 8 - Artículo -->
+            <div class="col-md-6 col-lg-4 mb-4">
+              <div class="card resource-card h-100">
+                <div class="resource-type-badge articulo">Artículo</div>
+                <div class="card-body">
+                  <h5 class="card-title">Blockchain y su Aplicación en la Cadena de Suministro</h5>
+                  <p class="card-text resource-description">Estudio sobre cómo la tecnología blockchain está revolucionando la gestión de cadenas de suministro globales.</p>
+                  <div class="resource-meta">
+                    <div class="resource-meta-item">
+                      <i class="fas fa-user me-1"></i> Roberto Sánchez, Ana Gómez
+                    </div>
+                    <div class="resource-meta-item">
+                      <i class="fas fa-calendar me-1"></i> 2023
+                    </div>
+                    <div class="resource-meta-item">
+                      <i class="fas fa-building me-1"></i> MIT Technology Review
+                    </div>
+                    <div class="resource-meta-item">
+                      <i class="fas fa-language me-1"></i> Español
+                    </div>
+                    <div class="resource-meta-item">
+                      <i class="fas fa-barcode me-1"></i> 10.5678/mit.2023.456
+                    </div>
+                  </div>
+                </div>
+                <div class="card-footer bg-transparent">
+                  <div class="d-flex justify-content-between align-items-center">
+                    <div class="resource-stats">
+                      <span title="Descargas"><i class="fas fa-download me-1"></i> 432</span>
+                      <span title="Vistas"><i class="fas fa-eye ms-2 me-1"></i> 1,234</span>
+                    </div>
+                    <div class="btn-group">
+                      <button type="button" class="btn btn-sm btn-outline-primary" data-bs-toggle="modal" data-bs-target="#resourceModal"><i class="fas fa-info-circle"></i></button>
+                      <a href="#" class="btn btn-sm btn-outline-success"><i class="fas fa-eye"></i></a>
+                      <a href="#" class="btn btn-sm btn-primary"><i class="fas fa-download"></i></a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Recurso 9 - Publicación -->
+            <div class="col-md-6 col-lg-4 mb-4">
+              <div class="card resource-card h-100">
+                <div class="resource-type-badge publicacion">Publicación</div>
+                <div class="card-body">
+                  <h5 class="card-title">Guía de Mejores Prácticas en Ciberseguridad 2024</h5>
+                  <p class="card-text resource-description">Manual completo con las mejores prácticas y recomendaciones para proteger sistemas e información contra amenazas cibernéticas.</p>
+                  <div class="resource-meta">
+                    <div class="resource-meta-item">
+                      <i class="fas fa-user me-1"></i> NIST
+                    </div>
+                    <div class="resource-meta-item">
+                      <i class="fas fa-calendar me-1"></i> 2024
+                    </div>
+                    <div class="resource-meta-item">
+                      <i class="fas fa-building me-1"></i> National Institute of Standards and Technology
+                    </div>
+                    <div class="resource-meta-item">
+                      <i class="fas fa-language me-1"></i> Inglés
+                    </div>
+                    <div class="resource-meta-item">
+                      <i class="fas fa-barcode me-1"></i> 978-0160957321
+                    </div>
+                  </div>
+                </div>
+                <div class="card-footer bg-transparent">
+                  <div class="d-flex justify-content-between align-items-center">
+                    <div class="resource-stats">
+                      <span title="Descargas"><i class="fas fa-download me-1"></i> 987</span>
+                      <span title="Vistas"><i class="fas fa-eye ms-2 me-1"></i> 2,345</span>
+                    </div>
+                    <div class="btn-group">
+                      <button type="button" class="btn btn-sm btn-outline-primary" data-bs-toggle="modal" data-bs-target="#resourceModal"><i class="fas fa-info-circle"></i></button>
+                      <a href="#" class="btn btn-sm btn-outline-success"><i class="fas fa-eye"></i></a>
+                      <a href="#" class="btn btn-sm btn-primary"><i class="fas fa-download"></i></a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Paginación -->
+          <nav aria-label="Navegación de páginas" class="mt-4">
+            <ul class="pagination justify-content-center">
+              <li class="page-item disabled">
+                <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Anterior</a>
+              </li>
+              <li class="page-item active">
+                <a class="page-link" href="#">1</a>
+              </li>
+              <li class="page-item">
+                <a class="page-link" href="#">2</a>
+              </li>
+              <li class="page-item">
+                <a class="page-link" href="#">3</a>
+              </li>
+              <li class="page-item">
+                <a class="page-link" href="#">Siguiente</a>
+              </li>
+            </ul>
+          </nav>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal de Detalle de Recurso -->
+  <div class="modal fade" id="resourceModal" tabindex="-1" aria-labelledby="resourceModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="resourceModalLabel">Inteligencia Artificial: Una Aproximación Moderna</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div class="row">
+            <div class="col-md-4 mb-3 mb-md-0">
+              <div class="text-center">
+                <div class="resource-cover mb-3">
+                  <img src="https://via.placeholder.com/200x300" alt="Portada del libro" class="img-fluid rounded shadow" />
+                </div>
+                <div class="d-grid gap-2">
+                  <a href="#" class="btn btn-success"><i class="fas fa-eye me-2"></i> Ver Recurso</a>
+                  <a href="#" class="btn btn-primary"><i class="fas fa-download me-2"></i> Descargar</a>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-8">
+              <h6 class="text-primary mb-3">Información del Recurso</h6>
+              <table class="table table-striped">
+                <tbody>
+                  <tr>
+                    <th scope="row" style="width: 30%">Título</th>
+                    <td>Inteligencia Artificial: Una Aproximación Moderna</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Autor(es)</th>
+                    <td>Stuart Russell, Peter Norvig</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Tipo de Recurso</th>
+                    <td>
+                      <span class="badge bg-primary">Libro</span>
+                    </td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Fecha de Publicación</th>
+                    <td>2020</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Editorial</th>
+                    <td>Pearson</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">ISBN</th>
+                    <td>978-0134610993</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Idioma</th>
+                    <td>Español</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Páginas</th>
+                    <td>1152</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Subido por</th>
+                    <td>Juan Pérez</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Fecha de Subida</th>
+                    <td>15/03/2023</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Última Actualización</th>
+                    <td>10/01/2024</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Descargas</th>
+                    <td>1,245</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Vistas</th>
+                    <td>3,782</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <div class="mt-4">
+            <h6 class="text-primary mb-3">Descripción</h6>
+            <p>Una introducción completa a la teoría y práctica de la inteligencia artificial, desde los fundamentos hasta las aplicaciones más avanzadas. Este libro es considerado la biblia de la IA y cubre temas como agentes inteligentes, resolución de problemas, aprendizaje automático, procesamiento del lenguaje natural, visión por computadora y robótica.</p>
+            <p>Ideal para estudiantes de informática, ingeniería y ciencias de la computación, así como para profesionales que deseen adentrarse en el campo de la inteligencia artificial.</p>
+
+            <h6 class="text-primary mb-3 mt-4">Tabla de Contenidos</h6>
+            <ol>
+              <li>Introducción a la Inteligencia Artificial</li>
+              <li>Agentes Inteligentes</li>
+              <li>Resolución de Problemas mediante Búsqueda</li>
+              <li>Búsqueda Informada y Exploración</li>
+              <li>Problemas de Satisfacción de Restricciones</li>
+              <li>Búsqueda Adversaria</li>
+              <li>Representación del Conocimiento</li>
+              <li>Razonamiento con Lógica de Primer Orden</li>
+              <li>Razonamiento Probabilístico</li>
+              <li>Aprendizaje Automático</li>
+              <li>Procesamiento del Lenguaje Natural</li>
+              <li>Visión por Computadora</li>
+              <li>Robótica</li>
+              <li>Ética y Futuro de la IA</li>
+            </ol>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}
+{% block extra_js %}
+  <script src="{% static 'js/recursos-script.js' %}"></script>
+{% endblock %}

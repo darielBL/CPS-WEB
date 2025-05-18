@@ -1,0 +1,184 @@
+/* Estilos personalizados para la página de recursos digitales */
+
+/* Ajuste para la barra de navegación fija */
+body {
+    padding-top: 56px;
+}
+
+/* Divider para títulos de sección */
+.divider {
+    width: 60px;
+    height: 3px;
+    background-color: #0d6efd;
+    margin-bottom: 30px;
+}
+
+/* Títulos de sección */
+.section-title {
+    font-weight: 700;
+    margin-bottom: 15px;
+    position: relative;
+}
+
+/* Estilos para la sección de recursos */
+.resources-section {
+    background-color: #f8f9fa;
+    min-height: calc(100vh - 56px - 300px);
+}
+
+/* Estilos para el sidebar de filtros */
+.filter-sidebar {
+    position: sticky;
+    top: 76px; /* 56px (navbar) + 20px (padding) */
+}
+
+/* Estilos para las tarjetas de recursos */
+.resource-card {
+    border-radius: 10px;
+    overflow: hidden;
+    border: none;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.05);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    position: relative;
+}
+
+.resource-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+}
+
+/* Estilos para la descripción del recurso */
+.resource-description {
+    height: 72px;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    margin-bottom: 15px;
+}
+
+/* Estilos para los metadatos del recurso */
+.resource-meta {
+    font-size: 0.85rem;
+    color: #6c757d;
+}
+
+.resource-meta-item {
+    margin-bottom: 5px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* Estilos para las estadísticas del recurso */
+.resource-stats {
+    font-size: 0.85rem;
+    color: #6c757d;
+}
+
+/* Estilos para las insignias de tipo de recurso */
+.resource-type-badge {
+    position: absolute;
+    top: 0;
+    right: 0;
+    padding: 5px 10px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: white;
+    border-bottom-left-radius: 10px;
+}
+
+.resource-type-badge.libro {
+    background-color: #198754; /* verde */
+}
+
+.resource-type-badge.revista {
+    background-color: #0d6efd; /* azul */
+}
+
+.resource-type-badge.articulo {
+    background-color: #6f42c1; /* morado */
+}
+
+.resource-type-badge.publicacion {
+    background-color: #fd7e14; /* naranja */
+}
+
+.resource-type-badge.otro {
+    background-color: #6c757d; /* gris */
+}
+
+/* Estilos para la portada del recurso en el modal */
+.resource-cover img {
+    max-height: 300px;
+    width: auto;
+}
+
+/* Estilos para la vista de lista */
+.resource-list-view .resource-card {
+    display: flex;
+    flex-direction: row;
+    height: auto;
+}
+
+.resource-list-view .card-body {
+    display: flex;
+    flex-direction: column;
+}
+
+/* Estilos para iconos sociales en el footer */
+.social-icons a {
+    display: inline-block;
+    width: 36px;
+    height: 36px;
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 50%;
+    text-align: center;
+    line-height: 36px;
+    transition: all 0.3s ease;
+}
+
+.social-icons a:hover {
+    background-color: #0d6efd;
+    color: white !important;
+}
+
+/* Estilos para la lista de información de contacto */
+.contact-info li {
+    margin-bottom: 10px;
+}
+
+/* Estilos para enlaces rápidos en el footer */
+.quick-links li a {
+    transition: all 0.3s ease;
+    text-decoration: none;
+}
+
+.quick-links li a:hover {
+    padding-left: 5px;
+    color: #0d6efd !important;
+}
+
+/* Estilos responsivos */
+@media (max-width: 991.98px) {
+    .filter-sidebar {
+        position: static;
+        margin-bottom: 20px;
+    }
+}
+
+@media (max-width: 767.98px) {
+    .resources-section {
+        padding: 40px 0;
+    }
+    
+    .divider {
+        margin-left: auto;
+        margin-right: auto;
+    }
+    
+    .resource-description {
+        height: auto;
+        max-height: 72px;
+    }
+}

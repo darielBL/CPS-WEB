@@ -1,150 +1,242 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block title %}Página de Inicio{% endblock %}
+{% block title %}
+  Página de Inicio
+{% endblock %}
 
 {% block content %}
-   
-    <!-- Hero Section -->
-    <section id="hero" class="hero-section fit-scrn">
-        <div class="container h-100">
-            <div class="row h-100 align-items-center">
-                <div class="col-lg-6 hero-info">
-                    <h1 class="display-4 fw-bold">Bienvenido a Mi Empresa</h1>
-                    <p class="lead">Ofrecemos soluciones innovadoras para transformar tu negocio y alcanzar nuevos
-                        horizontes.</p>
-                    <div class="d-grid gap-2 d-md-flex justify-content-md-start p-4">
-                        <a href="#about" class="btn btn-primary btn-lg px-4 me-md-2">Conoce más</a>
-                        <a href="#footer" class="btn btn-outline-secondary btn-lg px-4">Agenda cita</a>
-                    </div>
-                </div>
+  <!-- Hero Section -->
+  <section id="hero" class="hero-section fit-scrn">
+    <div class="container h-100">
+      <div class="row h-100 align-items-center">
+        <div class="col-lg-6 hero-info">
+          <h1 class="display-4 fw-bold">Bienvenido a Mi Empresa</h1>
+          <p class="lead">Ofrecemos soluciones innovadoras para transformar tu negocio y alcanzar nuevos horizontes.</p>
+          <div class="d-grid gap-2 d-md-flex justify-content-md-start p-4">
+            <a href="#about" class="btn btn-primary btn-lg px-4 me-md-2">Conoce más</a>
+            {% if user.is_authenticated %}
+            <a href="#footer" class="btn btn-outline-secondary btn-lg px-4" data-bs-toggle="modal" data-bs-target="#appointmentModal">Agenda cita</a>
+            {% endif %}
+          </div>
+        </div>
 
-                <!-- <div class="col-lg-6 d-none d-lg-block">
+        <!--  <div class="col-lg-6 d-none d-lg-block">
                     <img src="res/hero.jpg" alt="Hero Image" class="img-fluid rounded shadow" >
-                </div> -->
-            </div>
-        </div>
-    </section>
+                </div>  -->
+      </div>
+    </div>
+  </section>
 
-    <!-- About Us Section -->
-    <section id="about" class="py-5 fit-scrn">
-        <div class="container">
-            <div class="row">
-                <div class="col-12 text-center mb-4">
-                    <h2 class="section-title">Sobre Nosotros</h2>
-                    <div class="divider mx-auto"></div>
-                </div>
-            </div>
-            <div class="row align-items-center">
-                <div class="col-md-6 mb-4 mb-md-0">
-                    <img src="" alt="Sobre Nosotros"
-                        class="img-fluid rounded shadow">
-                </div>
-                <div class="col-md-6">
-                    <h3>Nuestra Historia</h3>
-                    <p>Fundada en 2010, Mi Empresa ha estado a la vanguardia de la innovación tecnológica durante más de
-                        una década. Comenzamos como un pequeño equipo con grandes ideas, y hoy somos líderes en nuestro
-                        sector.</p>
-                    <h3>Nuestra Misión</h3>
-                    <p>Nuestra misión es proporcionar soluciones tecnológicas de alta calidad que ayuden a nuestros
-                        clientes a alcanzar sus objetivos de negocio de manera eficiente y efectiva.</p>
-                    <div class="row mt-4">
-                        <div class="col-6">
-                            <div class="d-flex align-items-center mb-3">
-                                <i class="fas fa-check-circle text-primary me-2 fs-4"></i>
-                                <span>Calidad garantizada</span>
-                            </div>
-                            <div class="d-flex align-items-center mb-3">
-                                <i class="fas fa-users text-primary me-2 fs-4"></i>
-                                <span>Equipo profesional</span>
-                            </div>
-                        </div>
-                        <div class="col-6">
-                            <div class="d-flex align-items-center mb-3">
-                                <i class="fas fa-headset text-primary me-2 fs-4"></i>
-                                <span>Soporte 24/7</span>
-                            </div>
-                            <div class="d-flex align-items-center mb-3">
-                                <i class="fas fa-rocket text-primary me-2 fs-4"></i>
-                                <span>Innovación constante</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+  <!-- About Us Section -->
+  <section id="about" class="py-5 ">
+    <div class="container">
+      <div class="row">
+        <div class="col-12 text-center mb-4">
+          <h2 class="section-title">Sobre Nosotros</h2>
+          <div class="divider mx-auto"></div>
         </div>
-    </section>
+      </div>
+      <div class="row align-items-center">
+        <div class="col-md-6 mb-4 mb-md-0">
+          <img src="{% static 'res/about.jpg' %}" alt="Sobre Nosotros" class="img-fluid rounded shadow" />
+        </div>
+        <div class="col-md-6 " style="padding: 4rem 1rem; ">
+          <div id="about1" class="about_cont">
+            <h3>Nuestra Historia</h3>
+            <p>Fundada en 2010, Mi Empresa ha estado a la vanguardia de la innovación tecnológica durante más de una década. Comenzamos como un pequeño equipo con grandes ideas, y hoy somos líderes en nuestro sector.</p>
+          </div>
+          <div id="about2" class="about_cont" style="margin-top: 7rem;">
+            <h3>Nuestra Misión</h3>
+            <p>Nuestra misión es proporcionar soluciones tecnológicas de alta calidad que ayuden a nuestros clientes a alcanzar sus objetivos de negocio de manera eficiente y efectiva.</p>
+          </div>
+          <div class="row about_cont" >
+            <div class="col-6">
+              <div class="d-flex align-items-center mb-3">
+                <i class="fas fa-check-circle text-primary me-2 fs-4"></i>
+                <span>Calidad garantizada</span>
+              </div>
+              <div class="d-flex align-items-center mb-3">
+                <i class="fas fa-users text-primary me-2 fs-4"></i>
+                <span>Equipo profesional</span>
+              </div>
+            </div>
+            <div class="col-6">
+              <div class="d-flex align-items-center mb-3">
+                <i class="fas fa-headset text-primary me-2 fs-4"></i>
+                <span>Soporte 24/7</span>
+              </div>
+              <div class="d-flex align-items-center mb-3">
+                <i class="fas fa-rocket text-primary me-2 fs-4"></i>
+                <span>Innovación constante</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
 
-    <!-- News Section -->
-    <section id="news" class="py-5 bg-light fit-scrn">
-        <div class="container">
-            <div class="row">
-                <div class="col-12 text-center mb-4">
-                    <h2 class="section-title">Últimas Noticias</h2>
-                    <div class="divider mx-auto"></div>
-                </div>
+  <!-- News Section -->
+  <section id="news" class="py-5 bg-light ">
+    <div class="container">
+      <div class="row">
+        <div class="col-12 text-center mb-4">
+          <h2 class="section-title">Últimas Noticias</h2>
+          <div class="divider mx-auto"></div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-4 mb-4">
+          <div class="card h-100 shadow-sm">
+            <img src="{% static 'res/news1.jpg' %}" class="card-img-top" alt="Noticia 1" />
+            <div class="card-body">
+              <div class="d-flex justify-content-between mb-2">
+                <span class="badge bg-primary">Tecnología</span>
+                <small class="text-muted">15 Mayo, 2025</small>
+              </div>
+              <h5 class="card-title">Lanzamiento de Nuevo Producto</h5>
+              <p class="card-text">Estamos emocionados de anunciar el lanzamiento de nuestro nuevo producto revolucionario que cambiará la forma en que interactúas con la tecnología.</p>
             </div>
-            <div class="row">
-                <div class="col-md-4 mb-4">
-                    <div class="card h-100 shadow-sm">
-                        <img src="{% static 'res/news1.jpg' %}" class="card-img-top" alt="Noticia 1">
-                        <div class="card-body">
-                            <div class="d-flex justify-content-between mb-2">
-                                <span class="badge bg-primary">Tecnología</span>
-                                <small class="text-muted">15 Mayo, 2025</small>
-                            </div>
-                            <h5 class="card-title">Lanzamiento de Nuevo Producto</h5>
-                            <p class="card-text">Estamos emocionados de anunciar el lanzamiento de nuestro nuevo
-                                producto revolucionario que cambiará la forma en que interactúas con la tecnología.</p>
-                        </div>
-                        <div class="card-footer bg-transparent border-top-0">
-                            <a href="#" class="btn btn-sm btn-outline-primary">Leer más</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4 mb-4">
-                    <div class="card h-100 shadow-sm">
-                        <img src="{% static 'res/news2.jpg' %}" class="card-img-top" alt="Noticia 2">
-                        <div class="card-body">
-                            <div class="d-flex justify-content-between mb-2">
-                                <span class="badge bg-success">Empresa</span>
-                                <small class="text-muted">10 Mayo, 2025</small>
-                            </div>
-                            <h5 class="card-title">Expansión Internacional</h5>
-                            <p class="card-text">Nos complace anunciar que estamos expandiendo nuestras operaciones a
-                                nuevos mercados internacionales, llevando nuestras soluciones a más clientes en todo el
-                                mundo.</p>
-                        </div>
-                        <div class="card-footer bg-transparent border-top-0">
-                            <a href="#" class="btn btn-sm btn-outline-primary">Leer más</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4 mb-4">
-                    <div class="card h-100 shadow-sm">
-                        <img src="{% static 'res/news3.jpg' %}" class="card-img-top" alt="Noticia 3">
-                        <div class="card-body">
-                            <div class="d-flex justify-content-between mb-2">
-                                <span class="badge bg-warning text-dark">Eventos</span>
-                                <small class="text-muted">5 Mayo, 2025</small>
-                            </div>
-                            <h5 class="card-title">Conferencia Anual 2025</h5>
-                            <p class="card-text">Únete a nosotros en nuestra conferencia anual donde compartiremos las
-                                últimas tendencias del sector y presentaremos nuestras nuevas soluciones tecnológicas.
-                            </p>
-                        </div>
-                        <div class="card-footer bg-transparent border-top-0">
-                            <a href="#" class="btn btn-sm btn-outline-primary">Leer más</a>
-                        </div>
-                    </div>
-                </div>
+            <div class="card-footer bg-transparent border-top-0">
+              <a href="#" class="btn btn-sm btn-outline-primary">Leer más</a>
             </div>
-            <div class="row mt-3">
-                <div class="col-12 text-center">
-                    <a href="#" class="btn btn-outline-primary">Ver todas las noticias</a>
+          </div>
+        </div>
+        <div class="col-md-4 mb-4">
+          <div class="card h-100 shadow-sm">
+            <img src="{% static 'res/news2.jpg' %}" class="card-img-top" alt="Noticia 2" />
+            <div class="card-body">
+              <div class="d-flex justify-content-between mb-2">
+                <span class="badge bg-success">Empresa</span>
+                <small class="text-muted">10 Mayo, 2025</small>
+              </div>
+              <h5 class="card-title">Expansión Internacional</h5>
+              <p class="card-text">Nos complace anunciar que estamos expandiendo nuestras operaciones a nuevos mercados internacionales, llevando nuestras soluciones a más clientes en todo el mundo.</p>
+            </div>
+            <div class="card-footer bg-transparent border-top-0">
+              <a href="#" class="btn btn-sm btn-outline-primary">Leer más</a>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4 mb-4">
+          <div class="card h-100 shadow-sm">
+            <img src="{% static 'res/news3.jpg' %}" class="card-img-top" alt="Noticia 3" />
+            <div class="card-body">
+              <div class="d-flex justify-content-between mb-2">
+                <span class="badge bg-warning text-dark">Eventos</span>
+                <small class="text-muted">5 Mayo, 2025</small>
+              </div>
+              <h5 class="card-title">Conferencia Anual 2025</h5>
+              <p class="card-text">Únete a nosotros en nuestra conferencia anual donde compartiremos las últimas tendencias del sector y presentaremos nuestras nuevas soluciones tecnológicas.</p>
+            </div>
+            <div class="card-footer bg-transparent border-top-0">
+              <a href="#" class="btn btn-sm btn-outline-primary">Leer más</a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row mt-3">
+        <div class="col-12 text-center">
+          <a href="#" class="btn btn-outline-primary">Ver todas las noticias</a>
+        </div>
+      </div>
+    </div>
+  </section>
+     <!-- Modal de Agendar Cita -->
+    <div class="modal fade" id="appointmentModal" tabindex="-1" aria-labelledby="appointmentModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header bg-success text-white">
+                    <h5 class="modal-title" id="appointmentModalLabel">
+                        <i class="fas fa-calendar-check me-2"></i> Agendar Cita
+                    </h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="appointmentForm">
+                        <!-- Fecha de la cita -->
+                        <div class="mb-3">
+                            <label for="appointmentDate" class="form-label">Fecha <span class="text-danger">*</span></label>
+                            <input type="date" class="form-control" id="appointmentDate" required min="">
+                            <div class="form-text">Seleccione una fecha para su cita.</div>
+                        </div>
+                        
+                        <!-- Hora de inicio -->
+                        <div class="mb-3">
+                            <label for="appointmentTime" class="form-label">Hora de inicio <span class="text-danger">*</span></label>
+                            <input type="time" class="form-control" id="appointmentTime" required>
+                            <div class="form-text">Seleccione la hora para su cita.</div>
+                        </div>
+                        
+                        <!-- Propósito de la cita -->
+                        <div class="mb-3">
+                            <label for="appointmentPurpose" class="form-label">Propósito de la cita <span class="text-danger">*</span></label>
+                            <select class="form-select" id="appointmentPurpose" required>
+                                <option value="" selected disabled>Seleccione un propósito</option>
+                                <option value="consulta">Consulta de recursos</option>
+                                <option value="prestamo">Préstamo de material</option>
+                                <option value="devolucion">Devolución de material</option>
+                                <option value="asesoria">Asesoría especializada</option>
+                                <option value="otro">Otro</option>
+                            </select>
+                        </div>
+                        
+                        <!-- Campo para "Otro" propósito -->
+                        <div class="mb-3" id="otherPurposeContainer" style="display: none;">
+                            <label for="otherPurpose" class="form-label">Especifique el propósito <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" id="otherPurpose">
+                        </div>
+                        
+                        <!-- Notas adicionales -->
+                        <div class="mb-3">
+                            <label for="appointmentNotes" class="form-label">Notas adicionales</label>
+                            <textarea class="form-control" id="appointmentNotes" rows="3" placeholder="Información adicional sobre su cita..."></textarea>
+                        </div>
+                        
+                        <!-- Estado (oculto, se establece automáticamente) -->
+                        <input type="hidden" id="appointmentStatus" value="pending">
+                        
+                        <div class="alert alert-info">
+                            <i class="fas fa-info-circle me-2"></i> Su cita quedará en estado <strong>Pendiente</strong> hasta que sea confirmada por un administrador.
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-success" id="submitAppointment">
+                        <i class="fas fa-calendar-check me-1"></i> Agendar Cita
+                    </button>
                 </div>
             </div>
         </div>
-    </section>
+    </div>
+
+    <!-- Modal de Confirmación de Cita -->
+    <div class="modal fade" id="appointmentConfirmModal" tabindex="-1" aria-labelledby="appointmentConfirmModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header bg-success text-white">
+                    <h5 class="modal-title" id="appointmentConfirmModalLabel">
+                        <i class="fas fa-check-circle me-2"></i> Cita Agendada
+                    </h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body text-center py-4">
+                    <div class="mb-4">
+                        <i class="fas fa-calendar-check text-success" style="font-size: 4rem;"></i>
+                    </div>
+                    <h4>¡Su cita ha sido agendada con éxito!</h4>
+                    <p class="mb-1">Fecha: <span id="confirmDate"></span></p>
+                    <p class="mb-1">Hora: <span id="confirmTime"></span></p>
+                    <p class="mb-3">Estado: <span class="badge bg-warning text-dark">Pendiente</span></p>
+                    <p class="text-muted">Recibirá una notificación cuando su cita sea confirmada.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Aceptar</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
 {% endblock %}

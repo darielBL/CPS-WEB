@@ -10,9 +10,12 @@ from django.http import HttpResponse
 def view_ppal(request):
   return render(request, 'index.html')
 
+def view_recursos(request):
+  return render(request, 'recursos.html')
+
 def view_directorio(request):
   profetionals = models.UserProfile.objects.filter(is_professional=True, id=2).values()
-  return render(request, 'directorio.htl', {'profetionals': profetionals})
+  return render(request, 'directorio.html', {'profetionals': profetionals})
 
 def register(request):
   template = loader.get_template('index.html')

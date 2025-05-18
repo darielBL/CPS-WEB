@@ -20,6 +20,10 @@ body {
 
 }
 
+.bi {
+  margin-right: 5px;
+}
+
 /* Sección Hero */
 .hero-section {
   background-image: url(../res/hero.jpg);
@@ -46,10 +50,10 @@ body {
   }
 }
 
-.disable{
+.disable {
   background-color: #578b73;
 
-  &:hover{
+  &:hover {
     background-color: #578b73;
     cursor: default;
   }
@@ -121,6 +125,39 @@ body {
     min-height: 400px;
   }
 }
-.hidden{
+
+.hidden {
   display: none;
+}
+
+/* Estilos para el modal de citas */
+.modal-header.bg-success {
+  background-color: #198754;
+}
+
+#appointmentForm .form-label {
+  font-weight: 500;
+}
+
+#appointmentForm .text-danger {
+  font-weight: bold;
+}
+
+/* Animación para el modal de confirmación */
+#appointmentConfirmModal .fas.fa-calendar-check {
+  animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(1.1);
+  }
+
+  100% {
+    transform: scale(1);
+  }
 }
