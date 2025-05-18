@@ -3,6 +3,8 @@ from django.template import loader
 from . import models
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth import authenticate, login,logout
+from django.contrib import messages
 
 def view_ppal(request):
   return render(request, 'index.html')
@@ -36,7 +38,9 @@ def login_view(request):
       user = authenticate(request, username=username, password=password)
       if user is not None:
           login(request, user)
-          return redirect('main') 
+          messages.success(request, 'Has iniciado sesión exitosamente.')
+          return redirect('user.html') 
+      
       else:
           return render(request, 'index.html', { 'message': 'Credenciales inválidas'})
 

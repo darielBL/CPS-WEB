@@ -29,7 +29,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const loginForm = document.querySelector('#login form');
     if (loginForm) {
         loginForm.addEventListener('submit', function (e) {
-            e.preventDefault();
+            // e.preventDefault();
             const email = document.getElementById('loginEmail').value;
             const password = document.getElementById('loginPassword').value;
 
