@@ -23,50 +23,54 @@
   <body>
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
-  <div class="container">
-    <a class="navbar-brand" href="{% url 'main' %}">CPS</a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
-    <div class="collapse navbar-collapse" id="navbarNav">
-      <ul class="navbar-nav ms-auto">
-        <li class="nav-item">
-          <a class="nav-link active" href="#hero">Inicio</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#about">Nosotros</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#news">Noticias</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="{% url 'directorio' %}">Directorio</a>
-        </li>
-      </ul>
-      <div class="d-flex" style="margin-left: 20px;">
-        {% if not user.is_authenticated %}
-            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#loginModal"><i class="fas fa-user"></i></button>
-        {% endif %}
+      <div class="container">
+        <a class="navbar-brand" href="{% url 'main' %}">CPS</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav ms-auto">
+            <li class="nav-item">
+              <a class="nav-link active" href="#hero">Inicio</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#about">Nosotros</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#news">Noticias</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'directorio' %}">Directorio</a>
+            </li>
+          </ul>
+          <div class="d-flex" style="margin-left: 20px;">
+            {% if not user.is_authenticated %}
+              <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#loginModal"><i class="fas fa-user"></i></button>
+            {% else %}
+          </div>
+            <div class="dropdown ">
+              <a class="navbar-brand " href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false"  data-bs-toggle="tooltip" title="Opciones de usuario"><img src="{% static 'res/default-avatar' %}" alt="Avatar Logo" class="rounded-pill avatar" id="dropdownAvatar" /></a>
+              <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+                <li>
+                   <label for="currentUser" class="dropdown-item form-label">{{user.first_name}} {{user.last_name}} </label>
+                </li>
+                <hr >
+                <li>
+                  <a class="dropdown-item" href="{% url 'user' %}">Administración de Usuario</a>
+                </li>
+                <li>
+                  <a class="dropdown-item" href="{% url 'logout' %}">Cerrar Sesión</a>
+                </li>
+              </ul>
+            </div>
+            {% endif %}
+        </div>
       </div>
+    </nav>
 
-      <div class="dropdown">
-        <a class="navbar-brand dropdown-toggle" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false"><img src="{% static 'res/avatar.png' %}" alt="Avatar Logo" class="rounded-pill avatar" /></a>
-        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
-          <li>
-            <a class="dropdown-item" href="{% url 'user' %}">Administración de Usuario</a>
-          </li>
-          <li>
-            <a class="dropdown-item" href="{% url 'logout' %}">Cerrar Sesión</a>
-          </li>
-        </ul>
-      </div>
-    </div>
-  </div>
-</nav>
-
-  {% if messages %}
-    {% for message in messages %}
+    {% if messages %}
+      {% for message in messages %}
         <div class="alert alert-{{ message.tags }}">{{ message }}</div>
-    {% endfor %}
-{% endif %}
+      {% endfor %}
+    {% endif %}
 
     <!-- Modal de Login/Registro -->
     <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
@@ -85,11 +89,11 @@
                 <button class="nav-link" id="register-tab" data-bs-toggle="tab" data-bs-target="#register" type="button" role="tab" aria-controls="register" aria-selected="false">Registrarse</button>
               </li>
             </ul>
-            
+
             <div class="tab-content pt-3" id="authTabContent">
               <div class="tab-pane fade show active" id="login" role="tabpanel" aria-labelledby="login-tab">
                 <form id="loginForm" action="{% url 'login' %}" method="POST">
-                    {% csrf_token %}
+                  {% csrf_token %}
                   <div class="mb-3">
                     <label for="loginUser" class="form-label">Usuario o Correo</label>
                     <input type="text" class="form-control" id="loginUser" name="username" required />
@@ -105,7 +109,7 @@
                   <button type="submit" class="btn btn-primary w-100">Iniciar Sesión</button>
                 </form>
               </div>
-              
+
               <div class="tab-pane fade" id="register" role="tabpanel" aria-labelledby="register-tab">
                 <form id="registrationForm" action="{% url 'register' %}" method="POST">
                   {% csrf_token %}

@@ -1,41 +1,32 @@
 // Script personalizado para la página de perfil de usuario
 
+
+
 document.addEventListener('DOMContentLoaded', function() {
-    // Manejar la carga de la imagen de perfil
     const avatarUpload = document.getElementById('avatarUpload');
+    const dropdownAvatar = document.getElementById('dropdownAvatar');
     const avatarImg = document.getElementById('avatarImg');
-    
-    if (avatarUpload && avatarImg) {
+
+    if (avatarUpload) {
         avatarUpload.addEventListener('change', function() {
             const file = this.files[0];
             if (file) {
-                // Verificar que sea una imagen
-                if (!file.type.match('image.*')) {
-                    alert('Por favor, selecciona una imagen válida.');
-                    return;
-                }
-                
-                // Verificar tamaño (máximo 5MB)
-                if (file.size > 5 * 1024 * 1024) {
-                    alert('La imagen es demasiado grande. El tamaño máximo es 5MB.');
-                    return;
-                }
-                
-                // Mostrar la imagen seleccionada
                 const reader = new FileReader();
                 reader.onload = function(e) {
-                    avatarImg.src = e.target.result;
+                    // Actualiza ambos elementos de imagen
+                    dropdownAvatar.src = e.target.result; // Imagen en la navbar
+                    avatarImg.src = e.target.result; // Imagen en la vista de usuario
                     
-                    // Aquí normalmente enviarías la imagen al servidor
-                    console.log('Nueva imagen de perfil seleccionada');
-                    
-                    // Mostrar notificación
-                    showNotification('Imagen de perfil actualizada correctamente');
+                    // Opcional: notificación de éxito
+                    console.log('Imagen actualizada en ambos lugares');
                 };
                 reader.readAsDataURL(file);
             }
         });
     }
+});
+
+
     
     // Manejar el envío del formulario de perfil
     const profileForm = document.getElementById('profileForm');
@@ -121,4 +112,3 @@ document.addEventListener('DOMContentLoaded', function() {
             profileCard.style.transform = 'translateY(0)';
         }, 200);
     }
-});

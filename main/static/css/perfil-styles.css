@@ -40,7 +40,6 @@
     width: 400px;
     height: 400px;
     margin-top: -90px !important;
-    margin-bottom: 50px;
     border-radius: 50%;
     object-fit: cover;
     border: 5px solid #fff;
@@ -51,6 +50,7 @@
     position: relative;
     left: 10px;
     bottom: 5px;
+    transform: translate(278px, -48px);
 }
 
 .avatar-edit-btn {

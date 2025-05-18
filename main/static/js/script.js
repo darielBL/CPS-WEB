@@ -110,6 +110,7 @@ document.addEventListener('DOMContentLoaded', function () {
     window.addEventListener('load', animateOnScroll);
     window.addEventListener('scroll', animateOnScroll);
 });
+//Activar o desactivar boton de registro si el check esta activado
 const termsCheck = document.getElementById('termsCheck');
 const submitButton = document.getElementById('submit-reg');
 
@@ -118,19 +119,35 @@ submitButton.disabled = !termsCheck.checked;
 termsCheck.addEventListener('change', function () {
     submitButton.disabled = !this.checked; // Activar o desactivar el botón
 });
+
+//Asegurarse que ambas contraseñas son iguales
 const password = document.getElementById('registerPassword');
-    const confirmPassword = document.getElementById('confirmPassword');
+const confirmPassword = document.getElementById('confirmPassword');
 
-    function validatePasswords() {
-        if (password.value === confirmPassword.value) {
-            password.style.borderColor = 'green';
-            confirmPassword.style.borderColor = 'green';
-        } else {
-            password.style.borderColor = 'red';
-            confirmPassword.style.borderColor = 'red';
-        }
+function validatePasswords() {
+    if (password.value === confirmPassword.value) {
+        password.style.borderColor = 'green';
+        confirmPassword.style.borderColor = 'green';
+    } else {
+        password.style.borderColor = 'red';
+        confirmPassword.style.borderColor = 'red';
     }
+}
 
-    // Escuchar cambios en ambos campos de contraseña
-    password.addEventListener('input', validatePasswords);
-    confirmPassword.addEventListener('input', validatePasswords);
+// Escuchar cambios en ambos campos de contraseña
+password.addEventListener('input', validatePasswords);
+confirmPassword.addEventListener('input', validatePasswords);
+
+//Activar o desactivar datos opcionales si el check esta activado
+document.addEventListener('DOMContentLoaded', function() {
+    const specCheck = document.getElementById('specCheck');
+    const optionalData = document.getElementById('optional');
+
+    specCheck.addEventListener('change', function() {
+        if (specCheck.checked) {
+            optionalData.classList.remove('hidden'); 
+                } else {
+            optionalData.classList.add('hidden');
+        }
+    });
+});

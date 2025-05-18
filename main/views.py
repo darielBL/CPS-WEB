@@ -5,6 +5,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login,logout
 from django.contrib import messages
+from django.http import HttpResponse
 
 def view_ppal(request):
   return render(request, 'index.html')
@@ -30,27 +31,27 @@ def register(request):
 
   return render(request, 'index.html')
     
+
 def login_view(request):
-
-  if request.method == 'POST':
-      username = request.POST['username']
-      password = request.POST['password']
-      user = authenticate(request, username=username, password=password)
-      if user is not None:
-          login(request, user)
-          messages.success(request, 'Has iniciado sesión exitosamente.')
-          return redirect('user.html') 
+    if request.method == 'POST':
+       username = request.POST['username']
+       password = request.POST['password']
       
-      else:
-          return render(request, 'index.html', { 'message': 'Credenciales inválidas'})
-
-  return render(request, 'index.html')
+       user = User.objects.get(username=username)
+       
+       if (password,user.password):
+           login(request,user)
+           return redirect(to='main')
+       else:
+           return HttpResponse('Contraseña incorrecta')
+    else:
+        return render(request,'registration/login.html' )
 
 @login_required
 def logout_view(request):
   logout(request)
   return render(request, 'index.html')
 
-@login_required
+# @login_required
 def view_userpage(request):
   return render(request, 'user.html')
