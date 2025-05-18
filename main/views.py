@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.template import loader
 from . import models
 from django.contrib.auth.models import User
@@ -52,6 +52,34 @@ def logout_view(request):
   logout(request)
   return render(request, 'index.html')
 
-# @login_required
+@login_required
 def view_userpage(request):
-  return render(request, 'user.html')
+  profile = get_object_or_404(models.UserProfile, user=request.user)
+  return render(request, 'user.html', {'profile': profile})
+
+@login_required
+def update_user(request):
+  profile = get_object_or_404(models.UserProfile, user=request.user)
+
+  if request.method == 'POST':
+    is_professional = request.POST.get('is_professional', 'off')
+    
+    if is_professional == 'on':
+      is_professional = True
+      specialization = request.POST["specialization"]
+      phone_number = request.POST["phone_number"]
+      bio = request.POST["bio"]
+      profile_picture = request.POST.get('profile_picture', None)
+      if profile_picture:
+        profile_picture = request.POST["profile_picture"]
+
+      profile.is_professional = is_professional
+      profile.specialization = specialization
+      profile.phone_number = phone_number
+      profile.bio = bio
+      profile.profile_picture = profile_picture
+      profile.save()
+
+      return render(request, 'user.html', {'profile': profile, 'message': 'Información actualizada'})
+
+  return render(request, 'user.html', {'profile': profile})

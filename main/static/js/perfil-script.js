@@ -41,7 +41,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 email: document.getElementById('email').value,
                 description: document.getElementById('description').value,
                 phone: document.getElementById('phone').value,
-                location: document.getElementById('location').value
             };
             
             // Validar datos
@@ -51,7 +50,7 @@ document.addEventListener('DOMContentLoaded', function() {
             }
             
             // Aquí normalmente enviarías los datos al servidor
-            console.log('Datos del perfil actualizados:', formData);
+            this.submit();
             
             // Mostrar notificación de éxito
             showNotification('Perfil actualizado correctamente');
