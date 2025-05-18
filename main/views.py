@@ -69,9 +69,9 @@ def update_user(request):
       specialization = request.POST["specialization"]
       phone_number = request.POST["phone_number"]
       bio = request.POST["bio"]
-      profile_picture = request.POST.get('profile_picture', None)
+      profile_picture = request.FILE.get('profile_picture', None)
       if profile_picture:
-        profile_picture = request.POST["profile_picture"]
+        profile_picture = request.FILE["profile_picture"]
 
       profile.is_professional = is_professional
       profile.specialization = specialization
@@ -83,3 +83,153 @@ def update_user(request):
       return render(request, 'user.html', {'profile': profile, 'message': 'Información actualizada'})
 
   return render(request, 'user.html', {'profile': profile})
+
+
+# VISTAS REFERENTES A CITAS
+
+def appointment_index(request):
+  appointments = models.Appointment.objects.all().values
+  return render (request, 'index.html', {'appointments':appointments})
+
+@login_required
+def appointment_get(request, id):
+  appointment = get_object_or_404(models.Appointment, id=id)
+  return render (request, 'index.html', {'appointment':appointment})
+
+@login_required
+def appointment_create(request):
+  if request.method == 'POST':
+    date = request.POST["date"]
+    start_time = request.POST["start_time"]
+
+    appointment = models.Appointment(date=date,start_time=start_time,client=request.user)
+    appointment.save()
+
+    
+    appointments = models.Appointment.objects.all().values
+    return render (request, 'index.html', {'appointments':appointments, 'message': 'Cita realizada correctamente'})
+
+@login_required
+def appointment_update(request, id):
+  if request.method == 'POST':
+    date = request.POST["date"]
+    start_time = request.POST["start_time"]
+    status = request.POST["status"]
+
+    appointment = get_object_or_404(models.Appointment, id=id)
+    appointment.date = date
+    appointment.start_time = start_time
+    appointment.status = status
+    appointment.save()
+
+    
+    appointments = models.Appointment.objects.all().values
+    return render (request, 'index.html', {'appointments':appointments, 'message': 'Cita actualizada correctamente'})
+
+@login_required
+def appointment_delete(request, id):
+  appointment = get_object_or_404(models.Appointment, id=id)
+  appointment.delete()
+  
+  appointments = models.Appointment.objects.all().values
+  return render (request, 'index.html', {'appointments':appointments, 'message': 'Cita eliminada correctamente'})
+
+# VISTAS REFERENTES A RECURSOS
+
+def resources_index(request):
+  resources = models.Resource.objects.all().values
+  return render (request, 'index.html', {'resources': resources})
+
+def resources_get(request, id):
+  resource = get_object_or_404(models.Resource, id=id)
+  return render (request, 'index.html', {'resource': resource})
+
+@login_required
+def resources_load(request):
+  if request.method == 'POST':
+    title = request.POST["title"]
+    description = request.POST["description"]
+    author = request.POST["author"]
+    publication_date = request.POST["publication_date"]
+    resource_type = request.POST["resource_type"]
+    
+    pdf_file = request.FILE.get('pdf_file', None)
+    if pdf_file:
+      pdf_file = request.FILE["pdf_file"]
+    
+    isbn = request.POST.get('isbn', None)
+    if isbn:
+      isbn = request.POST["isbn"]
+
+    publisher = request.POST.get('publisher', None)
+    if publisher:
+      publisher = request.POST["publisher"]
+
+    pages = request.POST.get('pages', None)
+    if pages:
+      pages = request.POST["pages"]
+
+    language = request.POST.get('language', None)
+    if language:
+      language = request.POST["language"]
+
+    resource = models.Resource(title=title,description=description,author=author,publication_date=publication_date,resource_type=resource_type,pdf_file=pdf_file,isbn=isbn,publisher=publisher,pages=pages,language=language,uploaded_by=request.user)
+    resource.save()
+
+    
+    resources = models.Resource.objects.all().values
+    return render (request, 'index.html', {'resources':resources, 'message': 'Recurso cargado correctamente'})
+
+
+@login_required
+def resources_update(request, id):
+  if request.method == 'POST':
+    title = request.POST["title"]
+    description = request.POST["description"]
+    author = request.POST["author"]
+    publication_date = request.POST["publication_date"]
+    resource_type = request.POST["resource_type"]
+    
+    pdf_file = request.FILE.get('pdf_file', None)
+    if pdf_file:
+      pdf_file = request.FILE["pdf_file"]
+    
+    isbn = request.POST.get('isbn', None)
+    if isbn:
+      isbn = request.POST["isbn"]
+
+    publisher = request.POST.get('publisher', None)
+    if publisher:
+      publisher = request.POST["publisher"]
+
+    pages = request.POST.get('pages', None)
+    if pages:
+      pages = request.POST["pages"]
+
+    language = request.POST.get('language', None)
+    if language:
+      language = request.POST["language"]
+
+    resource = get_object_or_404(models.Resource, id=id)
+    resource.title = title
+    resource.description = description
+    resource.author = author
+    resource.publication_date = publication_date
+    resource.resource_type = resource_type
+    resource.pdf_file = pdf_file
+    resource.isbn = isbn
+    resource.publisher = publisher
+    resource.pages = pages
+    resource.language = language
+    resource.save()
+
+    resources = models.Resource.objects.all().values
+    return render (request, 'index.html', {'resources': resources, 'message': 'Recurso actualizado correctamente'})
+
+@login_required
+def resource_delete(request, id):
+  resource = get_object_or_404(models.Resource, id=id)
+  resource.delete()
+  
+  resources = models.Resource.objects.all().values
+  return render (request, 'index.html', {'resources': resources, 'message': 'Recurso eliminado correctamente'})
