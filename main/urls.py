@@ -22,3 +22,7 @@ urlpatterns = [
     path('resources/update/<id:int>', views.resource_update, name='resource_update'),
     path('resources/<id:int>/delete/', views.resource_delete, name='resource_delete'),
 ]
+
+# Configuración para servir archivos multimedia en desarrollo
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
