@@ -17,7 +17,9 @@ def view_directorio(request):
     p = get_object_or_404(models.UserProfile , user=u)
     if p.is_professional:
       profetionals.append({'user': u, 'profile': p})
-  return render(request, 'directorio.html', {'profetionals': profetionals})
+  
+  specializations = models.UserProfile.objects.values('specialization').distinct()
+  return render(request, 'directorio.html', {'profetionals': profetionals, 'specializations': specializations})
 
 def register(request):
   template = loader.get_template('index.html')
