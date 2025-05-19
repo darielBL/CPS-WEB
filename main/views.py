@@ -76,7 +76,7 @@ def update_user(request):
       bio = request.POST["bio"]
       profile_picture = request.FILE.get('profile_picture', None)
       if profile_picture:
-        profile_picture = request.FILE["profile_picture"]
+        profile_picture = request.FILES["profile_picture"]
 
       profile.is_professional = is_professional
       profile.specialization = specialization
@@ -197,7 +197,7 @@ def resource_update(request, id):
     
     pdf_file = request.FILE.get('pdf_file', None)
     if pdf_file:
-      pdf_file = request.FILE["pdf_file"]
+      pdf_file = request.FILES["pdf_file"]
     
     isbn = request.POST.get('isbn', None)
     if isbn:
