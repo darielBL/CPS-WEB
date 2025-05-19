@@ -16,6 +16,7 @@
                     <h2 class="section-title">Directorio de Usuarios</h2>
                     <div class="divider mx-auto"></div>
                     <p class="lead">Explora y conecta con los miembros de nuestra comunidad</p>
+                    <p>{% for x in profetionals %}{{x.user.username}}:{{x.profile.bio}}{% endfor %}</p>
                 </div>
             </div>
 

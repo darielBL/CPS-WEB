@@ -10,11 +10,13 @@ from django.http import HttpResponse
 def view_ppal(request):
   return render(request, 'index.html')
 
-def view_recursos(request):
-  return render(request, 'recursos.html')
-
 def view_directorio(request):
-  profetionals = models.UserProfile.objects.filter(is_professional=True, id=2).values()
+  profetionals = [{}]
+  users = User.objects.all()
+  for u in users:
+    p = get_object_or_404(models.UserProfile , user=u)
+    if p.is_professional:
+      profetionals.append({'user': u, 'profile': p})
   return render(request, 'directorio.html', {'profetionals': profetionals})
 
 def register(request):
@@ -141,11 +143,11 @@ def appointment_delete(request, id):
 
 def resource_index(request):
   resources = models.Resource.objects.all().values
-  return render (request, 'index.html', {'resources': resources})
+  return render (request, 'recursos.html', {'resources': resources})
 
 def resource_get(request, id):
   resource = get_object_or_404(models.Resource, id=id)
-  return render (request, 'index.html', {'resource': resource})
+  return render (request, 'recursos.html', {'resource': resource})
 
 @login_required
 def resource_load(request):
@@ -181,7 +183,7 @@ def resource_load(request):
 
     
     resources = models.Resource.objects.all().values
-    return render (request, 'index.html', {'resources':resources, 'message': 'Recurso cargado correctamente'})
+    return render (request, 'recursos.html', {'resources':resources, 'message': 'Recurso cargado correctamente'})
 
 
 @login_required
@@ -227,7 +229,7 @@ def resource_update(request, id):
     resource.save()
 
     resources = models.Resource.objects.all().values
-    return render (request, 'index.html', {'resources': resources, 'message': 'Recurso actualizado correctamente'})
+    return render (request, 'recursos.html', {'resources': resources, 'message': 'Recurso actualizado correctamente'})
 
 @login_required
 def resource_delete(request, id):
@@ -235,4 +237,4 @@ def resource_delete(request, id):
   resource.delete()
   
   resources = models.Resource.objects.all().values
-  return render (request, 'index.html', {'resources': resources, 'message': 'Recurso eliminado correctamente'})
+  return render (request, 'recursos.html', {'resources': resources, 'message': 'Recurso eliminado correctamente'})
