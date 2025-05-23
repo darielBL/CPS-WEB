@@ -13,11 +13,14 @@ class Appointment(models.Model):
         ('cancelled', 'Cancelada'),
         ('completed', 'Completada'),
     )
-
-    date = models.DateField(verbose_name="Fecha")
-    start_time = models.TimeField(verbose_name="Hora de inicio")
-    client = models.ForeignKey(User, on_delete=models.CASCADE, related_name='appointments', verbose_name="Cliente")
+    
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='pending', verbose_name="Estado")
+    date_start = models.DateField(verbose_name="Fecha")
+    date_end = models.DateField(verbose_name="Fecha")
+    client = models.ForeignKey(User, on_delete=models.CASCADE, related_name='appointments', verbose_name="Cliente")
+    date = models.DateField(verbose_name="Fecha", null=True)
+    start_time = models.TimeField(verbose_name="Hora de inicio", null=True)
+    profetional = models.ForeignKey(User, on_delete=models.CASCADE, null=True, verbose_name="Profesional")
     created_at = models.DateTimeField(auto_now_add=True, verbose_name="Fecha de creación")
     updated_at = models.DateTimeField(auto_now=True, verbose_name="Última actualización")
     
@@ -123,3 +126,18 @@ class Resource(models.Model):
         """Incrementa el contador de vistas"""
         self.view_count += 1
         self.save(update_fields=['view_count'])
+
+# Modelo de Eventos
+class Event(models.Model):
+    title = models.CharField(max_length=255, verbose_name="Título")
+    description = models.TextField(blank=True, null=True, verbose_name="Descripción")
+    date_start = models.DateField(verbose_name="Fecha")
+    date_end = models.DateField(verbose_name="Fecha")
+    create_by = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name="Iniciado por")
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name="Fecha de creación")
+    updated_at = models.DateTimeField(auto_now=True, verbose_name="Última actualización")
+
+# Modelo de Inscripciones
+class Inscription(models.Model):
+    event = models.ForeignKey(Event, on_delete=models.CASCADE, verbose_name="Evento")
+    user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name="Participante")

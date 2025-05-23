@@ -97,52 +97,55 @@ def update_user(request):
 
 # VISTAS REFERENTES A CITAS
 
+@login_required
 def appointment_index(request):
-  appointments = models.Appointment.objects.all().values
-  return render (request, 'index.html', {'appointments':appointments})
+  appointments = models.Appointment.objects.get(status='pending')
+  return render (request, 'citas.html', {'appointments':appointments})
 
 @login_required
-def appointment_get(request, id):
-  appointment = get_object_or_404(models.Appointment, id=id)
-  return render (request, 'index.html', {'appointment':appointment})
+def appointment_acept_index(request):
+  appointments = models.Appointment.objects.get(profesional=request.user)
+  return render (request, 'citas.html', {'appointments':appointments})
+
+@login_required
+def appointment_acept(request, id):
+  if request.method == 'POST':
+    date = request.POST["date"]
+    start_time = request.POST["start_time"]
+
+    appointment = get_object_or_404(models.Appointment, id=id)
+    appointment.status = 'confirmed'
+    appointment.profesional = request.user
+    appointment.date = date
+    appointment.start_time = start_time
+    appointment.save()
+
+  appointments = models.Appointment.objects.get(status='pending')
+  return render (request, 'citas.html', {'appointments':appointments})
 
 @login_required
 def appointment_create(request):
   if request.method == 'POST':
-    date = request.POST["date"]
-    start_time = request.POST["start_time"]
+    date_start = request.POST["date_start"]
+    date_end = request.POST["date_end"]
 
-    appointment = models.Appointment(date=date,start_time=start_time,client=request.user)
+    appointment = models.Appointment(date_start=date_start,date_end=date_end,client=request.user)
     appointment.save()
 
-    
-    appointments = models.Appointment.objects.all().values
-    return render (request, 'index.html', {'appointments':appointments, 'message': 'Cita realizada correctamente'})
+    return render (request, 'index.html', {'appointment':appointment})
 
 @login_required
-def appointment_update(request, id):
-  if request.method == 'POST':
-    date = request.POST["date"]
-    start_time = request.POST["start_time"]
-    status = request.POST["status"]
-
-    appointment = get_object_or_404(models.Appointment, id=id)
-    appointment.date = date
-    appointment.start_time = start_time
-    appointment.status = status
-    appointment.save()
-
-    
-    appointments = models.Appointment.objects.all().values
-    return render (request, 'index.html', {'appointments':appointments, 'message': 'Cita actualizada correctamente'})
+def appointment_show(request, id):
+  appointment = get_object_or_404(models.Appointment, id=id)
+  return render (request, 'index.html', {'appointment':appointment})
 
 @login_required
 def appointment_delete(request, id):
   appointment = get_object_or_404(models.Appointment, id=id)
   appointment.delete()
-  
-  appointments = models.Appointment.objects.all().values
-  return render (request, 'index.html', {'appointments':appointments, 'message': 'Cita eliminada correctamente'})
+
+  appointments = models.Appointment.objects.get(status='pending')
+  return render (request, 'index.html', {'appointments':appointments})
 
 # VISTAS REFERENTES A RECURSOS
 
@@ -189,7 +192,6 @@ def resource_load(request):
     
     resources = models.Resource.objects.all().values
     return render (request, 'recursos.html', {'resources':resources, 'message': 'Recurso cargado correctamente'})
-
 
 @login_required
 def resource_update(request, id):
@@ -243,3 +245,54 @@ def resource_delete(request, id):
   
   resources = models.Resource.objects.all().values
   return render (request, 'recursos.html', {'resources': resources, 'message': 'Recurso eliminado correctamente'})
+
+# VISTAS REFERENTES A EVENTOS E INSCRIPCIONES
+
+@login_required
+def event_index(request):
+  events = models.Event.objects.all().values
+  return render (request, 'eventos.html', {'events': events})
+
+@login_required
+def event_get(request, id):
+  event = get_object_or_404(models.Event, id=id)
+  return render (request, 'eventos.html', {'event': event})
+
+@login_required
+def event_create(request):
+  if request.method == 'POST':
+    title = request.POST["title"]
+    description = request.POST["description"]
+    date_start = request.POST["date_start"]
+    date_end = request.POST["date_end"]
+
+    event = models.Event(title=title,description=description,date_start=date_start,date_end=date_end,create_by=request.user)
+    event.save()
+
+  events = models.Event.objects.all().values
+  return render (request, 'eventos.html', {'events': events})
+
+@login_required
+def event_inscription(request, id):
+  event = get_object_or_404(models.Event, id=id)
+  insciption = models.Inscription(event=event,user=request.user)
+  insciption.save()
+
+  events = models.Event.objects.all().values
+  return render (request, 'eventos.html', {'events': events})
+
+@login_required
+def event_delete(request, id):
+  event = get_object_or_404(models.Event, id=id)
+  event.delete()
+
+  events = models.Event.objects.all().values
+  return render (request, 'eventos.html', {'events': events})
+
+@login_required
+def event_user_list(request, id):
+  event = get_object_or_404(models.Event, id=id)
+  users = User.objects.filter(inscription__event=event)
+
+  return render (request, 'eventos.html', {'users': users})
+
