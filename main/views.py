@@ -41,18 +41,21 @@ def register(request):
 
 def login_view(request):
     if request.method == 'POST':
-       username = request.POST['username']
-       password = request.POST['password']
+      username = request.POST['username']
+      password = request.POST['password']
       
-       user = User.objects.get(username=username)
-       
-       if (password,user.password):
-           login(request,user)
-           return redirect(to='main')
-       else:
-           return HttpResponse('Contraseña incorrecta')
-    else:
-        return render(request,'registration/login.html' )
+      try:
+        user = User.objects.get(username=username)
+        
+        if (password,user.password):
+          login(request,user)
+          return redirect(to='main')
+        else:
+          return render(request, 'index.html', {'error': '¡Contraseña incorrecta!'})
+          
+      except:
+        return render(request, 'index.html', {'error': '¡Usuario no Encontrado!'})
+
 
 @login_required
 def logout_view(request):
