@@ -15,8 +15,8 @@ class Appointment(models.Model):
     )
     
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='pending', verbose_name="Estado")
-    date_start = models.DateField(verbose_name="Fecha")
-    date_end = models.DateField(verbose_name="Fecha")
+    date_start = models.DateField(default=timezone.now, verbose_name="Fecha")
+    date_end = models.DateField(default=timezone.now, verbose_name="Fecha")
     client = models.ForeignKey(User, on_delete=models.CASCADE, related_name='appointments', verbose_name="Cliente")
     date = models.DateField(verbose_name="Fecha", null=True)
     start_time = models.TimeField(verbose_name="Hora de inicio", null=True)
