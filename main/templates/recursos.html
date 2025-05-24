@@ -1,26 +1,23 @@
-{% extends 'base.html' %}
+django{% extends 'base.html' %}
 {% load static %}
-
 {% block title %}
   Página de Inicio
 {% endblock %}
 {% block styles %}
   <link rel="stylesheet" href="{% static 'css/recursos-styles.css' %}" />
 {% endblock %}
-
 {% block content %}
   <!-- Contenido Principal - Recursos Digitales -->
   <div class="resources-section py-5">
-    <div class="container-fluid">
+    <div class="container">
       <div class="row">
         <div class="col-12 text-center mb-4">
           <h2 class="section-title">Recursos Digitales</h2>
           <div class="divider mx-auto"></div>
           <p class="lead">Explora nuestra biblioteca de recursos digitales</p>
-          <p>{{resources}}</p>
+          <p>{{ resources }}</p>
         </div>
       </div>
-
       <div class="row">
         <!-- Sidebar de Filtros -->
         <div class="col-lg-3 mb-4">
@@ -35,13 +32,11 @@
                   <label for="titleSearch" class="form-label">Título</label>
                   <input type="text" class="form-control" id="titleSearch" placeholder="Buscar por título..." />
                 </div>
-
                 <!-- Búsqueda por autor -->
                 <div class="mb-3">
                   <label for="authorSearch" class="form-label">Autor</label>
                   <input type="text" class="form-control" id="authorSearch" placeholder="Buscar por autor..." />
                 </div>
-
                 <!-- Tipo de recurso -->
                 <div class="mb-3">
                   <label class="form-label">Tipo de Recurso</label>
@@ -66,7 +61,6 @@
                     <label class="form-check-label" for="typeOtro">Otros</label>
                   </div>
                 </div>
-
                 <!-- Fecha de publicación -->
                 <div class="mb-3">
                   <label class="form-label">Fecha de Publicación</label>
@@ -79,13 +73,11 @@
                     </div>
                   </div>
                 </div>
-
                 <!-- ISBN -->
                 <div class="mb-3">
                   <label for="isbnSearch" class="form-label">ISBN</label>
                   <input type="text" class="form-control" id="isbnSearch" placeholder="Buscar por ISBN..." />
                 </div>
-
                 <!-- Editorial -->
                 <div class="mb-3">
                   <label for="publisherSearch" class="form-label">Editorial</label>
@@ -98,7 +90,6 @@
                     <option value="Ediciones B">Ediciones B</option>
                   </select>
                 </div>
-
                 <!-- Idioma -->
                 <div class="mb-3">
                   <label for="languageSearch" class="form-label">Idioma</label>
@@ -111,13 +102,11 @@
                     <option value="Italiano">Italiano</option>
                   </select>
                 </div>
-
                 <!-- Subido por -->
                 <div class="mb-3">
                   <label for="uploaderSearch" class="form-label">Subido por</label>
                   <input type="text" class="form-control" id="uploaderSearch" placeholder="Buscar por usuario..." />
                 </div>
-
                 <!-- Fecha de subida -->
                 <div class="mb-3">
                   <label class="form-label">Fecha de Subida</label>
@@ -130,53 +119,15 @@
                     </div>
                   </div>
                 </div>
-
                 <div class="d-grid gap-2">
                   <button type="submit" class="btn btn-primary"><i class="fas fa-search me-2"></i> Aplicar Filtros</button>
                   <button type="reset" class="btn btn-outline-secondary"><i class="fas fa-undo me-2"></i> Limpiar Filtros</button>
                 </div>
               </form>
             </div>
-
-            <!-- Estadísticas -->
-        <div class="card mt-4">
-          <div class="card-header bg-primary text-white">
-            <h5 class="mb-0"><i class="fas fa-chart-bar me-2"></i> Estadísticas</h5>
-          </div>
-          <div class="card-body">
-            <ul class="list-group list-group-flush">
-              <li class="list-group-item d-flex justify-content-between align-items-center">
-                Total de recursos
-                <span class="badge bg-primary rounded-pill">245</span>
-              </li>
-              <li class="list-group-item d-flex justify-content-between align-items-center">
-                Publicaciones
-                <span class="badge bg-primary rounded-pill">42</span>
-              </li>
-              <li class="list-group-item d-flex justify-content-between align-items-center">
-                Revistas
-                <span class="badge bg-primary rounded-pill">58</span>
-              </li>
-              <li class="list-group-item d-flex justify-content-between align-items-center">
-                Libros
-                <span class="badge bg-primary rounded-pill">87</span>
-              </li>
-              <li class="list-group-item d-flex justify-content-between align-items-center">
-                Artículos
-                <span class="badge bg-primary rounded-pill">53</span>
-              </li>
-              <li class="list-group-item d-flex justify-content-between align-items-center">
-                Otros
-                <span class="badge bg-primary rounded-pill">5</span>
-              </li>
-            </ul>
+          
           </div>
         </div>
-          </div>
-        </div>
-
-        
-
         <!-- Listado de Recursos -->
         <div class="col-lg-9">
           <!-- Barra de herramientas -->
@@ -187,6 +138,9 @@
                   <div class="input-group">
                     <input type="text" class="form-control" placeholder="Búsqueda rápida..." id="quickSearch" />
                     <button class="btn btn-primary" type="button"><i class="fas fa-search"></i></button>
+
+                    <!-- Botón para subir recurso -->
+                    <button class="btn btn-success mx-2" data-bs-toggle="modal" data-bs-target="#uploadModal"><i class="fas fa-upload me-1"></i> Subir Recurso</button>
                   </div>
                 </div>
                 <div class="col-md-6">
@@ -212,7 +166,6 @@
           <div class="mb-3">
             <span class="text-muted">Mostrando 1-12 de 245 recursos</span>
           </div>
-
           <!-- Grid de recursos -->
           <div class="row" id="resourcesGrid">
             <!-- Recurso 1 - Libro -->
@@ -255,7 +208,6 @@
                 </div>
               </div>
             </div>
-
             <!-- Recurso 2 - Revista -->
             <div class="col-md-6 col-lg-4 mb-4">
               <div class="card resource-card h-100">
@@ -296,7 +248,6 @@
                 </div>
               </div>
             </div>
-
             <!-- Recurso 3 - Artículo -->
             <div class="col-md-6 col-lg-4 mb-4">
               <div class="card resource-card h-100">
@@ -337,7 +288,6 @@
                 </div>
               </div>
             </div>
-
             <!-- Recurso 4 - Publicación -->
             <div class="col-md-6 col-lg-4 mb-4">
               <div class="card resource-card h-100">
@@ -378,48 +328,6 @@
                 </div>
               </div>
             </div>
-
-            <!-- Recurso 5 - Libro -->
-            <div class="col-md-6 col-lg-4 mb-4">
-              <div class="card resource-card h-100">
-                <div class="resource-type-badge libro">Libro</div>
-                <div class="card-body">
-                  <h5 class="card-title">Desarrollo Web Full Stack: De Principiante a Experto</h5>
-                  <p class="card-text resource-description">Guía completa para convertirse en desarrollador web full stack, cubriendo HTML, CSS, JavaScript, React, Node.js y más.</p>
-                  <div class="resource-meta">
-                    <div class="resource-meta-item">
-                      <i class="fas fa-user me-1"></i> Carlos Martínez
-                    </div>
-                    <div class="resource-meta-item">
-                      <i class="fas fa-calendar me-1"></i> 2023
-                    </div>
-                    <div class="resource-meta-item">
-                      <i class="fas fa-building me-1"></i> Anaya Multimedia
-                    </div>
-                    <div class="resource-meta-item">
-                      <i class="fas fa-language me-1"></i> Español
-                    </div>
-                    <div class="resource-meta-item">
-                      <i class="fas fa-barcode me-1"></i> 978-8441543218
-                    </div>
-                  </div>
-                </div>
-                <div class="card-footer bg-transparent">
-                  <div class="d-flex justify-content-between align-items-center">
-                    <div class="resource-stats">
-                      <span title="Descargas"><i class="fas fa-download me-1"></i> 1,876</span>
-                      <span title="Vistas"><i class="fas fa-eye ms-2 me-1"></i> 4,321</span>
-                    </div>
-                    <div class="btn-group">
-                      <button type="button" class="btn btn-sm btn-outline-primary" data-bs-toggle="modal" data-bs-target="#resourceModal"><i class="fas fa-info-circle"></i></button>
-                      <a href="#" class="btn btn-sm btn-outline-success"><i class="fas fa-eye"></i></a>
-                      <a href="#" class="btn btn-sm btn-primary"><i class="fas fa-download"></i></a>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
             <!-- Recurso 6 - Otro -->
             <div class="col-md-6 col-lg-4 mb-4">
               <div class="card resource-card h-100">
@@ -460,132 +368,7 @@
                 </div>
               </div>
             </div>
-
-            <!-- Más recursos... -->
-            <!-- Recurso 7 - Revista -->
-            <div class="col-md-6 col-lg-4 mb-4">
-              <div class="card resource-card h-100">
-                <div class="resource-type-badge revista">Revista</div>
-                <div class="card-body">
-                  <h5 class="card-title">Scientific American: Especial Cambio Climático</h5>
-                  <p class="card-text resource-description">Edición especial dedicada a los últimos estudios sobre el cambio climático y las estrategias de mitigación más prometedoras.</p>
-                  <div class="resource-meta">
-                    <div class="resource-meta-item">
-                      <i class="fas fa-user me-1"></i> Scientific American
-                    </div>
-                    <div class="resource-meta-item">
-                      <i class="fas fa-calendar me-1"></i> 2024
-                    </div>
-                    <div class="resource-meta-item">
-                      <i class="fas fa-building me-1"></i> Springer Nature
-                    </div>
-                    <div class="resource-meta-item">
-                      <i class="fas fa-language me-1"></i> Inglés
-                    </div>
-                    <div class="resource-meta-item">
-                      <i class="fas fa-barcode me-1"></i> 0036-8733
-                    </div>
-                  </div>
-                </div>
-                <div class="card-footer bg-transparent">
-                  <div class="d-flex justify-content-between align-items-center">
-                    <div class="resource-stats">
-                      <span title="Descargas"><i class="fas fa-download me-1"></i> 765</span>
-                      <span title="Vistas"><i class="fas fa-eye ms-2 me-1"></i> 1,987</span>
-                    </div>
-                    <div class="btn-group">
-                      <button type="button" class="btn btn-sm btn-outline-primary" data-bs-toggle="modal" data-bs-target="#resourceModal"><i class="fas fa-info-circle"></i></button>
-                      <a href="#" class="btn btn-sm btn-outline-success"><i class="fas fa-eye"></i></a>
-                      <a href="#" class="btn btn-sm btn-primary"><i class="fas fa-download"></i></a>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <!-- Recurso 8 - Artículo -->
-            <div class="col-md-6 col-lg-4 mb-4">
-              <div class="card resource-card h-100">
-                <div class="resource-type-badge articulo">Artículo</div>
-                <div class="card-body">
-                  <h5 class="card-title">Blockchain y su Aplicación en la Cadena de Suministro</h5>
-                  <p class="card-text resource-description">Estudio sobre cómo la tecnología blockchain está revolucionando la gestión de cadenas de suministro globales.</p>
-                  <div class="resource-meta">
-                    <div class="resource-meta-item">
-                      <i class="fas fa-user me-1"></i> Roberto Sánchez, Ana Gómez
-                    </div>
-                    <div class="resource-meta-item">
-                      <i class="fas fa-calendar me-1"></i> 2023
-                    </div>
-                    <div class="resource-meta-item">
-                      <i class="fas fa-building me-1"></i> MIT Technology Review
-                    </div>
-                    <div class="resource-meta-item">
-                      <i class="fas fa-language me-1"></i> Español
-                    </div>
-                    <div class="resource-meta-item">
-                      <i class="fas fa-barcode me-1"></i> 10.5678/mit.2023.456
-                    </div>
-                  </div>
-                </div>
-                <div class="card-footer bg-transparent">
-                  <div class="d-flex justify-content-between align-items-center">
-                    <div class="resource-stats">
-                      <span title="Descargas"><i class="fas fa-download me-1"></i> 432</span>
-                      <span title="Vistas"><i class="fas fa-eye ms-2 me-1"></i> 1,234</span>
-                    </div>
-                    <div class="btn-group">
-                      <button type="button" class="btn btn-sm btn-outline-primary" data-bs-toggle="modal" data-bs-target="#resourceModal"><i class="fas fa-info-circle"></i></button>
-                      <a href="#" class="btn btn-sm btn-outline-success"><i class="fas fa-eye"></i></a>
-                      <a href="#" class="btn btn-sm btn-primary"><i class="fas fa-download"></i></a>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <!-- Recurso 9 - Publicación -->
-            <div class="col-md-6 col-lg-4 mb-4">
-              <div class="card resource-card h-100">
-                <div class="resource-type-badge publicacion">Publicación</div>
-                <div class="card-body">
-                  <h5 class="card-title">Guía de Mejores Prácticas en Ciberseguridad 2024</h5>
-                  <p class="card-text resource-description">Manual completo con las mejores prácticas y recomendaciones para proteger sistemas e información contra amenazas cibernéticas.</p>
-                  <div class="resource-meta">
-                    <div class="resource-meta-item">
-                      <i class="fas fa-user me-1"></i> NIST
-                    </div>
-                    <div class="resource-meta-item">
-                      <i class="fas fa-calendar me-1"></i> 2024
-                    </div>
-                    <div class="resource-meta-item">
-                      <i class="fas fa-building me-1"></i> National Institute of Standards and Technology
-                    </div>
-                    <div class="resource-meta-item">
-                      <i class="fas fa-language me-1"></i> Inglés
-                    </div>
-                    <div class="resource-meta-item">
-                      <i class="fas fa-barcode me-1"></i> 978-0160957321
-                    </div>
-                  </div>
-                </div>
-                <div class="card-footer bg-transparent">
-                  <div class="d-flex justify-content-between align-items-center">
-                    <div class="resource-stats">
-                      <span title="Descargas"><i class="fas fa-download me-1"></i> 987</span>
-                      <span title="Vistas"><i class="fas fa-eye ms-2 me-1"></i> 2,345</span>
-                    </div>
-                    <div class="btn-group">
-                      <button type="button" class="btn btn-sm btn-outline-primary" data-bs-toggle="modal" data-bs-target="#resourceModal"><i class="fas fa-info-circle"></i></button>
-                      <a href="#" class="btn btn-sm btn-outline-success"><i class="fas fa-eye"></i></a>
-                      <a href="#" class="btn btn-sm btn-primary"><i class="fas fa-download"></i></a>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
           </div>
-
           <!-- Paginación -->
           <nav aria-label="Navegación de páginas" class="mt-4">
             <ul class="pagination justify-content-center">
@@ -610,7 +393,6 @@
       </div>
     </div>
   </div>
-
   <!-- Modal de Detalle de Recurso -->
   <div class="modal fade" id="resourceModal" tabindex="-1" aria-labelledby="resourceModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
@@ -694,12 +476,10 @@
               </table>
             </div>
           </div>
-
           <div class="mt-4">
             <h6 class="text-primary mb-3">Descripción</h6>
             <p>Una introducción completa a la teoría y práctica de la inteligencia artificial, desde los fundamentos hasta las aplicaciones más avanzadas. Este libro es considerado la biblia de la IA y cubre temas como agentes inteligentes, resolución de problemas, aprendizaje automático, procesamiento del lenguaje natural, visión por computadora y robótica.</p>
             <p>Ideal para estudiantes de informática, ingeniería y ciencias de la computación, así como para profesionales que deseen adentrarse en el campo de la inteligencia artificial.</p>
-
             <h6 class="text-primary mb-3 mt-4">Tabla de Contenidos</h6>
             <ol>
               <li>Introducción a la Inteligencia Artificial</li>
@@ -721,6 +501,100 @@
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal para subir recursos -->
+  <div class="modal fade" id="uploadModal" tabindex="-1" aria-labelledby="uploadModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="uploadModalLabel">Subir Nuevo Recurso</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form id="uploadForm">
+            {% csrf_token %}
+            <div class="row">
+              <div class="col-md-6 mb-3">
+                <label for="resourceTitle" class="form-label">Título *</label>
+                <input type="text" class="form-control" id="resourceTitle" required />
+              </div>
+              <div class="col-md-6 mb-3">
+                <label for="resourceType" class="form-label">Tipo de Recurso *</label>
+                <select class="form-select" name="resource_type" id="resourceType" required>
+                  <option value="">Seleccionar tipo</option>
+                  <option value="publication">Publicaciones</option>
+                  <option value="magazine">Revistas</option>
+                  <option value="book">Libros</option>
+                  <option value="article">Artículos</option>
+                  <option value="other">Otros</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="mb-3">
+              <label for="resourceDescription" class="form-label">Descripción *</label>
+              <textarea class="form-control" id="resourceDescription" rows="3" name="description" required></textarea>
+            </div>
+
+            <div class="row">
+              <div class="col-md-6 mb-3">
+                <label for="resourceAuthor" class="form-label">Autor *</label>
+                <input type="text" class="form-control" id="resourceAuthor" name="author" required />
+              </div>
+              <div class="col-md-6 mb-3">
+                <label for="resourcePublishDate" class="form-label">Fecha de Publicación *</label>
+                <input type="date" class="form-control" id="resourcePublishDate" name="publication_date" required />
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-md-6 mb-3">
+                <label for="resourceISBN" class="form-label">ISBN</label>
+                <input type="text" class="form-control" name="isbn" id="resourceISBN" />
+              </div>
+              <div class="col-md-6 mb-3">
+                <label for="resourceEditorial" class="form-label">Editorial</label>
+                <input type="text" class="form-control" name="publisher" id="resourceEditorial" />
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-md-4 mb-3">
+                <label for="resourcePages" class="form-label">Páginas</label>
+                <input type="number" class="form-control" name="pages" id="resourcePages" min="1" />
+              </div>
+              <div class="col-md-4 mb-3">
+                <label for="resourceLanguage" class="form-label">Idioma *</label>
+                <select class="form-select" name="language" id="resourceLanguage" required>
+                  <option value="">Seleccionar idioma</option>
+                  <option value="español">Español</option>
+                  <option value="inglés">Inglés</option>
+                  <option value="francés">Francés</option>
+                  <option value="alemán">Alemán</option>
+                  <option value="italiano">Italiano</option>
+                  <option value="portugués">Portugués</option>
+                  <option value="otro">Otro</option>
+                </select>
+              </div>
+              <div class="col-md-4 mb-3">
+                <label for="resourceFile" class="form-label">Archivo *</label>
+                <input type="file" class="form-control" id="resourceFile" name="pdf_file" accept=".pdf,.doc,.docx,.epub" required />
+              </div>
+            </div>
+
+            <div class="alert alert-info">
+              <i class="fas fa-info-circle me-2"></i>
+              <strong>Formatos aceptados:</strong> PDF, DOC, DOCX, EPUB (Máximo 50MB)
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+          <button type="submit" form="uploadForm" class="btn btn-primary">Subir Recurso</button>
         </div>
       </div>
     </div>

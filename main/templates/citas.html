@@ -1,0 +1,168 @@
+django
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}
+Página de Inicio
+{% endblock %}
+{% block styles %}
+<link rel="stylesheet" href="{% static 'css/citas-styles.css' %}" />
+{% endblock %}
+{% block content %}
+<!-- Contenido Principal -->
+<section class="appointments-section py-5">
+    <div class="container">
+        <div class="row">
+            <div class="col-12 text-center mb-4">
+                <h2 class="section-title">Gestión de Citas</h2>
+                <div class="divider mx-auto"></div>
+                <p class="lead">Administra y organiza todas las citas de la plataforma</p>
+            </div>
+        </div>
+        <!-- Barra de herramientas -->
+        <div class="row mb-4">
+            <div class="col-md-6 mb-3 mb-md-0">
+                <div class="input-group">
+                    <input type="text" class="form-control" placeholder="Buscar citas..." id="quickSearch" />
+                    <button class="btn btn-primary" type="button"><i class="fas fa-search"></i></button>
+                </div>
+            </div>
+            <div class="col-md-6 text-md-end">
+                <form method="GET" action="{% url 'appointment_index' %}">
+                    <select name="status" onchange="this.form.submit()">
+                        <option value="all" {% if request.GET.status == 'all' %}selected{% endif %}>Todas</option>
+                        <option value="pending" {% if request.GET.status == 'pending' %}selected{% endif %}>Pendientes</option>
+                        <option value="confirmed" {% if request.GET.status == 'confirmed' %}selected{% endif %}>Confirmadas</option>
+                    </select> 
+                </form>
+            </div>
+        </div>
+        <!-- Contenido de las citas -->
+        <div class="row" id="appointmentsGrid" >
+            {% for appointment in appointments %}
+            <div class="col-lg-6 col-xl-4 mb-4">
+                <div class="card appointment-card h-100" data-status="{{ appointment.status }}">
+                    <div class="card-header d-flex justify-content-between align-items-center" style="height: 29px;">
+                        <div class="resource-type-badge">{{ appointment.get_status_display }}</div>
+                    </div>
+                    <div class="card-body">
+                        <div class="appointment-details">
+                            <div class="row mb-2">
+                                <div class="col-6">
+                                    <div class="text-muted my-2">
+                                        <i class="fas fa-user me-1"></i>
+                                        <strong>Cliente:</strong> {{ appointment.client.first_name }} {{ appointment.client.last_name }}
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <div class="text-muted my-2">
+                                        <i class="fas fa-user-md me-1"></i>
+                                        <strong>Profesional:</strong> {{ appointment.profetional.first_name | default:"Sin" }} {{ appointment.profetional.last_name | default:"asignar" }}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row mb-2">
+
+{% if appointment.status == pending  %}
+                                <div class="col-6">
+                                    <div class="text-muted my-2">
+                                        <i class="fas fa-calendar me-1"></i>
+                                        <strong>Fecha de Inicio:</strong> {{ appointment.date_start }}
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <div class="text-muted my-2">
+                                        <i class="fas fa-calendar me-1"></i>
+                                        <strong>Fecha de Fin:</strong> {{ appointment.date_end }}
+                                    </div>
+                                </div>
+{% else %}
+                                <div class="col-6">
+                                    <div class="text-muted my-2">
+                                        <i class="fas fa-calendar me-1"></i>
+                                        <strong>Fecha:</strong> {{ appointment.date}}
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <div class="text-muted my-2">
+                                        <i class="fas fa-calendar me-1"></i>
+                                        <strong>Hora:</strong> {{ appointment.start_time }}
+                                    </div>
+                                </div>
+{% endif %}
+
+                            </div>
+                            <div class="row mb-3">
+                                <div class="col-12">
+                                    <div class="text-muted my-2">
+                                        <i class="fas fa-plus me-1"></i>
+                                        <strong>Creada:</strong> {{ appointment.created_at|date:"d/m/Y - H:i" }}
+                                    </div>
+                                </div>
+                            </div>
+                            {% if appointment.status == pending %}
+                            <form class="row mb-3" action=" {% url 'appointment_acept' id=appointment.id %}" method="POST" >
+                                {% csrf_token %}
+                                <div class="col-6">
+                                    <div class="text-muted my-2">
+                                       <label for="appointmentDate" class="form-label">Fecha <span class="text-danger">*</span></label>
+                                        <input type="date" class="form-control" id="appointmentDate" required name="date" />
+                                    </div>
+                                </div>
+                            
+                            
+                                <div class="col-6">
+                                    <div class="text-muted my-2">
+                                       <label for="appointmentDate" class="form-label">hora <span class="text-danger">*</span></label>
+                                        <input type="time" class="form-control" id="appointmentDate" required name="start_time" />
+                                    </div>
+                                </div>
+                             <div class="card-footer bg-transparent">
+                        <div class="d-grid gap-2 d-md-flex">
+                            <button class="btn btn-success btn-sm" onclick="confirmAppointment({{ appointment.id }})"><i class="fas fa-check me-1"></i> Confirmar</button>
+                        </div>
+                    </div>
+                </form>
+                       {% endif %}     
+                        </div>
+                    </div>
+                   
+
+                </div>
+            </div>
+            {% empty %}
+            <div class="col-12 text-center">
+                <p>No hay citas disponibles.</p>
+            </div>
+            {% endfor %}
+        </div>
+        <!-- Paginación -->
+        <div class="row mt-4">
+            <div class="col-12">
+                <nav aria-label="Navegación de páginas">
+                    <ul class="pagination justify-content-center">
+                        {% if appointments.has_previous %}
+                        <li class="page-item">
+                            <a class="page-link" href="?page={{ appointments.previous_page_number }}&status={{ request.GET.status }}" tabindex="-1">Anterior</a>
+                        </li>
+                        {% else %}
+                        <li class="page-item disabled"><a class="page-link" href="#" tabindex="-1">Anterior</a></li>
+                        {% endif %}
+                        {% for num in appointments.paginator.page_range %}
+                        <li class="page-item {% if appointments.number == num %}active{% endif %}">
+                            <a class="page-link" href="?page={{ num }}&status={{ request.GET.status }}">{{ num }}</a>
+                        </li>
+                        {% endfor %}
+                        {% if appointments.has_next %}
+                        <li class="page-item">
+                            <a class="page-link" href="?page={{ appointments.next_page_number }}&status={{ request.GET.status }}">Siguiente</a>
+                        </li>
+                        {% else %}
+                        <li class="page-item disabled"><a class="page-link" href="#">Siguiente</a></li>
+                        {% endif %}
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

@@ -6,20 +6,40 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login,logout
 from django.contrib import messages
 from django.http import HttpResponse
+from django.core.paginator import Paginator
 
 def view_ppal(request):
+  if request.user.is_authenticated:
+    appointment = models.Appointment.objects.filter(client=request.user)
+    if appointment.count() != 0:
+      appointment = models.Appointment.objects.get(client=request.user)
+      return render(request, 'index.html', {'appointment': appointment})
+  
   return render(request, 'index.html')
 
+
 def view_directorio(request):
-  profetionals = [{}]
-  users = User.objects.all()
-  for u in users:
-    p = get_object_or_404(models.UserProfile , user=u)
-    if p.is_professional:
-      profetionals.append({'user': u, 'profile': p})
-  
-  specializations = models.UserProfile.objects.values('specialization').distinct()
-  return render(request, 'directorio.html', {'profetionals': profetionals, 'specializations': specializations})
+    # Obtén todos los usuarios
+    users = User.objects.all()
+    profetionals = []
+
+    for u in users:
+        p = get_object_or_404(models.UserProfile, user=u)
+        if p.is_professional:
+            profetionals.append({'user': u, 'profile': p})
+
+    # Paginación
+    paginator = Paginator(profetionals, 12)  # 12 profesionales por página
+    page_number = request.GET.get('page')
+    profetionals_page = paginator.get_page(page_number)
+
+    specializations = models.UserProfile.objects.values('specialization').distinct()
+    
+    return render(request, 'directorio.html', {
+        'profetionals': profetionals_page,
+        'specializations': specializations,
+        'paginator': paginator,
+    })
 
 def register(request):
   template = loader.get_template('index.html')
@@ -69,38 +89,47 @@ def view_userpage(request):
 
 @login_required
 def update_user(request):
-  profile = get_object_or_404(models.UserProfile, user=request.user)
+    profile = get_object_or_404(models.UserProfile, user=request.user)
 
-  if request.method == 'POST':
-    is_professional = request.POST.get('is_professional', 'off')
-    
-    if is_professional == 'on':
-      is_professional = True
-      specialization = request.POST["specialization"]
-      phone_number = request.POST["phone_number"]
-      bio = request.POST["bio"]
-      profile_picture = request.FILE.get('profile_picture', None)
-      if profile_picture:
-        profile_picture = request.FILES["profile_picture"]
+    if request.method == 'POST':
+        is_professional = request.POST.get('is_professional') == 'on'
+        specialization = request.POST.get("specialization", "")
+        phone_number = request.POST.get("phone_number", "")
+        bio = request.POST.get("bio", "")
+        profile_picture = request.FILES.get('profile_picture', None)
 
-      profile.is_professional = is_professional
-      profile.specialization = specialization
-      profile.phone_number = phone_number
-      profile.bio = bio
-      profile.profile_picture = profile_picture
-      profile.save()
+        profile.is_professional = is_professional
+        profile.specialization = specialization
+        profile.phone_number = phone_number
+        profile.bio = bio
+        
+        if profile_picture:
+            profile.profile_picture = profile_picture
+        
+        profile.save()
+        messages.success(request, 'Información actualizada')
+        return redirect('user')  # Cambia a la URL deseada
 
-      return render(request, 'user.html', {'profile': profile, 'message': 'Información actualizada'})
-
-  return render(request, 'user.html', {'profile': profile})
+    return render(request, 'user.html', {'profile': profile})
 
 
 # VISTAS REFERENTES A CITAS
 
 @login_required
 def appointment_index(request):
-  appointments = models.Appointment.objects.get(status='pending')
-  return render (request, 'citas.html', {'appointments':appointments})
+    # Filtrado
+    status_filter = request.GET.get('status', 'all')
+    if status_filter == 'all':
+        appointments = models.Appointment.objects.all()
+    else:
+        appointments = models.Appointment.objects.filter(status=status_filter)
+
+    # Paginación
+    paginator = Paginator(appointments, 6)  # 6 citas por página
+    page_number = request.GET.get('page')
+    appointments_page = paginator.get_page(page_number)
+
+    return render(request, 'citas.html', {'appointments': appointments_page, 'paginator': paginator})
 
 @login_required
 def appointment_acept_index(request):
@@ -112,16 +141,14 @@ def appointment_acept(request, id):
   if request.method == 'POST':
     date = request.POST["date"]
     start_time = request.POST["start_time"]
-
     appointment = get_object_or_404(models.Appointment, id=id)
     appointment.status = 'confirmed'
-    appointment.profesional = request.user
+    appointment.profetional = request.user
     appointment.date = date
     appointment.start_time = start_time
     appointment.save()
 
-  appointments = models.Appointment.objects.get(status='pending')
-  return render (request, 'citas.html', {'appointments':appointments})
+  return redirect('appointment_index')
 
 @login_required
 def appointment_create(request):
@@ -133,11 +160,6 @@ def appointment_create(request):
     appointment.save()
 
     return render (request, 'index.html', {'appointment':appointment})
-
-@login_required
-def appointment_show(request, id):
-  appointment = get_object_or_404(models.Appointment, id=id)
-  return render (request, 'index.html', {'appointment':appointment})
 
 @login_required
 def appointment_delete(request, id):

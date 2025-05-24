@@ -61,7 +61,7 @@
     box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
 }
 
-/* Estilos para la paginación */
+/* Estilos para la paginación
 .pagination .page-link {
     color: #0d6efd;
 }
@@ -69,7 +69,7 @@
 .pagination .page-item.active .page-link {
     background-color: #0d6efd;
     border-color: #0d6efd;
-}
+} */
 
 
 /* Estilos responsivos */

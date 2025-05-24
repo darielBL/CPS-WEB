@@ -19,20 +19,24 @@
         <div class="col-md-8 col-lg-6 profile-card-cont">
           <div class="card profile-card shadow">
             <div class="card-body">
-              <!-- Avatar con opción de editar -->
-              <div class="avatar-wrapper">
-                <div class="avatar-container">
-                  <img src="{% static '/res/default-avatar' %}" alt="Foto de perfil" class="avatar-img" id="avatarImg" />
-                  <div class="avatar-edit">
-                    <label for="avatarUpload" class="avatar-edit-btn"><i class="fas fa-camera"></i></label>
-                    <input type="file" id="avatarUpload" name="profile_picture" accept="image/*" class="d-none" />
+              <!-- Formulario de perfil -->
+              <form id="profileForm" class="" action="{% url 'update_user' %}" method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                <!-- Avatar con opción de editar -->
+                <div class="avatar-wrapper">
+                  <div class="avatar-container">
+                    <img src="{{ user_avatar }}"
+                      alt="Foto de perfil"
+                      class="avatar-img"
+                      id="avatarImg" />
+
+                    <div class="avatar-edit">
+                      <label for="avatarUpload" class="avatar-edit-btn"><i class="fas fa-camera"></i></label>
+                      <input type="file" id="avatarUpload" name="profile_picture" accept="image/*" class="d-none" />
+                    </div>
                   </div>
                 </div>
-              </div>
 
-              <!-- Formulario de perfil -->
-              <form id="profileForm" class="mt-5" action="{% url 'update_user' %}" method="POST">
-                {% csrf_token %}
                 <div class="row">
                   <div class="col-md-6 mb-3">
                     <label for="firstName" class="form-label">Nombre</label>

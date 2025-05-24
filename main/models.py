@@ -40,6 +40,7 @@ class UserProfile(models.Model):
     phone_number = models.CharField(max_length=20, blank=True, null=True, verbose_name="Número de teléfono")
     bio = models.TextField(blank=True, null=True, verbose_name="Biografía")
     profile_picture = models.ImageField(upload_to='profile_pictures/', blank=True, null=True, verbose_name="Foto de perfil")
+  
     
     class Meta:
         verbose_name = "Perfil de Usuario"

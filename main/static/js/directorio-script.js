@@ -93,41 +93,28 @@ document.addEventListener('DOMContentLoaded', function() {
     // Ejecutar animación al cargar
     animateCards();
     
-    // Funcionalidad para los botones de contacto
-    const contactButtons = document.querySelectorAll('.user-contact a');
-    contactButtons.forEach(button => {
-        button.addEventListener('click', function(e) {
-            e.preventDefault();
-            const action = this.getAttribute('title');
-            const userName = this.closest('.card-body').querySelector('.card-title').textContent;
-            
-            // Aquí normalmente redirigirías a la página de contacto o abrirías un modal
-            // Por ahora, solo mostramos una alerta
-            alert(`${action} a ${userName}`);
-        });
-    });
     
-    // Funcionalidad para la paginación
-    const paginationLinks = document.querySelectorAll('.pagination .page-link');
-    paginationLinks.forEach(link => {
-        link.addEventListener('click', function(e) {
-            e.preventDefault();
+    // // Funcionalidad para la paginación
+    // const paginationLinks = document.querySelectorAll('.pagination .page-link');
+    // paginationLinks.forEach(link => {
+    //     link.addEventListener('click', function(e) {
+    //         e.preventDefault();
             
-            // Aquí normalmente cargarías la siguiente página de usuarios
-            // Por ahora, solo cambiamos la clase active
-            if (!this.parentElement.classList.contains('disabled')) {
-                document.querySelector('.pagination .active').classList.remove('active');
+    //         // Aquí normalmente cargarías la siguiente página de usuarios
+    //         // Por ahora, solo cambiamos la clase active
+    //         if (!this.parentElement.classList.contains('disabled')) {
+    //             document.querySelector('.pagination .active').classList.remove('active');
                 
-                // Si es "Anterior" o "Siguiente", no añadir la clase active
-                if (!this.textContent.includes('Anterior') && !this.textContent.includes('Siguiente')) {
-                    this.parentElement.classList.add('active');
-                }
+    //             // Si es "Anterior" o "Siguiente", no añadir la clase active
+    //             if (!this.textContent.includes('Anterior') && !this.textContent.includes('Siguiente')) {
+    //                 this.parentElement.classList.add('active');
+    //             }
                 
-                // Simular carga de nuevos usuarios
-                simulateLoading();
-            }
-        });
-    });
+    //             // Simular carga de nuevos usuarios
+    //             simulateLoading();
+    //         }
+    //     });
+    // });
     
     // Función para simular carga de nuevos usuarios
     function simulateLoading() {

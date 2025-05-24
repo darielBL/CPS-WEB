@@ -11,8 +11,8 @@
     </title>
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
-<!-- Bootstrap icons -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+    <!-- Bootstrap icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css" />
     <!-- Font Awesome para iconos -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
     <!-- CSS personalizado -->
@@ -50,23 +50,39 @@
             {% if not user.is_authenticated %}
               <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#loginModal"><i class="fas fa-user"></i></button>
             {% else %}
-          </div>
-            <div class="dropdown" > 
-              <a class="navbar-brand " href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false"  data-bs-toggle="tooltip" title="Opciones de usuario"><img src="{% static 'res/default-avatar' %}" alt="Avatar Logo" class="rounded-pill avatar" id="dropdownAvatar" /></a>
-              <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
-                <li>
-                   <label for="currentUser" class=" form-label" style="margin-left: 20px;"><i class="bi bi-person-circle" ></i>{{user.first_name}} {{user.last_name}} </label>
-                </li>
-                <hr >
-                <li>
-                  <a class="dropdown-item" href="{% url 'user' %}"><i class="bi bi-person-fill-gear"></i>Administración de Usuario</a>
-                </li>
-                <li>
-                  <a class="dropdown-item" href="{% url 'logout' %}"><i class="bi bi-box-arrow-right"></i>Cerrar Sesión</a>
-                </li>
-              </ul>
-            </div>
+              <div class="dropdown">
+                <a class="navbar-brand" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false" data-bs-toggle="tooltip" title="Opciones de usuario"><img src="{{ user_avatar }}" alt="Avatar Logo" class="rounded-pill avatar" id="dropdownAvatar" /></a>
+                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+                  <li>
+                    <label for="currentUser" class="form-label" style="margin-left: 20px;"><i class="bi bi-person-circle"></i>{{ user.first_name }} {{ user.last_name }}</label>
+                  </li>
+                  <hr />
+                  <li>
+                    <a class="dropdown-item" href="{% url 'user' %}"><i class="bi bi-person-fill-gear"></i>Administración de Usuario</a>
+                  </li>
+                  {% if not request.user.profile.is_professional %}
+                    <li>
+                      
+                      {% if appointment %}
+                        <a href="#footer" class="dropdown-item" onclick="alert('El estado de la cita es: {{appointment.get_status_display}}')"><i class="bi bi-calendar3"></i>Estado de cita</a>
+                      {% else %}
+                        <a href="#footer" class="dropdown-item" data-bs-toggle="modal" data-bs-target="#appointmentModal"><i class="bi bi-calendar3"></i>Agenda cita</a>
+                      {% endif %}
+                        
+                      
+                    </li>
+                  {% else %}
+                    <li>
+                      <a href="{% url 'appointment_index' %}" class="dropdown-item"><i class="bi bi-calendar3"></i>Administrador de citas</a>
+                    </li>
+                  {% endif %}
+                  <li>
+                    <a class="dropdown-item" href="{% url 'logout' %}"><i class="bi bi-box-arrow-right"></i>Cerrar Sesión</a>
+                  </li>
+                </ul>
+              </div>
             {% endif %}
+          </div>
         </div>
       </div>
     </nav>
@@ -108,7 +124,7 @@
                     <input type="password" class="form-control" id="loginPassword" name="password" required />
                   </div>
                   <div class="mb-3 form-check">
-                    <input type="checkbox" class="form-check-input" id="rememberMe" />
+                    <input type="checkbox" class="form-check-input" id="rememberMe" name="remember" />
                     <label class="form-check-label" for="rememberMe">Recordarme</label>
                   </div>
                   <button type="submit" class="btn btn-primary w-100">Iniciar Sesión</button>
@@ -123,12 +139,12 @@
                     <input type="text" class="form-control" id="registerName" name="first_name" required />
                   </div>
                   <div class="mb-3">
-                    <label for="registerName" class="form-label">Apellido</label>
-                    <input type="text" class="form-control" id="registersurename" name="last_name" required />
+                    <label for="registerSurname" class="form-label">Apellido</label>
+                    <input type="text" class="form-control" id="registerSurname" name="last_name" required />
                   </div>
                   <div class="mb-3">
-                    <label for="registerName" class="form-label">Usuario</label>
-                    <input type="text" class="form-control" id="registeruser" name="username" required />
+                    <label for="registerUser" class="form-label">Usuario</label>
+                    <input type="text" class="form-control" id="registerUser" name="username" required />
                   </div>
                   <div class="mb-3">
                     <label for="registerEmail" class="form-label">Correo Electrónico</label>
@@ -142,7 +158,6 @@
                     <label for="confirmPassword" class="form-label">Confirmar Contraseña</label>
                     <input type="password" class="form-control" id="confirmPassword" name="password_confirm" required />
                   </div>
-
                   <div class="mb-3 form-check">
                     <input type="checkbox" class="form-check-input" id="termsCheck" required />
                     <label class="form-check-label" for="termsCheck">Acepto los términos y condiciones</label>
@@ -160,6 +175,78 @@
       <!-- Contenido por defecto -->
     {% endblock %}
 
+    <!-- Modal de Agendar Cita -->
+    <div class="modal fade" id="appointmentModal" tabindex="-1" aria-labelledby="appointmentModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header bg-success text-white">
+            <h5 class="modal-title" id="appointmentModalLabel"><i class="fas fa-calendar-check me-2"></i> Agendar Cita</h5>
+            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <form id="appointmentForm" action=" {% url 'appointment_create' %}" method="POST">
+              {% csrf_token %}
+              <!-- Fecha de la cita de inicio -->
+              <div class="mb-3">
+                <label for="appointmentDate" class="form-label">Fecha <span class="text-danger">*</span></label>
+                <input type="date" class="form-control" id="appointmentDate" required min="" name="date_start" />
+                <div class="form-text">Seleccione una fecha para su cita.</div>
+              </div>
+
+              <!-- Fecha de la cita de final -->
+              <div class="mb-3">
+                <label for="appointmentDate" class="form-label">Fecha <span class="text-danger">*</span></label>
+                <input type="date" class="form-control" id="appointmentDate" required min="" name="date_end" />
+                <div class="form-text">Seleccione una fecha para su cita.</div>
+              </div>
+
+              <!-- Estado (oculto, se establece automáticamente) -->
+              <input type="hidden" id="appointmentStatus" name="confirmed" value="pending" />
+
+              <div class="alert alert-info">
+                <i class="fas fa-info-circle me-2"></i> Su cita quedará en estado <strong>Pendiente</strong> hasta que sea confirmada por un administrador.
+              </div>
+
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                <button type="submit" class="btn btn-success" id="submitAppointment"><i class="fas fa-calendar-check me-1"></i> Agendar Cita</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal de Confirmación de Cita -->
+    <div class="modal fade" id="appointmentConfirmModal" tabindex="-1" aria-labelledby="appointmentConfirmModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header bg-success text-white">
+            <h5 class="modal-title" id="appointmentConfirmModalLabel"><i class="fas fa-check-circle me-2"></i> Cita Agendada</h5>
+            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body text-center py-4">
+            <div class="mb-4">
+              <i class="fas fa-calendar-check text-success" style="font-size: 4rem;"></i>
+            </div>
+            <h4>¡Su cita ha sido agendada con éxito!</h4>
+            <p class="mb-1">
+              Fecha: <span id="confirmDate"></span>
+            </p>
+            <p class="mb-1">
+              Hora: <span id="confirmTime"></span>
+            </p>
+            <p class="mb-3">
+              Estado: <span class="badge bg-warning text-dark">Pendiente</span>
+            </p>
+            <p class="text-muted">Recibirá una notificación cuando su cita sea confirmada.</p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Aceptar</button>
+          </div>
+        </div>
+      </div>
+    </div>
     <!-- Footer -->
     <footer id="contact" class="bg-dark text-white py-5">
       <div class="container">

@@ -1,106 +1,172 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block title %}Página de Inicio{% endblock %}
+{% block title %}
+  Página de Inicio
+{% endblock %}
 {% block styles %}
-<link rel="stylesheet" href="{% static 'css/directorio-styles.css' %}">
+  <link rel="stylesheet" href="{% static 'css/directorio-styles.css' %}" />
 {% endblock %}
 
 {% block content %}
+  <!-- Contenido Principal - Directorio de Usuarios -->
+  <section class="directory-section py-5">
+    <div class="container">
+      <div class="row">
+        <div class="col-12 text-center mb-4">
+          <h2 class="section-title">Directorio de Usuarios</h2>
+          <div class="divider mx-auto"></div>
+          <p class="lead">Explora y conecta con los miembros de nuestra comunidad</p>
+        </div>
+      </div>
 
- <!-- Contenido Principal - Directorio de Usuarios -->
-    <section class="directory-section py-5">
-        <div class="container">
-            <div class="row">
-                <div class="col-12 text-center mb-4">
-                    <h2 class="section-title">Directorio de Usuarios</h2>
-                    <div class="divider mx-auto"></div>
-                    <p class="lead">Explora y conecta con los miembros de nuestra comunidad</p>
+      <!-- Barra de búsqueda y filtros -->
+      <div class="row mb-4">
+        <div class="col-md-8 mb-3 mb-md-0">
+          <div class="input-group">
+            <input type="text" class="form-control" placeholder="Buscar usuarios..." id="searchInput" />
+            <button class="btn btn-primary" type="button"><i class="fas fa-search"></i></button>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <select class="form-select" id="filterSelect">
+            <option selected value="">Todos los especialidades</option>
+            {% for s in specializations %}
+              {% if s.specialization is not None %}
+                <option value="{{ s.specialization }}">{{ s.specialization }}</option>
+              {% endif %}
+            {% endfor %}
+          </select>
+        </div>
+      </div>
+
+      <!-- Cuadrícula de usuarios -->
+      <div class="row" id="usersGrid">
+        <!-- Usuario 1 -->
+        {% for x in profetionals %}
+          {% if x.profile.specialization is not None %}
+            <div class="col-sm-6 col-md-4 col-lg-3 mb-4">
+              <div class="card user-card h-100">
+                <div class="card-body text-center">
+                  <div class="user-avatar mb-3">
+                    {% if x.profile.profile_picture %}
+                      <img src="{{ x.profile.profile_picture.url }}" alt="Juan Pérez" class="rounded-circle" />
+                    {% else %}
+                      <img src="{% static 'res/default-avatar' %} " alt="Juan Pérez" class="rounded-circle" />
+                    {% endif %}
+                  </div>
+                  <h5 class="card-title mb-1">{{ x.user.first_name }} {{ x.user.last_name }}</h5>
+                  <p class="text-muted small mb-2">{{ x.profile.specialization }}</p>
+                  <div class="user-description mb-3">
+                    <p class="card-text">{{ x.profile.bio }}</p>
+                  </div>
+                  <div class="user-contact mb-3">
+                    <a href="mailto:{{ x.user.email }}" class="btn btn-sm btn-outline-primary rounded-circle me-1" title="Enviar mensaje"><i class="fas fa-envelope"></i></a>
+                    <a href="https://wa.me/{{ x.profile.phone_number }}" class="btn btn-sm btn-outline-success rounded-circle" title="whatsapp"><i class="fab fa-whatsapp"></i></a>
+                  </div>
+                  <!-- <a href="perfil-usuario.html" class="btn btn-primary btn-sm w-100">Ver Perfil</a> -->
                 </div>
+              </div>
             </div>
+          {% endif %}
+        {% endfor %}
+      </div>
 
-            <!-- Barra de búsqueda y filtros -->
-            <div class="row mb-4">
-                <div class="col-md-8 mb-3 mb-md-0">
-                    <div class="input-group">
-                        <input type="text" class="form-control" placeholder="Buscar usuarios..." id="searchInput">
-                        <button class="btn btn-primary" type="button">
-                            <i class="fas fa-search"></i>
-                        </button>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <select class="form-select" id="filterSelect">
-                        <option selected value="">Todos los especialidades</option>
-                        {% for s in specializations %}
-                        {% if s.specialization is not None %}
-                        <option value="{{s.specialization}}">{{s.specialization}}</option>
-                        {% endif %}
-                        {% endfor %}
-                    </select>
-                </div>
-            </div>
+      {% comment %} <!-- Paginación -->
+      <div class="row mt-4">
+        <div class="col-12">
+          <nav aria-label="Navegación de páginas">
+            <ul class="pagination justify-content-center">
+              <li class="page-item disabled">
+                <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Anterior</a>
+              </li>
+              <li class="page-item active">
+                <a class="page-link" href="#">1</a>
+              </li>
+              <li class="page-item">
+                <a class="page-link" href="#">2</a>
+              </li>
+              <li class="page-item">
+                <a class="page-link" href="#">3</a>
+              </li>
+              <li class="page-item">
+                <a class="page-link" href="#">Siguiente</a>
+              </li>
+            </ul>
+          </nav>
+        </div>
+      </div> {% endcomment %}
 
-            <!-- Cuadrícula de usuarios -->
-            <div class="row" id="usersGrid">
-                <!-- Usuario 1 -->
-                {% for x in profetionals %}
-                {% if x.profile.specialization is not None %}
-                <div class="col-sm-6 col-md-4 col-lg-3 mb-4">
-                    <div class="card user-card h-100">
-                        <div class="card-body text-center">
-                            <div class="user-avatar mb-3">
-                                {% if x.profile.profile_picture %}
-                                <img src="{{ x.profile.profile_picture.url }}" alt="Juan Pérez" class="rounded-circle">
-                                {% else %}
-                                <img src="{% static 'res/default-avatar' %} " alt="Juan Pérez" class="rounded-circle">
-                                {% endif %}
-                            </div>
-                            <h5 class="card-title mb-1">{{x.user.first_name}} {{x.user.last_name}}</h5>
-                            <p class="text-muted small mb-2">{{x.profile.specialization}}</p>
-                            <div class="user-description mb-3">
-                                <p class="card-text">{{x.profile.bio}}</p>
-                            </div>
-                            <div class="user-contact mb-3">
-                                <a href="mailto:{{x.user.email}}" class="btn btn-sm btn-outline-primary rounded-circle me-1"
-                                    title="Enviar mensaje">
-                                    <i class="fas fa-envelope"></i>
-                                </a>
-                                <a href="https://wa.me/{{x.profile.phone_number}}" class="btn btn-sm btn-outline-success rounded-circle" title="whatsapp">
-                                    <i class="fab fa-whatsapp"></i>
-                                </a>
-                            </div>
-                            <!-- <a href="perfil-usuario.html" class="btn btn-primary btn-sm w-100">Ver Perfil</a> -->
-                        </div>
-                    </div>
-                </div>
+      {% comment %} <!-- Paginación -->
+      <div class="row mt-4">
+        <div class="col-12">
+          <nav aria-label="Navegación de páginas">
+            <ul class="pagination justify-content-center">
+              {% if profetionals.has_previous %}
+                <li class="page-item">
+                  <a class="page-link" href="?page=1" aria-label="Primera"><span aria-hidden="true">&laquo;</span></a>
+                </li>
+                <li class="page-item">
+                  <a class="page-link" href="?page={{ profetionals.previous_page_number }}" aria-label="Anterior"><span aria-hidden="true">Anterior</span></a>
+                </li>
+              {% endif %}
+
+              {% for i in profetionals.paginator.page_range %}
+                {% if profetionals.number == i %}
+                  <li class="page-item active">
+                    <a class="page-link" href="#">{{ i }}</a>
+                  </li>
+                {% else %}
+                  <li class="page-item">
+                    <a class="page-link" href="?page={{ i }}">{{ i }}</a>
+                  </li>
                 {% endif %}
-                {% endfor %}
-            </div>
+              {% endfor %}
 
-            <!-- Paginación -->
-            <div class="row mt-4">
-                <div class="col-12">
-                    <nav aria-label="Navegación de páginas">
-                        <ul class="pagination justify-content-center">
-                            <li class="page-item disabled">
-                                <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Anterior</a>
-                            </li>
-                            <li class="page-item active"><a class="page-link" href="#">1</a></li>
-                            <li class="page-item"><a class="page-link" href="#">2</a></li>
-                            <li class="page-item"><a class="page-link" href="#">3</a></li>
-                            <li class="page-item">
-                                <a class="page-link" href="#">Siguiente</a>
-                            </li>
-                        </ul>
-                    </nav>
-                </div>
+              {% if profetionals.has_next %}
+                <li class="page-item">
+                  <a class="page-link" href="?page={{ profetionals.next_page_number }}" aria-label="Siguiente"><span aria-hidden="true">Siguiente</span></a>
+                </li>
+                <li class="page-item">
+                  <a class="page-link" href="?page={{ profetionals.paginator.num_pages }}" aria-label="Última"><span aria-hidden="true">&raquo;</span></a>
+                </li>
+              {% endif %}
+            </ul>
+          </nav>
+        </div>
+      </div> {% endcomment %}
+
+      <!-- Paginación -->
+        <div class="row mt-4">
+            <div class="col-12">
+                <nav aria-label="Navegación de páginas">
+                    <ul class="pagination justify-content-center" >
+                        {% if profetionals.has_previous %}
+                        <li class="page-item">
+                            <a class="page-link" href="?page={{ profetionals.previous_page_number }}&status={{ request.GET.status }}" tabindex="-1">Anterior</a>
+                        </li>
+                        {% else %}
+                        <li class="page-item disabled"><a class="page-link" href="#" tabindex="-1">Anterior</a></li>
+                        {% endif %}
+                        {% for num in profetionals.paginator.page_range %}
+                        <li class="page-item {% if profetionals.number == num %}active{% endif %}">
+                            <a class="page-link" href="?page={{ num }}&status={{ request.GET.status }}">{{ num }}</a>
+                        </li>
+                        {% endfor %}
+                        {% if profetionals.has_next %}
+                        <li class="page-item">
+                            <a class="page-link" href="?page={{ profetionals.next_page_number }}&status={{ request.GET.status }}">Siguiente</a>
+                        </li>
+                        {% else %}
+                        <li class="page-item disabled"><a class="page-link" href="#">Siguiente</a></li>
+                        {% endif %}
+                    </ul>
+                </nav>
             </div>
         </div>
-    </section>
-
-
+    </div>
+  </section>
 {% endblock %}
 {% block extra_js %}
-<script src="{% static 'js/directorio-script.js' %}"></script>
+  <script src="{% static 'js/directorio-script.js' %}"></script>
 {% endblock %}

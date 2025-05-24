@@ -16,7 +16,6 @@ urlpatterns = [
     path('appointments/', views.appointment_index, name='appointment_index'), # Ver Listado de Solicitudes
     path('appointments/acepted/', views.appointment_acept_index, name='appointment_acept_index'), # Ver Listado de Solicitudes Aceptadas
     path('appointments/create/', views.appointment_create, name='appointment_create'), # Realizar Solicitud
-    path('appointments/<int:id>', views.appointment_show, name='appointment_show'), # Ver Solicitud
     path('appointments/acept/<int:id>', views.appointment_acept, name='appointment_acept'), # Aceptar Solicitud
     path('appointments/<int:id>/delete/', views.appointment_delete, name='appointment_delete'), # Eliminar Solicitud
     # RUTAS DE RECURSOS

@@ -1,0 +1,318 @@
+/* Estilos personalizados para la página de gestión de citas */
+
+/* Ajuste para la barra de navegación fija */
+body {
+    padding-top: 56px;
+}
+
+/* Divider para títulos de sección */
+.divider {
+    width: 60px;
+    height: 3px;
+    background-color: #0d6efd;
+    margin-bottom: 30px;
+}
+
+/* Títulos de sección */
+.section-title {
+    font-weight: 700;
+    margin-bottom: 15px;
+    position: relative;
+}
+
+/* Estilos para la sección de citas */
+.appointments-section {
+    background-color: #f8f9fa;
+    padding: 60px 0;
+    min-height: calc(100vh - 56px - 300px);
+}
+
+/* Estilos para las pestañas de filtros */
+.filter-tabs {
+    background-color: #fff;
+    border-radius: 10px;
+    padding: 15px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.05);
+}
+
+.nav-pills .nav-link {
+    border-radius: 25px;
+    margin: 0 5px;
+    transition: all 0.3s ease;
+}
+
+.nav-pills .nav-link.active {
+    background-color: #0d6efd;
+}
+
+.nav-pills .nav-link:not(.active) {
+    color: #6c757d;
+    background-color: transparent;
+}
+
+.nav-pills .nav-link:not(.active):hover {
+    background-color: #e9ecef;
+    color: #0d6efd;
+}
+
+/* Estilos para las tarjetas de citas */
+.appointment-card {
+    border-radius: 10px;
+    overflow: hidden;
+    border: none;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.05);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.appointment-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+}
+
+.appointment-card .card-header {
+    background-color: #f8f9fa;
+    border-bottom: 1px solid #e9ecef;
+    padding: 10px 15px;
+}
+
+.appointment-card .card-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-bottom: 10px;
+    line-height: 1.3;
+}
+
+.appointment-description {
+    font-size: 0.9rem;
+    color: #6c757d;
+    margin-bottom: 15px;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.appointment-details {
+    font-size: 0.8rem;
+}
+
+.appointment-details .row {
+    margin-bottom: 5px;
+}
+
+.resource-type-badge {
+    position: absolute;
+    top: 0;
+    right: 0;
+    padding: 5px 10px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: white;
+    border-bottom-left-radius: 10px;
+}
+
+/* Estilos específicos para estados de citas */
+.appointment-card[data-status="pending"] {
+    .resource-type-badge {
+        background-color: #ffc107;
+    }
+
+    border-left: 4px solid #ffc107;
+}
+
+.appointment-card[data-status="confirmed"] {
+    .resource-type-badge {
+        background-color: #198754;
+    }
+
+    border-left: 4px solid #198754;
+}
+
+
+/* Estilos para badges de estado */
+.badge {
+    font-size: 0.75rem;
+    padding: 5px 10px;
+}
+
+/* Estilos para acciones de citas */
+.appointment-actions .dropdown-toggle {
+    border: none;
+    background: transparent;
+}
+
+.appointment-actions .dropdown-toggle:focus {
+    box-shadow: none;
+}
+
+/* Estilos para la barra de búsqueda */
+.input-group .form-control:focus {
+    border-color: #0d6efd;
+    box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+}
+
+/* Estilos para botones */
+.btn-sm {
+    font-size: 0.8rem;
+    padding: 5px 10px;
+}
+
+/* Estilos para botones de vista */
+.btn-group .btn.active {
+    background-color: #0d6efd;
+    border-color: #0d6efd;
+    color: white;
+}
+
+/* Estilos para la paginación */
+
+
+.pagination .page-item.active .page-link {
+    background-color: #0d6efd;
+    border-color: #0d6efd;
+}
+
+/* Estilos para el modal */
+.modal-lg {
+    max-width: 800px;
+}
+
+/* Estilos para iconos sociales en el footer */
+.social-icons a {
+    display: inline-block;
+    width: 36px;
+    height: 36px;
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 50%;
+    text-align: center;
+    line-height: 36px;
+    transition: all 0.3s ease;
+}
+
+.social-icons a:hover {
+    background-color: #0d6efd;
+    color: white !important;
+}
+
+/* Estilos para la lista de información de contacto */
+.contact-info li {
+    margin-bottom: 10px;
+}
+
+/* Estilos para enlaces rápidos en el footer */
+.quick-links li a {
+    transition: all 0.3s ease;
+    text-decoration: none;
+}
+
+.quick-links li a:hover {
+    padding-left: 5px;
+    color: #0d6efd !important;
+}
+
+/* Vista de lista (alternativa a cards) */
+.list-view .appointment-card {
+    margin-bottom: 10px;
+}
+
+.list-view .card-body {
+    padding: 15px;
+}
+
+.list-view .appointment-details {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.list-view .appointment-details .row {
+    margin-bottom: 0;
+    flex: 1;
+    min-width: 200px;
+}
+
+/* Estilos responsivos */
+@media (max-width: 767.98px) {
+    .appointments-section {
+        padding: 40px 0;
+    }
+
+    .divider {
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .appointment-card .card-title {
+        font-size: 1rem;
+    }
+
+    .appointment-description {
+        -webkit-line-clamp: 2;
+    }
+
+    .appointment-details {
+        font-size: 0.75rem;
+    }
+
+    .nav-pills .nav-link {
+        margin: 2px;
+        font-size: 0.8rem;
+    }
+
+    .filter-tabs {
+        padding: 10px;
+    }
+}
+
+@media (max-width: 991.98px) {
+    .appointment-details .row {
+        margin-bottom: 8px;
+    }
+}
+
+/* Animaciones */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.appointment-card {
+    animation: fadeInUp 0.5s ease forwards;
+}
+
+/* Estilos para estados de carga */
+.loading {
+    opacity: 0.6;
+    pointer-events: none;
+}
+
+.loading::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 20px;
+    height: 20px;
+    margin: -10px 0 0 -10px;
+    border: 2px solid #f3f3f3;
+    border-top: 2px solid #0d6efd;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
