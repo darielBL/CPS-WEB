@@ -132,8 +132,8 @@ class Resource(models.Model):
 class Event(models.Model):
     title = models.CharField(max_length=255, verbose_name="Título")
     description = models.TextField(blank=True, null=True, verbose_name="Descripción")
-    date_start = models.DateField(verbose_name="Fecha")
-    date_end = models.DateField(verbose_name="Fecha")
+    category = models.CharField(max_length=255, default='None', verbose_name="Categoría")
+    date = models.DateField(verbose_name="Fecha")
     create_by = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name="Iniciado por")
     created_at = models.DateTimeField(auto_now_add=True, verbose_name="Fecha de creación")
     updated_at = models.DateTimeField(auto_now=True, verbose_name="Última actualización")

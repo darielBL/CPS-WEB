@@ -7,15 +7,17 @@ from django.contrib.auth import authenticate, login,logout
 from django.contrib import messages
 from django.http import HttpResponse
 from django.core.paginator import Paginator
+from datetime import date
 
 def view_ppal(request):
+  events = models.Event.objects.filter(date__gt=date.today()).order_by('date')[:3]
   if request.user.is_authenticated:
     appointment = models.Appointment.objects.filter(client=request.user)
     if appointment.count() != 0:
       appointment = models.Appointment.objects.get(client=request.user)
-      return render(request, 'index.html', {'appointment': appointment})
+      return render(request, 'index.html', {'appointment': appointment, 'events': events})
   
-  return render(request, 'index.html')
+  return render(request, 'index.html', {'events': events})
 
 
 def view_directorio(request):
@@ -272,8 +274,12 @@ def resource_delete(request, id):
 
 @login_required
 def event_index(request):
-  events = models.Event.objects.all().values
-  return render (request, 'eventos.html', {'events': events})
+  evs = []
+  events = models.Event.objects.filter(date__gt=date.today()).order_by('date')
+  for e in events:
+    users = User.objects.filter(inscription__event=e)
+    evs.append({'event': e, 'members': users})
+  return render (request, 'eventos.html', {'events': evs})
 
 @login_required
 def event_get(request, id):
@@ -285,10 +291,10 @@ def event_create(request):
   if request.method == 'POST':
     title = request.POST["title"]
     description = request.POST["description"]
-    date_start = request.POST["date_start"]
-    date_end = request.POST["date_end"]
+    category = request.POST["category"]
+    date = request.POST["date"]
 
-    event = models.Event(title=title,description=description,date_start=date_start,date_end=date_end,create_by=request.user)
+    event = models.Event(title=title,description=description,category=category,date=date,create_by=request.user)
     event.save()
 
   events = models.Event.objects.all().values
@@ -299,9 +305,7 @@ def event_inscription(request, id):
   event = get_object_or_404(models.Event, id=id)
   insciption = models.Inscription(event=event,user=request.user)
   insciption.save()
-
-  events = models.Event.objects.all().values
-  return render (request, 'eventos.html', {'events': events})
+  return redirect('event_index')
 
 @login_required
 def event_delete(request, id):
@@ -310,11 +314,4 @@ def event_delete(request, id):
 
   events = models.Event.objects.all().values
   return render (request, 'eventos.html', {'events': events})
-
-@login_required
-def event_user_list(request, id):
-  event = get_object_or_404(models.Event, id=id)
-  users = User.objects.filter(inscription__event=event)
-
-  return render (request, 'eventos.html', {'users': users})
 

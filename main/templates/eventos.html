@@ -1,0 +1,388 @@
+django
+{% extends 'base.html' %}
+{% load static %}
+{% load tz %}
+{% block title %}
+Página de Inicio
+{% endblock %}
+{% block styles %}
+<link rel="stylesheet" href="{% static 'css/eventos-styles.css' %}" />
+{% endblock %}
+{% block content %}
+<div class="container">
+    <section class="events-section">
+        <div class="section-header">
+            <h1 class="section-title">Eventos</h1>
+        </div>
+
+        <div class="events-list">
+            {% for e in events %}
+            <div class="event-item">
+                <div class="event-content">
+                    <div class="event-info">
+                        <h3 class="event-title">{{ e.event.title }}</h3>
+                        <h4 class="event-description">{{ e..event.description }}</h4>
+                        <div class="event-meta">
+                            <span class="event-date">{{ e.event.date }}</span>
+                            <span class="event-type">{{ e.event.category }}</span>
+                        </div>
+                    </div>
+                    <div class="countdown-section">
+                        <div class="countdown" data-target="{{ e.event.date|date:'Y-m-d' }}">
+                            <div class="countdown-item">
+                                <span class="countdown-number days">08</span>
+                                <span class="countdown-label">DAYS</span>
+                            </div>
+                            <span class="countdown-separator">:</span>
+                            <div class="countdown-item">
+                                <span class="countdown-number hours">15</span>
+                                <span class="countdown-label">HOURS</span>
+                            </div>
+                            <span class="countdown-separator">:</span>
+                            <div class="countdown-item">
+                                <span class="countdown-number minutes">44</span>
+                                <span class="countdown-label">MINUTES</span>
+                            </div>
+                            <span class="countdown-separator">:</span>
+                            <div class="countdown-item">
+                                <span class="countdown-number seconds">32</span>
+                                <span class="countdown-label">SECONDS</span>
+                            </div>
+                        </div>
+                        {% if request.user.profile.is_professional %}
+                        <button class="member-btn" data-bs-toggle="modal" data-bs-target="#modal-{{e.event.title}}">
+                            Miembros
+                            <span class="arrow">→</span>
+                        </button>
+                        {% elif request.user in e.members %}
+                        <a href="#" class="registered-btn">
+                            ✓ Registered
+                        </a>
+                        {% else %}
+                        <a href="{% url 'event_inscription' e.event.id %}" class="register-btn">
+                            Inscribirse
+                            <span class="arrow">→</span>
+                        </a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            <!-- Add Event Modal -->
+            <div class="modal fade" id="modal-{{e.event.title}}" tabindex="-1"
+                aria-labelledby="modal-{{e.event.title}}Label" aria-hidden="true">
+                <div class="modal-dialog modal-lg modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <div>
+                                <h2 class="modal-title" id="modal-{{e.event.title}}Label">Miembros del evento
+                                    {{e.event.title}}</h2>
+                                <p class="modal-subtitle"> </p>
+                            </div>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                                ×
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="table-wrapper">
+                                <table class="members-table" id="membersTable">
+                                    <thead>
+                                        <tr>
+                                            <th>Name</th>
+                                            <th>Last Name</th>
+                                            <th>Email</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="membersTableBody">
+                                        {% for m in e.members %}
+                                        <tr data-name="{{m.first_name}} {{m.last_name}}" data-email="{{m.email}}">
+                                            <td>
+                                                <div class="member-name">{{m.first_name}}</div>
+                                            </td>
+                                            <td>
+                                                <div class="member-lastname">{{m.last_name}}</div>
+                                            </td>
+                                            <td>
+                                                <div class="member-email">{{m.email}}</div>
+                                            </td>
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+
+            {% if request.user.profile.is_professional %}
+            <section class="demo-section">
+                <button type="button" class="add-event-btn" data-bs-toggle="modal" data-bs-target="#addEventModal">
+                    <span>+ Add New Event</span>
+                </button>
+            </section>
+            {% endif %}
+        </div>
+    </section>
+    <!-- Add Event Modal -->
+    <div class="modal fade" id="addEventModal" tabindex="-1" aria-labelledby="addEventModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <div>
+                        <h2 class="modal-title" id="addEventModalLabel">Agregar Nuevo Evento</h2>
+                        <p class="modal-subtitle"> </p>
+                    </div>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                        ×
+                    </button>
+                </div>
+
+                <form id="addEventForm" action="{% url 'event_create' %}" method="POST">
+                    {% csrf_token %}
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="eventTitle" class="form-label">Título del Evento</label>
+                            <input type="text" class="form-control" id="eventTitle" name="title"
+                                placeholder="Introduzca el título del evento" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="eventDescription" class="form-label">Descripción</label>
+                            <textarea class="form-control" id="eventDescription" name="description"
+                                placeholder="Describe como se realizará el evento" required></textarea>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="eventCategory" class="form-label">Categoría</label>
+                            <select class="form-select" id="eventCategory" name="category" required>
+                                <option value="">Selecciona una categoría</option>
+                                <option value="online">Online</option>
+                                <option value="workshop">Workshop</option>
+                                <option value="conference">Conference</option>
+                                <option value="webinar">Webinar</option>
+                                <option value="networking">Networking</option>
+                            </select>
+                            <div class="category-preview" id="categoryPreview"></div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="eventDate" class="form-label">Fecha y Hora del Evento</label>
+                            <input type="date" class="form-control" id="eventDate" name="date" required>
+                        </div>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn-cancel" data-bs-dismiss="modal">
+                            Cancel
+                        </button>
+                        <button type="submit" class="btn-primary" id="submitBtn">
+                            Crear Evento
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    // Countdown functionality
+    function updateCountdown() {
+        const countdowns = document.querySelectorAll('.countdown');
+
+        countdowns.forEach(countdown => {
+            const targetDate = new Date(countdown.getAttribute('data-target')).getTime();
+            const now = new Date().getTime();
+            const difference = targetDate - now;
+
+            if (difference > 0) {
+                const days = Math.floor(difference / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((difference % (1000 * 60)) / 1000);
+
+                countdown.querySelector('.days').textContent = days.toString().padStart(2, '0');
+                countdown.querySelector('.hours').textContent = hours.toString().padStart(2, '0');
+                countdown.querySelector('.minutes').textContent = minutes.toString().padStart(2, '0');
+                countdown.querySelector('.seconds').textContent = seconds.toString().padStart(2, '0');
+            } else {
+                countdown.querySelector('.days').textContent = '00';
+                countdown.querySelector('.hours').textContent = '00';
+                countdown.querySelector('.minutes').textContent = '00';
+                countdown.querySelector('.seconds').textContent = '00';
+            }
+        });
+    }
+
+    // Update countdown every second
+    setInterval(updateCountdown, 1000);
+    updateCountdown(); // Initial call
+
+    // Smooth scroll and button interactions
+    document.addEventListener('DOMContentLoaded', function () {
+        const registerBtns = document.querySelectorAll('.register-btn');
+        const seeAllBtn = document.querySelector('.see-all-btn');
+
+        registerBtns.forEach(btn => {
+            btn.addEventListener('click', function (e) {
+                //e.preventDefault();
+
+                // Add click animation
+                this.style.transform = 'scale(0.95)';
+                setTimeout(() => {
+                    this.style.transform = '';
+                }, 150);
+
+                // Simulate registration process
+                const originalText = this.innerHTML;
+                this.innerHTML = 'Registering...';
+                this.style.pointerEvents = 'none';
+
+                setTimeout(() => {
+                    this.innerHTML = '✓ Registered';
+                    this.style.background = '#28a745';
+                    this.style.borderColor = '#28a745';
+                    this.style.color = 'white';
+
+                    setTimeout(() => {
+                        this.innerHTML = originalText;
+                        this.style.background = '';
+                        this.style.borderColor = '';
+                        this.style.color = '';
+                        this.style.pointerEvents = '';
+                    }, 2000);
+                }, 1500);
+            });
+        });
+
+        seeAllBtn.addEventListener('click', function (e) {
+            e.preventDefault();
+
+            // Add click animation
+            this.style.transform = 'scale(0.95)';
+            setTimeout(() => {
+                this.style.transform = '';
+            }, 150);
+
+            console.log('See all events clicked');
+        });
+
+        // Add entrance animations
+        const eventItems = document.querySelectorAll('.event-item');
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach((entry, index) => {
+                if (entry.isIntersecting) {
+                    setTimeout(() => {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                    }, index * 100);
+                }
+            });
+        }, { threshold: 0.1 });
+
+        eventItems.forEach(item => {
+            item.style.opacity = '0';
+            item.style.transform = 'translateY(20px)';
+            item.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            observer.observe(item);
+        });
+    });
+
+    // Add subtle parallax effect
+    window.addEventListener('scroll', () => {
+        const scrolled = window.pageYOffset;
+        const parallax = document.querySelector('.section-header');
+        const speed = 0.5;
+        parallax.style.transform = `translateY(${scrolled * speed}px)`;
+    });
+
+    document.addEventListener('DOMContentLoaded', function () {
+        const form = document.getElementById('addEventForm');
+        const submitBtn = document.getElementById('submitBtn');
+        const categorySelect = document.getElementById('eventCategory');
+        const categoryPreview = document.getElementById('categoryPreview');
+        const modal = new bootstrap.Modal(document.getElementById('addEventModal'));
+
+        // Category preview functionality
+        categorySelect.addEventListener('change', function () {
+            const selectedCategory = this.value;
+            categoryPreview.innerHTML = '';
+
+            if (selectedCategory) {
+                const badge = document.createElement('span');
+                badge.className = `category-badge ${selectedCategory}`;
+                badge.textContent = selectedCategory.charAt(0).toUpperCase() + selectedCategory.slice(1);
+                categoryPreview.appendChild(badge);
+            }
+        });
+
+        // Form submission
+        form.addEventListener('submit', function (e) {
+            e.preventDefault();
+
+            // Get form data
+            const formData = new FormData(form);
+            const eventData = {
+                title: formData.get('title'),
+                description: formData.get('description'),
+                category: formData.get('category'),
+                date: formData.get('date')
+            };
+
+            // Validate form
+            if (!eventData.title || !eventData.description || !eventData.category || !eventData.date) {
+                alert('Please fill in all required fields');
+                return;
+            }
+
+            // Show loading state
+            submitBtn.classList.add('btn-loading');
+            submitBtn.textContent = '';
+            submitBtn.disabled = true;
+
+            // Simulate API call
+            setTimeout(() => {
+                this.submit();
+            }, 2000);
+        });
+
+        // Reset form when modal is hidden
+        document.getElementById('addEventModal').addEventListener('hidden.bs.modal', function () {
+            form.reset();
+            categoryPreview.innerHTML = '';
+            submitBtn.classList.remove('btn-loading');
+            submitBtn.textContent = 'Create Event';
+            submitBtn.style.background = '';
+            submitBtn.style.borderColor = '';
+            submitBtn.disabled = false;
+        });
+
+        // Set minimum date to today
+        const dateInput = document.getElementById('eventDate');
+        const now = new Date();
+        const minDate = new Date(now.getTime() - now.getTimezoneOffset() * 60000).toISOString().slice(0, 16);
+        dateInput.min = minDate;
+
+        // Form validation feedback
+        const inputs = form.querySelectorAll('input, textarea, select');
+        inputs.forEach(input => {
+            input.addEventListener('blur', function () {
+                if (this.hasAttribute('required') && !this.value.trim()) {
+                    this.style.borderColor = '#dc3545';
+                } else {
+                    this.style.borderColor = '#e9ecef';
+                }
+            });
+
+            input.addEventListener('input', function () {
+                if (this.style.borderColor === 'rgb(220, 53, 69)') {
+                    this.style.borderColor = '#e9ecef';
+                }
+            });
+        });
+    });
+</script>
+{% endblock %}

@@ -28,7 +28,6 @@ urlpatterns = [
     path('events/', views.event_index, name='event_index'), # Ver Listao de Eventos
     path('events/create/', views.event_create, name='event_create'), # Subir recurso
     path('events/<int:id>/inscription', views.event_inscription, name='event_inscription'), # Inscribirse a Evento
-    path('events/<int:id>/list', views.event_user_list, name='event_user_list'), # Obtener Listado de Participantes del Evento
     path('events/<int:id>/delete/', views.event_delete, name='event_delete'), # Eliminar Evento
 ]
 
