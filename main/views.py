@@ -3,7 +3,7 @@ from django.template import loader
 from . import models
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth import authenticate, login,logout
+from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django.http import HttpResponse
 from django.core.paginator import Paginator
@@ -59,18 +59,18 @@ def register(request):
 
 def login_view(request):
   if request.method == 'POST':
-    username = request.POST['username']
-    password = request.POST['password']
-    user = User.objects.filter(username=username)
-      
-    if user.count() != 0:
-        user = User.objects.get(username=username)
-        
-        if (password,user.password):
-          login(request,user)
-          return redirect(to='main')
+    username = request.POST.get('username')
+    password = request.POST.get('password')
 
-  return redirect('main')
+    user = User.objects.filter(username=username, password=password)
+    
+    if user.count() != 0:
+      user = User.objects.get(username=username, password=password)
+      login(request, user)
+      return redirect('main')
+    else:
+      events = models.Event.objects.filter(date__gt=date.today()).order_by('date')[:3]
+      return render(request, 'index.html', {'events': events, 'error': 'Usuario o contraseña incorrectos.'})
 
 
 @login_required
