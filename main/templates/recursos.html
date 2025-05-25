@@ -145,10 +145,10 @@ django{% extends 'base.html' %}
                 </div>
                 <div class="col-md-6">
                   <div class="d-flex justify-content-md-end">
-                    <div class="btn-group me-2">
+                    {% comment %} <div class="btn-group me-2">
                       <button type="button" class="btn btn-outline-primary active" id="gridViewBtn"><i class="fas fa-th-large"></i></button>
                       <button type="button" class="btn btn-outline-primary" id="listViewBtn"><i class="fas fa-list"></i></button>
-                    </div>
+                    </div> {% endcomment %}
                     <select class="form-select w-auto" id="sortSelect">
                       <option value="newest">Más recientes</option>
                       <option value="oldest">Más antiguos</option>
