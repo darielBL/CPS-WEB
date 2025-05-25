@@ -161,3 +161,8 @@ body {
     transform: scale(1);
   }
 }
+#errorModal {
+    display: flex;
+    align-items: center; /* Centra verticalmente */
+    justify-content: center; /* Centra horizontalmente */
+}

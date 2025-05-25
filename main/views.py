@@ -70,7 +70,7 @@ def login_view(request):
       return redirect('main')
     else:
       events = models.Event.objects.filter(date__gt=date.today()).order_by('date')[:3]
-      return render(request, 'index.html', {'events': events, 'error': 'Usuario o contraseña incorrectos.'})
+      return render(request, 'index.html', {'events': events, 'error': 'Parece que tu usuario o contraseña son incorrectos, por favor revise sus credenciales.'})
 
 
 @login_required
