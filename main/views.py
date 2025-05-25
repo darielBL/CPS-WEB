@@ -44,8 +44,6 @@ def view_directorio(request):
     })
 
 def register(request):
-  template = loader.get_template('index.html')
-
   if request.method == "POST":
     first_name = request.POST["first_name"]
     last_name = request.POST["last_name"]
@@ -55,28 +53,24 @@ def register(request):
 
     user = User(first_name = first_name, last_name = last_name, username = username, email = email, password = password)
     user.save()
-    
-    return render(request, 'index.html', { 'sucess': 'Usuario creado exitosamente.'})
 
-  return render(request, 'index.html')
+  return redirect('main')
     
 
 def login_view(request):
-    if request.method == 'POST':
-      username = request.POST['username']
-      password = request.POST['password']
+  if request.method == 'POST':
+    username = request.POST['username']
+    password = request.POST['password']
+      user = User.objects.filter(username=username)
       
-      try:
+      if user.count() != 0:
         user = User.objects.get(username=username)
         
         if (password,user.password):
           login(request,user)
           return redirect(to='main')
-        else:
-          return render(request, 'index.html', {'error': '¡Contraseña incorrecta!'})
-          
-      except:
-        return render(request, 'index.html', {'error': '¡Usuario no Encontrado!'})
+
+  return redirect('main')
 
 
 @login_required
