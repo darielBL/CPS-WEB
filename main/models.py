@@ -87,7 +87,7 @@ class Resource(models.Model):
     description = models.TextField(blank=True, null=True, verbose_name="Descripción")
     author = models.CharField(max_length=255, verbose_name="Autor")
     publication_date = models.DateField(verbose_name="Fecha de publicación")
-    resource_type = models.CharField(max_length=20, choices=TYPE_CHOICES, default='publication', verbose_name="Tipo de recurso")
+    rType = models.CharField(max_length=20, choices=TYPE_CHOICES, default='publication', verbose_name="Tipo de recurso")
     pdf_file = models.FileField(upload_to="resources/", verbose_name="Archivo PDF", 
                                help_text="Sube un archivo PDF (máximo 20MB)")
     isbn = models.CharField(max_length=20, blank=True, null=True, verbose_name="ISBN")
@@ -111,6 +111,10 @@ class Resource(models.Model):
     def get_pdf_filename(self):
         """Devuelve el nombre del archivo PDF"""
         return os.path.basename(self.pdf_file.name)
+
+    def get_resource_type_display(self):
+        """Devuelve el tipo de recurso en español."""
+        return dict(self.TYPE_CHOICES).get(self.rType, self.rType)
     
     def file_size(self):
         """Devuelve el tamaño del archivo en MB"""

@@ -182,11 +182,11 @@ def resource_load(request):
     description = request.POST["description"]
     author = request.POST["author"]
     publication_date = request.POST["publication_date"]
-    resource_type = request.POST["resource_type"]
+    rType = request.POST["resource_type"]
     
-    pdf_file = request.FILE.get('pdf_file', None)
+    pdf_file = request.FILES.get('pdf_file', None)
     if pdf_file:
-      pdf_file = request.FILE["pdf_file"]
+      pdf_file = request.FILES.get('pdf_file', None)
     
     isbn = request.POST.get('isbn', None)
     if isbn:
@@ -204,12 +204,11 @@ def resource_load(request):
     if language:
       language = request.POST["language"]
 
-    resource = models.Resource(title=title,description=description,author=author,publication_date=publication_date,resource_type=resource_type,pdf_file=pdf_file,isbn=isbn,publisher=publisher,pages=pages,language=language,uploaded_by=request.user)
+    resource = models.Resource(title=title,description=description,author=author,publication_date=publication_date,rType=rType,pdf_file=pdf_file,isbn=isbn,publisher=publisher,pages=pages,language=language,uploaded_by=request.user)
     resource.save()
 
     
-    resources = models.Resource.objects.all().values
-    return render (request, 'recursos.html', {'resources':resources, 'message': 'Recurso cargado correctamente'})
+    return redirect('resource_index')
 
 @login_required
 def resource_update(request, id):
@@ -218,11 +217,11 @@ def resource_update(request, id):
     description = request.POST["description"]
     author = request.POST["author"]
     publication_date = request.POST["publication_date"]
-    resource_type = request.POST["resource_type"]
+    rType = request.POST["resource_type"]
     
-    pdf_file = request.FILE.get('pdf_file', None)
+    pdf_file = request.FILES.get('pdf_file', None)
     if pdf_file:
-      pdf_file = request.FILES["pdf_file"]
+      pdf_file = request.FILES.get('pdf_file', None)
     
     isbn = request.POST.get('isbn', None)
     if isbn:
@@ -245,7 +244,7 @@ def resource_update(request, id):
     resource.description = description
     resource.author = author
     resource.publication_date = publication_date
-    resource.resource_type = resource_type
+    resource.rType = rType
     resource.pdf_file = pdf_file
     resource.isbn = isbn
     resource.publisher = publisher
