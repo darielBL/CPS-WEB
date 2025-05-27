@@ -111,3 +111,11 @@ document.addEventListener('DOMContentLoaded', function() {
             profileCard.style.transform = 'translateY(0)';
         }, 200);
     }
+document.getElementById('specCheck').addEventListener('change', function() {
+        var optionalDiv = document.getElementById('optional');
+        if (this.checked) {
+            optionalDiv.style.display = 'block'; // Muestra el div
+        } else {
+            optionalDiv.style.display = 'none'; // Oculta el div
+        }
+    });
