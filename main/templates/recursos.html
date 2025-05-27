@@ -175,7 +175,11 @@ Página de Inicio
           {% for r in resources %}
           <div class="col-md-6 col-lg-4 mb-4">
             <div class="card resource-card h-100">
+              {% if r.resource_type == 'publication' %}
+              <div class="resource-type-badge publicacion">{{ r.get_resource_type_display }}</div>
+              {% else %}
               <div class="resource-type-badge {{ r.get_resource_type_display|lower }}">{{ r.get_resource_type_display }}</div>
+              {% endif %}
               <div class="card-body">
                 <h5 class="card-title">{{ r.title }}</h5>
                 <p class="card-text resource-description">{{ r.description }}</p>
@@ -255,7 +259,7 @@ Página de Inicio
                           <tr>
                             <th scope="row">Tipo de Recurso</th>
                             <td>
-                              <span class="badge bg-primary {{r.get_resource_type_display|lower}}">{{r.get_resource_type_display}}</span>
+                              {{r.get_resource_type_display}}
                             </td>
                           </tr>
                           <tr>
