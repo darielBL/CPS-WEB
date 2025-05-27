@@ -177,6 +177,8 @@ Página de Inicio
             <div class="card resource-card h-100">
               {% if r.resource_type == 'publication' %}
               <div class="resource-type-badge publicacion">{{ r.get_resource_type_display }}</div>
+              {% elif r.resource_type == 'article' %}
+              <div class="resource-type-badge articulo">{{ r.get_resource_type_display }}</div>
               {% else %}
               <div class="resource-type-badge {{ r.get_resource_type_display|lower }}">{{ r.get_resource_type_display }}</div>
               {% endif %}
