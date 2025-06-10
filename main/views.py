@@ -102,9 +102,11 @@ def update_user(request):
         if profile_picture:
             profile.profile_picture = profile_picture
         
-        profile.save()
-        messages.success(request, 'Información actualizada')
-        return redirect('user')  # Cambia a la URL deseada
+        if specialization and phone_number and bio and profile_picture:
+          profile.save()
+          return redirect('user')
+        else:
+          return render(request, 'user.html', {'profile': profile, 'error': 'Debe rellenar los datos de especialista y definir una foto de perfil.'})
 
     return render(request, 'user.html', {'profile': profile})
 

@@ -40,36 +40,36 @@
                 <div class="row">
                   <div class="col-md-6 mb-3">
                     <label for="firstName" class="form-label">Nombre</label>
-                    <input type="text" class="form-control" id="firstName" placeholder="Tu nombre" value="{{ user.first_name }} " />
+                    <input type="text" class="form-control" id="firstName" placeholder="Tu nombre" value="{{ user.first_name }} " readonly disabled/>
                   </div>
                   <div class="col-md-6 mb-3">
                     <label for="lastName" class="form-label">Apellidos</label>
-                    <input type="text" class="form-control" id="lastName" placeholder="Tus apellidos" value="{{ user.last_name }}" />
+                    <input type="text" class="form-control" id="lastName" placeholder="Tus apellidos" value="{{ user.last_name }}" readonly disabled/>
                   </div>
                 </div>
 
                 <div class="mb-3">
                   <label for="email" class="form-label">Correo Electrónico</label>
-                  <input type="email" class="form-control" id="email" placeholder="tu@email.com" value="{{ user.email }}" readonly />
+                  <input type="email" class="form-control" id="email" placeholder="tu@email.com" value="{{ user.email }}" readonly disabled/>
                   <small class="text-muted">El correo electrónico no se puede cambiar</small>
                 </div>
 
-                <input type="checkbox" class="form-check-input" id="specCheck" name="is_professional" />
+                {% if user.profile.is_professional %}<input type="checkbox" class="form-check-input" id="specCheck" name="is_professional"  checked />{% else %}<input type="checkbox" class="form-check-input" id="specCheck" name="is_professional" />{% endif %}
                 <label for="specCheck" class="form-label">¿Es Especialista?</label>
 
-                <div id="optional" class="hidden">
+                <div id="optional" class="{% if not user.profile.is_professional %} hidden {% endif %}">
                   <div class="mb-3">
-                    <input type="text" class="form-control" id="specialization" name="specialization" placeholder="Tu Especialidad" value="" />
+                    <input type="text" class="form-control" id="specialization" name="specialization" placeholder="Tu Especialidad" value="{{ user.profile.specialization }}"/>
                   </div>
 
                   <div class="mb-3">
                     <label for="phone" class="form-label">Teléfono</label>
-                    <input type="tel" class="form-control" id="phone" name="phone_number" placeholder="Tu número de teléfono" value="+34 612 345 678" />
+                    <input type="tel" class="form-control" id="phone" name="phone_number" placeholder="Tu número de teléfono" value="{{ user.profile.phone_number }}" />
                   </div>
 
                   <div class="mb-3">
                     <label for="description" class="form-label">Descripción</label>
-                    <textarea class="form-control" id="description" rows="4" name="bio" placeholder="Cuéntanos sobre ti...">Soy un profesional apasionado por la tecnología y el desarrollo web. Me encanta aprender nuevas habilidades y enfrentar desafíos creativos.</textarea>
+                    <textarea class="form-control" id="description" rows="4" name="bio" placeholder="Cuéntanos sobre ti...">{{ user.profile.bio }}</textarea>
                   </div>
                 </div>
                 <div class="d-grid gap-2 d-md-flex justify-content-md-end mt-4">
